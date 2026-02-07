@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "axios": "^1.13.2",
+    "react-number": "^0.0.1-alpha4"
+  }
+}

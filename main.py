@@ -336,6 +336,7 @@ class ClimAPIManager:
         print(f"\n💾 Resumen guardado en: {filepath}")
 
 
+
 def menu_principal():
     """Menú principal interactivo"""
     manager = ClimAPIManager()
