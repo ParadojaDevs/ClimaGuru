@@ -15,3 +15,14 @@ Activar modo enviroment en Windows
 
 Instlar librerias necesarias
 pip install -r requirements.txt
+
+
+
+
+Links Para APIs
+
+https://www.meteoblue.com/
+https://openweathermap.org/
+https://www.meteosource.com/
+https://docs.meteoblue.com/
+https://open-meteo.com/

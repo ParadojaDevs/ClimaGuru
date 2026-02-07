@@ -1,0 +1,959 @@
+{
+  "location": "Medellin",
+  "coordinates": {
+    "lat": 6.245,
+    "lon": -75.5715
+  },
+  "city": "Medellín",
+  "country": "CO",
+  "timezone": -18000,
+  "forecast": [
+    {
+      "datetime": "2026-02-07T16:00:00",
+      "date": "2026-02-07",
+      "time": "16:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 22.57,
+        "feels_like": 22.87,
+        "min": 22.57,
+        "max": 24.79
+      },
+      "pressure": 1012,
+      "humidity": 76,
+      "wind": {
+        "speed": 1.58,
+        "direction": 65
+      },
+      "clouds": 40,
+      "precipitation_probability": 100,
+      "rain_3h": 2.82
+    },
+    {
+      "datetime": "2026-02-07T19:00:00",
+      "date": "2026-02-07",
+      "time": "19:00",
+      "weather": {
+        "description": "lluvia moderada",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 21.86,
+        "feels_like": 22.22,
+        "min": 20.45,
+        "max": 21.86
+      },
+      "pressure": 1013,
+      "humidity": 81,
+      "wind": {
+        "speed": 1.75,
+        "direction": 69
+      },
+      "clouds": 55,
+      "precipitation_probability": 100,
+      "rain_3h": 4.41
+    },
+    {
+      "datetime": "2026-02-07T22:00:00",
+      "date": "2026-02-07",
+      "time": "22:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 20.76,
+        "feels_like": 21.24,
+        "min": 19.85,
+        "max": 20.76
+      },
+      "pressure": 1016,
+      "humidity": 90,
+      "wind": {
+        "speed": 1.27,
+        "direction": 76
+      },
+      "clouds": 80,
+      "precipitation_probability": 87.0,
+      "rain_3h": 0.65
+    },
+    {
+      "datetime": "2026-02-08T01:00:00",
+      "date": "2026-02-08",
+      "time": "01:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 18.42,
+        "feels_like": 18.88,
+        "min": 18.42,
+        "max": 18.42
+      },
+      "pressure": 1017,
+      "humidity": 98,
+      "wind": {
+        "speed": 1.04,
+        "direction": 85
+      },
+      "clouds": 99,
+      "precipitation_probability": 50.0
+    },
+    {
+      "datetime": "2026-02-08T04:00:00",
+      "date": "2026-02-08",
+      "time": "04:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 17.6,
+        "feels_like": 17.97,
+        "min": 17.6,
+        "max": 17.6
+      },
+      "pressure": 1016,
+      "humidity": 98,
+      "wind": {
+        "speed": 1.05,
+        "direction": 78
+      },
+      "clouds": 100,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-08T07:00:00",
+      "date": "2026-02-08",
+      "time": "07:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 16.85,
+        "feels_like": 17.15,
+        "min": 16.85,
+        "max": 16.85
+      },
+      "pressure": 1018,
+      "humidity": 98,
+      "wind": {
+        "speed": 0.89,
+        "direction": 61
+      },
+      "clouds": 100,
+      "precipitation_probability": 4.0
+    },
+    {
+      "datetime": "2026-02-08T10:00:00",
+      "date": "2026-02-08",
+      "time": "10:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 18.2,
+        "feels_like": 18.56,
+        "min": 18.2,
+        "max": 18.2
+      },
+      "pressure": 1018,
+      "humidity": 95,
+      "wind": {
+        "speed": 1.15,
+        "direction": 24
+      },
+      "clouds": 100,
+      "precipitation_probability": 91.0,
+      "rain_3h": 0.63
+    },
+    {
+      "datetime": "2026-02-08T13:00:00",
+      "date": "2026-02-08",
+      "time": "13:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 18.69,
+        "feels_like": 18.99,
+        "min": 18.69,
+        "max": 18.69
+      },
+      "pressure": 1016,
+      "humidity": 91,
+      "wind": {
+        "speed": 1.39,
+        "direction": 57
+      },
+      "clouds": 100,
+      "precipitation_probability": 81.0,
+      "rain_3h": 0.62
+    },
+    {
+      "datetime": "2026-02-08T16:00:00",
+      "date": "2026-02-08",
+      "time": "16:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 22.31,
+        "feels_like": 22.37,
+        "min": 22.31,
+        "max": 22.31
+      },
+      "pressure": 1012,
+      "humidity": 68,
+      "wind": {
+        "speed": 1.38,
+        "direction": 36
+      },
+      "clouds": 91,
+      "precipitation_probability": 38.0
+    },
+    {
+      "datetime": "2026-02-08T19:00:00",
+      "date": "2026-02-08",
+      "time": "19:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 16.7,
+        "feels_like": 16.93,
+        "min": 16.7,
+        "max": 16.7
+      },
+      "pressure": 1016,
+      "humidity": 96,
+      "wind": {
+        "speed": 1.56,
+        "direction": 73
+      },
+      "clouds": 67,
+      "precipitation_probability": 51.0,
+      "rain_3h": 0.46
+    },
+    {
+      "datetime": "2026-02-08T22:00:00",
+      "date": "2026-02-08",
+      "time": "22:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 16.26,
+        "feels_like": 16.47,
+        "min": 16.26,
+        "max": 16.26
+      },
+      "pressure": 1018,
+      "humidity": 97,
+      "wind": {
+        "speed": 1.38,
+        "direction": 79
+      },
+      "clouds": 56,
+      "precipitation_probability": 32.0,
+      "rain_3h": 0.13
+    },
+    {
+      "datetime": "2026-02-09T01:00:00",
+      "date": "2026-02-09",
+      "time": "01:00",
+      "weather": {
+        "description": "muy nuboso",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 16,
+        "feels_like": 16.11,
+        "min": 16,
+        "max": 16
+      },
+      "pressure": 1017,
+      "humidity": 94,
+      "wind": {
+        "speed": 1.22,
+        "direction": 85
+      },
+      "clouds": 68,
+      "precipitation_probability": 9.0
+    },
+    {
+      "datetime": "2026-02-09T04:00:00",
+      "date": "2026-02-09",
+      "time": "04:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 16.1,
+        "feels_like": 16.19,
+        "min": 16.1,
+        "max": 16.1
+      },
+      "pressure": 1016,
+      "humidity": 93,
+      "wind": {
+        "speed": 1.04,
+        "direction": 95
+      },
+      "clouds": 92,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-09T07:00:00",
+      "date": "2026-02-09",
+      "time": "07:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 16.43,
+        "feels_like": 16.48,
+        "min": 16.43,
+        "max": 16.43
+      },
+      "pressure": 1017,
+      "humidity": 90,
+      "wind": {
+        "speed": 0.95,
+        "direction": 93
+      },
+      "clouds": 91,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-09T10:00:00",
+      "date": "2026-02-09",
+      "time": "10:00",
+      "weather": {
+        "description": "muy nuboso",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 22.54,
+        "feels_like": 22.6,
+        "min": 22.54,
+        "max": 22.54
+      },
+      "pressure": 1016,
+      "humidity": 67,
+      "wind": {
+        "speed": 0.16,
+        "direction": 97
+      },
+      "clouds": 69,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-09T13:00:00",
+      "date": "2026-02-09",
+      "time": "13:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 24.6,
+        "feels_like": 24.73,
+        "min": 24.6,
+        "max": 24.6
+      },
+      "pressure": 1012,
+      "humidity": 62,
+      "wind": {
+        "speed": 0.69,
+        "direction": 318
+      },
+      "clouds": 68,
+      "precipitation_probability": 81.0,
+      "rain_3h": 1.03
+    },
+    {
+      "datetime": "2026-02-09T16:00:00",
+      "date": "2026-02-09",
+      "time": "16:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 23.15,
+        "feels_like": 23.43,
+        "min": 23.15,
+        "max": 23.15
+      },
+      "pressure": 1010,
+      "humidity": 73,
+      "wind": {
+        "speed": 1.19,
+        "direction": 55
+      },
+      "clouds": 58,
+      "precipitation_probability": 100,
+      "rain_3h": 1.69
+    },
+    {
+      "datetime": "2026-02-09T19:00:00",
+      "date": "2026-02-09",
+      "time": "19:00",
+      "weather": {
+        "description": "lluvia moderada",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 17.5,
+        "feels_like": 17.84,
+        "min": 17.5,
+        "max": 17.5
+      },
+      "pressure": 1014,
+      "humidity": 97,
+      "wind": {
+        "speed": 1.83,
+        "direction": 71
+      },
+      "clouds": 64,
+      "precipitation_probability": 100,
+      "rain_3h": 4.54
+    },
+    {
+      "datetime": "2026-02-09T22:00:00",
+      "date": "2026-02-09",
+      "time": "22:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 17.12,
+        "feels_like": 17.42,
+        "min": 17.12,
+        "max": 17.12
+      },
+      "pressure": 1016,
+      "humidity": 97,
+      "wind": {
+        "speed": 1.45,
+        "direction": 78
+      },
+      "clouds": 69,
+      "precipitation_probability": 70.0,
+      "rain_3h": 0.73
+    },
+    {
+      "datetime": "2026-02-10T01:00:00",
+      "date": "2026-02-10",
+      "time": "01:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 17.06,
+        "feels_like": 17.33,
+        "min": 17.06,
+        "max": 17.06
+      },
+      "pressure": 1015,
+      "humidity": 96,
+      "wind": {
+        "speed": 0.79,
+        "direction": 75
+      },
+      "clouds": 77,
+      "precipitation_probability": 66.0,
+      "rain_3h": 0.23
+    },
+    {
+      "datetime": "2026-02-10T04:00:00",
+      "date": "2026-02-10",
+      "time": "04:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 16.59,
+        "feels_like": 16.81,
+        "min": 16.59,
+        "max": 16.59
+      },
+      "pressure": 1014,
+      "humidity": 96,
+      "wind": {
+        "speed": 0.82,
+        "direction": 48
+      },
+      "clouds": 100,
+      "precipitation_probability": 20.0,
+      "rain_3h": 0.1
+    },
+    {
+      "datetime": "2026-02-10T07:00:00",
+      "date": "2026-02-10",
+      "time": "07:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 16.77,
+        "feels_like": 16.98,
+        "min": 16.77,
+        "max": 16.77
+      },
+      "pressure": 1016,
+      "humidity": 95,
+      "wind": {
+        "speed": 0.63,
+        "direction": 82
+      },
+      "clouds": 96,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-10T10:00:00",
+      "date": "2026-02-10",
+      "time": "10:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 22.83,
+        "feels_like": 22.87,
+        "min": 22.83,
+        "max": 22.83
+      },
+      "pressure": 1015,
+      "humidity": 65,
+      "wind": {
+        "speed": 0.19,
+        "direction": 125
+      },
+      "clouds": 80,
+      "precipitation_probability": 25.0,
+      "rain_3h": 0.16
+    },
+    {
+      "datetime": "2026-02-10T13:00:00",
+      "date": "2026-02-10",
+      "time": "13:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 23.44,
+        "feels_like": 23.62,
+        "min": 23.44,
+        "max": 23.44
+      },
+      "pressure": 1012,
+      "humidity": 68,
+      "wind": {
+        "speed": 0.27,
+        "direction": 98
+      },
+      "clouds": 76,
+      "precipitation_probability": 100,
+      "rain_3h": 1.69
+    },
+    {
+      "datetime": "2026-02-10T16:00:00",
+      "date": "2026-02-10",
+      "time": "16:00",
+      "weather": {
+        "description": "lluvia moderada",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 21.62,
+        "feels_like": 22,
+        "min": 21.62,
+        "max": 21.62
+      },
+      "pressure": 1011,
+      "humidity": 83,
+      "wind": {
+        "speed": 1.23,
+        "direction": 84
+      },
+      "clouds": 67,
+      "precipitation_probability": 100,
+      "rain_3h": 4.98
+    },
+    {
+      "datetime": "2026-02-10T19:00:00",
+      "date": "2026-02-10",
+      "time": "19:00",
+      "weather": {
+        "description": "lluvia moderada",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 17.68,
+        "feels_like": 17.98,
+        "min": 17.68,
+        "max": 17.68
+      },
+      "pressure": 1014,
+      "humidity": 95,
+      "wind": {
+        "speed": 1.32,
+        "direction": 71
+      },
+      "clouds": 82,
+      "precipitation_probability": 100,
+      "rain_3h": 5.42
+    },
+    {
+      "datetime": "2026-02-10T22:00:00",
+      "date": "2026-02-10",
+      "time": "22:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 16.09,
+        "feels_like": 16.29,
+        "min": 16.09,
+        "max": 16.09
+      },
+      "pressure": 1017,
+      "humidity": 97,
+      "wind": {
+        "speed": 1.32,
+        "direction": 82
+      },
+      "clouds": 97,
+      "precipitation_probability": 100,
+      "rain_3h": 1.32
+    },
+    {
+      "datetime": "2026-02-11T01:00:00",
+      "date": "2026-02-11",
+      "time": "01:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 15.16,
+        "feels_like": 15.29,
+        "min": 15.16,
+        "max": 15.16
+      },
+      "pressure": 1016,
+      "humidity": 98,
+      "wind": {
+        "speed": 0.98,
+        "direction": 92
+      },
+      "clouds": 94,
+      "precipitation_probability": 95.0,
+      "rain_3h": 0.3
+    },
+    {
+      "datetime": "2026-02-11T04:00:00",
+      "date": "2026-02-11",
+      "time": "04:00",
+      "weather": {
+        "description": "nubes dispersas",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 14.56,
+        "feels_like": 14.63,
+        "min": 14.56,
+        "max": 14.56
+      },
+      "pressure": 1015,
+      "humidity": 98,
+      "wind": {
+        "speed": 0.74,
+        "direction": 112
+      },
+      "clouds": 34,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-11T07:00:00",
+      "date": "2026-02-11",
+      "time": "07:00",
+      "weather": {
+        "description": "nubes dispersas",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 15.31,
+        "feels_like": 15.4,
+        "min": 15.31,
+        "max": 15.31
+      },
+      "pressure": 1017,
+      "humidity": 96,
+      "wind": {
+        "speed": 0.58,
+        "direction": 96
+      },
+      "clouds": 33,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-11T10:00:00",
+      "date": "2026-02-11",
+      "time": "10:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 21.12,
+        "feels_like": 21.3,
+        "min": 21.12,
+        "max": 21.12
+      },
+      "pressure": 1016,
+      "humidity": 77,
+      "wind": {
+        "speed": 0.61,
+        "direction": 255
+      },
+      "clouds": 87,
+      "precipitation_probability": 32.0,
+      "rain_3h": 0.14
+    },
+    {
+      "datetime": "2026-02-11T13:00:00",
+      "date": "2026-02-11",
+      "time": "13:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 23.07,
+        "feels_like": 23.36,
+        "min": 23.07,
+        "max": 23.07
+      },
+      "pressure": 1012,
+      "humidity": 74,
+      "wind": {
+        "speed": 0.57,
+        "direction": 245
+      },
+      "clouds": 76,
+      "precipitation_probability": 100,
+      "rain_3h": 2.66
+    },
+    {
+      "datetime": "2026-02-11T16:00:00",
+      "date": "2026-02-11",
+      "time": "16:00",
+      "weather": {
+        "description": "lluvia moderada",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 22.07,
+        "feels_like": 22.42,
+        "min": 22.07,
+        "max": 22.07
+      },
+      "pressure": 1010,
+      "humidity": 80,
+      "wind": {
+        "speed": 0.54,
+        "direction": 77
+      },
+      "clouds": 43,
+      "precipitation_probability": 100,
+      "rain_3h": 4.25
+    },
+    {
+      "datetime": "2026-02-11T19:00:00",
+      "date": "2026-02-11",
+      "time": "19:00",
+      "weather": {
+        "description": "lluvia moderada",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 17.46,
+        "feels_like": 17.72,
+        "min": 17.46,
+        "max": 17.46
+      },
+      "pressure": 1014,
+      "humidity": 94,
+      "wind": {
+        "speed": 1.16,
+        "direction": 50
+      },
+      "clouds": 71,
+      "precipitation_probability": 100,
+      "rain_3h": 7.48
+    },
+    {
+      "datetime": "2026-02-11T22:00:00",
+      "date": "2026-02-11",
+      "time": "22:00",
+      "weather": {
+        "description": "lluvia moderada",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 16.14,
+        "feels_like": 16.37,
+        "min": 16.14,
+        "max": 16.14
+      },
+      "pressure": 1017,
+      "humidity": 98,
+      "wind": {
+        "speed": 1.25,
+        "direction": 84
+      },
+      "clouds": 100,
+      "precipitation_probability": 100,
+      "rain_3h": 4.55
+    },
+    {
+      "datetime": "2026-02-12T01:00:00",
+      "date": "2026-02-12",
+      "time": "01:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 15.66,
+        "feels_like": 15.84,
+        "min": 15.66,
+        "max": 15.66
+      },
+      "pressure": 1015,
+      "humidity": 98,
+      "wind": {
+        "speed": 0.83,
+        "direction": 75
+      },
+      "clouds": 100,
+      "precipitation_probability": 100,
+      "rain_3h": 2.4
+    },
+    {
+      "datetime": "2026-02-12T04:00:00",
+      "date": "2026-02-12",
+      "time": "04:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 14.89,
+        "feels_like": 14.99,
+        "min": 14.89,
+        "max": 14.89
+      },
+      "pressure": 1015,
+      "humidity": 98,
+      "wind": {
+        "speed": 0.85,
+        "direction": 94
+      },
+      "clouds": 96,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-12T07:00:00",
+      "date": "2026-02-12",
+      "time": "07:00",
+      "weather": {
+        "description": "nubes",
+        "main": "Clouds"
+      },
+      "temperature": {
+        "temp": 15.29,
+        "feels_like": 15.41,
+        "min": 15.29,
+        "max": 15.29
+      },
+      "pressure": 1017,
+      "humidity": 97,
+      "wind": {
+        "speed": 0.96,
+        "direction": 95
+      },
+      "clouds": 97,
+      "precipitation_probability": 0
+    },
+    {
+      "datetime": "2026-02-12T10:00:00",
+      "date": "2026-02-12",
+      "time": "10:00",
+      "weather": {
+        "description": "lluvia ligera",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 21.92,
+        "feels_like": 22.1,
+        "min": 21.92,
+        "max": 21.92
+      },
+      "pressure": 1015,
+      "humidity": 74,
+      "wind": {
+        "speed": 0.35,
+        "direction": 258
+      },
+      "clouds": 96,
+      "precipitation_probability": 86.0,
+      "rain_3h": 0.48
+    },
+    {
+      "datetime": "2026-02-12T13:00:00",
+      "date": "2026-02-12",
+      "time": "13:00",
+      "weather": {
+        "description": "lluvia moderada",
+        "main": "Rain"
+      },
+      "temperature": {
+        "temp": 22.79,
+        "feels_like": 23.11,
+        "min": 22.79,
+        "max": 22.79
+      },
+      "pressure": 1012,
+      "humidity": 76,
+      "wind": {
+        "speed": 0.45,
+        "direction": 45
+      },
+      "clouds": 87,
+      "precipitation_probability": 100,
+      "rain_3h": 3.42
+    }
+  ]
+}

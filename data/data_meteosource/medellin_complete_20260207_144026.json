@@ -1,0 +1,683 @@
+{
+  "lat": "6.25184N",
+  "lon": "75.56359W",
+  "elevation": 1405,
+  "timezone": "America/Bogota",
+  "units": "metric",
+  "current": {
+    "icon": "cloudy",
+    "icon_num": 6,
+    "summary": "Cloudy",
+    "temperature": 25.8,
+    "wind": {
+      "speed": 0.4,
+      "angle": 85,
+      "dir": "E"
+    },
+    "precipitation": {
+      "total": 0.0,
+      "type": "none"
+    },
+    "cloud_cover": 88
+  },
+  "hourly": {
+    "data": [
+      {
+        "date": "2026-02-07T14:00:00",
+        "weather": "cloudy",
+        "icon": 6,
+        "summary": "Cloudy",
+        "temperature": 25.8,
+        "wind": {
+          "speed": 0.4,
+          "dir": "E",
+          "angle": 85
+        },
+        "cloud_cover": {
+          "total": 88
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-07T15:00:00",
+        "weather": "cloudy",
+        "icon": 6,
+        "summary": "Cloudy",
+        "temperature": 25.8,
+        "wind": {
+          "speed": 0.8,
+          "dir": "E",
+          "angle": 80
+        },
+        "cloud_cover": {
+          "total": 80
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-07T16:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 25.8,
+        "wind": {
+          "speed": 1.4,
+          "dir": "ENE",
+          "angle": 63
+        },
+        "cloud_cover": {
+          "total": 99
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-07T17:00:00",
+        "weather": "rain",
+        "icon": 11,
+        "summary": "Rain",
+        "temperature": 24.8,
+        "wind": {
+          "speed": 1.9,
+          "dir": "ENE",
+          "angle": 69
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.7,
+          "type": "rain"
+        }
+      },
+      {
+        "date": "2026-02-07T18:00:00",
+        "weather": "rain",
+        "icon": 11,
+        "summary": "Rain",
+        "temperature": 22.5,
+        "wind": {
+          "speed": 2.0,
+          "dir": "ENE",
+          "angle": 72
+        },
+        "cloud_cover": {
+          "total": 98
+        },
+        "precipitation": {
+          "total": 0.9,
+          "type": "rain"
+        }
+      },
+      {
+        "date": "2026-02-07T19:00:00",
+        "weather": "mostly_cloudy",
+        "icon": 29,
+        "summary": "Mostly cloudy",
+        "temperature": 21.5,
+        "wind": {
+          "speed": 1.6,
+          "dir": "ENE",
+          "angle": 66
+        },
+        "cloud_cover": {
+          "total": 66
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-07T20:00:00",
+        "weather": "cloudy",
+        "icon": 30,
+        "summary": "Cloudy",
+        "temperature": 21.2,
+        "wind": {
+          "speed": 1.1,
+          "dir": "ENE",
+          "angle": 70
+        },
+        "cloud_cover": {
+          "total": 89
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-07T21:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 20.8,
+        "wind": {
+          "speed": 0.6,
+          "dir": "ENE",
+          "angle": 77
+        },
+        "cloud_cover": {
+          "total": 92
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-07T22:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 20.5,
+        "wind": {
+          "speed": 0.5,
+          "dir": "ENE",
+          "angle": 77
+        },
+        "cloud_cover": {
+          "total": 96
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-07T23:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 20.2,
+        "wind": {
+          "speed": 0.5,
+          "dir": "ENE",
+          "angle": 77
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T00:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 20.0,
+        "wind": {
+          "speed": 0.4,
+          "dir": "ENE",
+          "angle": 79
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T01:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 19.5,
+        "wind": {
+          "speed": 0.1,
+          "dir": "E",
+          "angle": 81
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T02:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 19.5,
+        "wind": {
+          "speed": 0.0,
+          "dir": "E",
+          "angle": 84
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T03:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 19.0,
+        "wind": {
+          "speed": 0.0,
+          "dir": "ENE",
+          "angle": 79
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T04:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 18.8,
+        "wind": {
+          "speed": 0.0,
+          "dir": "ENE",
+          "angle": 68
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T05:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 18.8,
+        "wind": {
+          "speed": 0.0,
+          "dir": "ENE",
+          "angle": 74
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T06:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 18.5,
+        "wind": {
+          "speed": 0.0,
+          "dir": "E",
+          "angle": 79
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T07:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 18.8,
+        "wind": {
+          "speed": 0.0,
+          "dir": "ENE",
+          "angle": 72
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T08:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 19.2,
+        "wind": {
+          "speed": 0.0,
+          "dir": "ENE",
+          "angle": 75
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T09:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 20.5,
+        "wind": {
+          "speed": 0.0,
+          "dir": "E",
+          "angle": 94
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T10:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 21.8,
+        "wind": {
+          "speed": 0.1,
+          "dir": "ENE",
+          "angle": 68
+        },
+        "cloud_cover": {
+          "total": 96
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T11:00:00",
+        "weather": "overcast",
+        "icon": 7,
+        "summary": "Overcast",
+        "temperature": 23.2,
+        "wind": {
+          "speed": 0.1,
+          "dir": "NE",
+          "angle": 46
+        },
+        "cloud_cover": {
+          "total": 100
+        },
+        "precipitation": {
+          "total": 0.0,
+          "type": "none"
+        }
+      },
+      {
+        "date": "2026-02-08T12:00:00",
+        "weather": "light_rain",
+        "icon": 10,
+        "summary": "Light rain",
+        "temperature": 23.8,
+        "wind": {
+          "speed": 0.8,
+          "dir": "NE",
+          "angle": 39
+        },
+        "cloud_cover": {
+          "total": 99
+        },
+        "precipitation": {
+          "total": 0.2,
+          "type": "rain"
+        }
+      },
+      {
+        "date": "2026-02-08T13:00:00",
+        "weather": "light_rain",
+        "icon": 10,
+        "summary": "Light rain",
+        "temperature": 24.0,
+        "wind": {
+          "speed": 0.9,
+          "dir": "NE",
+          "angle": 43
+        },
+        "cloud_cover": {
+          "total": 95
+        },
+        "precipitation": {
+          "total": 0.3,
+          "type": "rain"
+        }
+      }
+    ]
+  },
+  "daily": {
+    "data": [
+      {
+        "day": "2026-02-07",
+        "weather": "cloudy",
+        "icon": 6,
+        "summary": "Cloudy. Temperature 16/26 °C.",
+        "all_day": {
+          "weather": "cloudy",
+          "icon": 6,
+          "temperature": 22.0,
+          "temperature_min": 16.2,
+          "temperature_max": 25.8,
+          "wind": {
+            "speed": 0.5,
+            "dir": "ENE",
+            "angle": 76
+          },
+          "cloud_cover": {
+            "total": 80
+          },
+          "precipitation": {
+            "total": 1.6,
+            "type": "rain"
+          }
+        },
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      {
+        "day": "2026-02-08",
+        "weather": "psbl_rain",
+        "icon": 12,
+        "summary": "Cloudy in the morning and evening, light rain in the afternoon. Temperature 19/24 °C.",
+        "all_day": {
+          "weather": "psbl_rain",
+          "icon": 12,
+          "temperature": 22.0,
+          "temperature_min": 18.5,
+          "temperature_max": 24.2,
+          "wind": {
+            "speed": 0.4,
+            "dir": "ENE",
+            "angle": 72
+          },
+          "cloud_cover": {
+            "total": 97
+          },
+          "precipitation": {
+            "total": 2.1,
+            "type": "rain"
+          }
+        },
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      {
+        "day": "2026-02-09",
+        "weather": "mostly_cloudy",
+        "icon": 5,
+        "summary": "Mostly cloudy, fewer clouds in the evening. Temperature 18/26 °C.",
+        "all_day": {
+          "weather": "mostly_cloudy",
+          "icon": 5,
+          "temperature": 22.8,
+          "temperature_min": 17.8,
+          "temperature_max": 26.0,
+          "wind": {
+            "speed": 0.6,
+            "dir": "ENE",
+            "angle": 69
+          },
+          "cloud_cover": {
+            "total": 66
+          },
+          "precipitation": {
+            "total": 0.0,
+            "type": "none"
+          }
+        },
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      {
+        "day": "2026-02-10",
+        "weather": "rain_shower",
+        "icon": 13,
+        "summary": "Rain showers changing to light rain by afternoon. Temperature 18/26 °C.",
+        "all_day": {
+          "weather": "rain_shower",
+          "icon": 13,
+          "temperature": 23.0,
+          "temperature_min": 17.5,
+          "temperature_max": 26.2,
+          "wind": {
+            "speed": 0.7,
+            "dir": "ENE",
+            "angle": 77
+          },
+          "cloud_cover": {
+            "total": 57
+          },
+          "precipitation": {
+            "total": 2.8,
+            "type": "rain"
+          }
+        },
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      {
+        "day": "2026-02-11",
+        "weather": "rain_shower",
+        "icon": 13,
+        "summary": "Rain showers. Temperature 18/26 °C.",
+        "all_day": {
+          "weather": "rain_shower",
+          "icon": 13,
+          "temperature": 23.0,
+          "temperature_min": 18.2,
+          "temperature_max": 26.0,
+          "wind": {
+            "speed": 0.6,
+            "dir": "E",
+            "angle": 83
+          },
+          "cloud_cover": {
+            "total": 59
+          },
+          "precipitation": {
+            "total": 5.7,
+            "type": "rain"
+          }
+        },
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      {
+        "day": "2026-02-12",
+        "weather": "light_rain",
+        "icon": 10,
+        "summary": "Cloudy changing to light rain in the afternoon. Temperature 19/26 °C.",
+        "all_day": {
+          "weather": "light_rain",
+          "icon": 10,
+          "temperature": 23.0,
+          "temperature_min": 18.5,
+          "temperature_max": 26.2,
+          "wind": {
+            "speed": 0.9,
+            "dir": "E",
+            "angle": 79
+          },
+          "cloud_cover": {
+            "total": 78
+          },
+          "precipitation": {
+            "total": 7.5,
+            "type": "rain"
+          }
+        },
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      {
+        "day": "2026-02-13",
+        "weather": "light_rain",
+        "icon": 10,
+        "summary": "Possible rain in the morning, light rain in the afternoon and evening. Temperature 19/26 °C.",
+        "all_day": {
+          "weather": "light_rain",
+          "icon": 10,
+          "temperature": 23.0,
+          "temperature_min": 18.8,
+          "temperature_max": 25.8,
+          "wind": {
+            "speed": 0.5,
+            "dir": "ENE",
+            "angle": 66
+          },
+          "cloud_cover": {
+            "total": 89
+          },
+          "precipitation": {
+            "total": 4.4,
+            "type": "rain"
+          }
+        },
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      }
+    ]
+  }
+}
