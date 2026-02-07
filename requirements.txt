@@ -1,0 +1,51 @@
+# Meteoblue
+requests
+python-dotenv
+
+# Open-Meteo
+openmeteo-requests
+requests-cache
+retry-requests
+numpy
+pandas
+
+# SIATA
+beautifulsoup4  
+openpyxl
+lxml
+
+# Para análisis de datos
+matplotlib
+seaborn
+scipy
+openpyxl
+# Machine Learning
+scikit-learn
+jupyter
+
+# AWS y datos de radar
+boto3
+botocore
+
+# Image processing (IDEAM radar)
+Pillow
+
+# Procesamiento de datos de radar (opcional pero recomendado)
+arm-pyart
+
+# Alternativas para procesamiento de radar
+wradlib
+netCDF4
+xarray
+
+# Visualizaciones interactivas
+plotly
+kaleido
+
+# Utilidades
+tqdm
+
+# Dashboard
+streamlit
+streamlit-option-menu
+
