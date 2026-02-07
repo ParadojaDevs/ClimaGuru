@@ -29,7 +29,7 @@ export default function ListadoEstaciones() {
   const eliminarEstacion = async (id) => {
     // A. Confirmación visual
     const confirmar = window.confirm("¿Estás seguro de que deseas eliminar esta estación? Esta acción no se puede deshacer.");
-    
+
     if (confirmar) {
       try {
         // B. Petición DELETE al Backend
@@ -96,14 +96,23 @@ export default function ListadoEstaciones() {
                   <td>{estacion.longitud}</td>
                   <td className="text-center">
                     <div className="btn-group" role="group">
+                      {/* Botón Ver Clima */}
+                      <Link
+                        to={`/clima/${estacion.id}`}
+                        className="btn btn-info btn-sm me-2 text-white"
+                        title="Ver Clima Actual"
+                      >
+                        🌥️ Clima
+                      </Link>
+
                       {/* Botón Editar */}
-                      <Link 
-                        to={`/editar/${estacion.id}`} 
+                      <Link
+                        to={`/editar/${estacion.id}`}
                         className="btn btn-warning btn-sm me-2"
                       >
                         Editar
                       </Link>
-                      
+
                       {/* Botón Eliminar */}
                       <button
                         onClick={() => eliminarEstacion(estacion.id)}

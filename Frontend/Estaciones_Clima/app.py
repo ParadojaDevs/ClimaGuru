@@ -6,6 +6,7 @@ from api import bp as api_bp
 
 # IMPORTANTE: Esto asume que crearás/renombrarás el archivo 'api/empleados.py' a 'api/estaciones.py'
 import api.estaciones  # asegura que las rutas de estaciones se registren
+import api.clima       # asegura que las rutas de clima se registren
 import models  # asegura que los modelos estén visibles para Alembic/Flask-Migrate
 
 
