@@ -1,0 +1,23 @@
+{
+  "location": "Medellin",
+  "coordinates": {
+    "lat": 6.245,
+    "lon": -75.5715,
+    "asl": 1495
+  },
+  "timestamp": "2026-02-08T14:21:07.394656",
+  "meteoblue": null,
+  "openmeteo": {
+    "location": "Medellin",
+    "coordinates": {
+      "latitude": 6.25,
+      "longitude": -75.5,
+      "elevation": 1473.0
+    },
+    "timezone": -18000,
+    "hourly": "Datos guardados en CSV",
+    "daily": "Datos guardados en CSV"
+  },
+  "openweather": null,
+  "meteosource": null
+}
