@@ -1,5 +1,7 @@
 # Inicialización de la aplicación Flask
 """
+ClimaGuru Backend - Factory Pattern
+====================================
 Inicialización de la aplicación Flask - ClimaGuru
 """
 from flask import Flask
