@@ -386,7 +386,7 @@ Este proyecto está bajo la licencia especificada en el archivo [LICENSE](LICENS
 
 ## 👥 Autores
 
-- **ClimAPI Team**
+- **Paradoja Devs*
 
 ## 📧 Contacto
 
