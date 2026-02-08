@@ -2,4 +2,8 @@
 
 from app.models.usuario import Usuario
 from app.models.api_key import APIKey
-# Más adelante agregaremos los otros modelos
+from app.models.consulta import Consulta
+from app.models.dato_meteorologico import DatosClima
+from app.models.sesion import Sesion
+from app.models.logs_actividad import LogsActividad
+from app.models.ciudades_favoritas import CiudadesFavoritas

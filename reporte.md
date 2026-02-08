@@ -116,13 +116,25 @@ ClimaGuru/
 
 ### 4.1 Antes de Pruebas (OBLIGATORIO)
 
-| # | Componente | Prioridad | Descripción |
-|---|------------|-----------|-------------|
-| 1 | **Script `run.py`** | 🔴 Alta | Punto de entrada a la aplicación |
-| 2 | **Migraciones activas** | 🔴 Alta | Actualizar `migrations/` con modelos actuales |
-| 3 | **Validación de datos** | 🔴 Alta | Completar `validators.py` |
-| 4 | **Tests de integración** | 🟡 Media | Probar conexión BD |
-| 5 | **Archivo `.env`** | 🔴 Alta | Configurar variables de entorno |
+| # | Componente | Prioridad | Estado | Descripción |
+|---|------------|-----------|--------|-------------|
+| 1 | **Script `run.py`** | 🔴 Alta | ✅ Listo | Punto de entrada a la aplicación |
+| 2 | **Migraciones activas** | 🔴 Alta | ⏳ Pendiente | Actualizar `migrations/` con modelos actuales |
+| 3 | **Validación de datos** | 🔴 Alta | ⏳ Pendiente | Completar `validators.py` |
+| 4 | **Tests de integración** | 🟡 Media | ⏳ Pendiente | Probar conexión BD |
+| 5 | **Archivo `.env`** | 🔴 Alta | ⏳ Pendiente | Configurar variables de entorno |
+
+### 4.2 Modelos Creados (Diagnóstico Verificado)
+
+| # | Modelo | Estado | Archivo |
+|---|--------|--------|---------|
+| 1 | `usuarios` | ✅ Actualizado | `app/models/usuario.py` |
+| 2 | `api_keys` | ✅ Existente | `app/models/api_key.py` |
+| 3 | `consultas` | ✅ Existente | `app/models/consulta.py` |
+| 4 | `datos_clima` | ✅ Existente | `app/models/dato_meteorologico.py` |
+| 5 | `sesiones` | ✅ Verificado | `app/models/sesion.py` |
+| 6 | `logs_actividad` | ✅ Creado | `app/models/logs_actividad.py` |
+| 7 | `ciudades_favoritas` | ✅ Creado | `app/models/ciudades_favoritas.py` |
 
 ### 4.2 Funcionalidades Pendientes
 
@@ -140,14 +152,17 @@ ClimaGuru/
 
 ### 5.1 Corregir Faltantes Críticos
 
-#### A) Crear `run.py` (Backend)
+#### A) Script `run.py` (COMPLETADO ✅)
+
+El script ya fue creado en: `climaguru-backend/run.py`
 
 ```python
 # climaguru-backend/run.py
 from app import create_app
 from app.config import config
 
-app = create_app(config['development'])
+env = os.getenv('FLASK_ENV', 'development')
+app = create_app(config.get(env, config['default']))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
@@ -207,15 +222,25 @@ class LogsActividad(db.Model):
     ip_address = db.Column(db.String(45))
     user_agent = db.Column(db.String(255))
     creado_en = db.Column(db.DateTime, default=datetime.utcnow)
-```
+#### B) Modelos `LogsActividad` y `CiudadesFavoritas` (COMPLETADO ✅)
 
-#### B) Normalizar campos de Usuario
+Ambos modelos fueron creados:
+- `climaguru-backend/app/models/logs_actividad.py`
+- `climaguru-backend/app/models/ciudades_favoritas.py`
+
+#### C) Normalizar campos de Usuario (COMPLETADO ✅)
+
+El campo `rol` fue agregado al modelo `Usuario`.
 
 ```python
-# En usuario.py, agregar campo 'rol'
+# En usuario.py
 rol = db.Column(db.Enum('admin', 'operario', 'consultor', name='rol_enum'),
                default='consultor')
 ```
+
+#### D) Tabla `sesiones` en SQL (COMPLETADO ✅)
+
+La tabla fue agregada a `climaguru_database.sql`.
 
 ### 5.3 Mejorar Seguridad
 

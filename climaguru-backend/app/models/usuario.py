@@ -19,12 +19,17 @@ class Usuario(db.Model):
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
     ultimo_acceso = db.Column(db.DateTime)
     activo = db.Column(db.Boolean, default=True)
+    rol = db.Column(db.Enum('admin', 'operario', 'consultor', name='rol_enum'), default='consultor')
+    ultimo_login = db.Column(db.DateTime)
+    creado_en = db.Column(db.DateTime, default=datetime.utcnow)
+    actualizado_en = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Relaciones
     api_keys = db.relationship('APIKey', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
     consultas = db.relationship('Consulta', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
     datos_meteorologicos = db.relationship('DatoMeteorologico', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
     sesiones = db.relationship('Sesion', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
+    logs_actividad = db.relationship('LogsActividad', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
     
     def __init__(self, username, email, password, nombre_completo=None):
         """
