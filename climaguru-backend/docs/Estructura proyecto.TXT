@@ -1,0 +1,57 @@
+climaguru-backend/
+│
+├── app/
+│   ├── __init__.py              # Inicialización de la aplicación Flask
+│   ├── config.py                # Configuraciones (dev, prod, test)
+│   │
+│   ├── models/                  # Modelos de base de datos (SQLAlchemy)
+│   │   ├── __init__.py
+│   │   ├── usuario.py
+│   │   ├── api_key.py
+│   │   ├── consulta.py
+│   │   ├── dato_meteorologico.py
+│   │   └── sesion.py
+│   │
+│   ├── routes/                  # Rutas/Endpoints de la API
+│   │   ├── __init__.py
+│   │   ├── auth.py              # Login, logout, registro
+│   │   ├── usuarios.py          # Gestión de usuarios
+│   │   ├── api_keys.py          # Gestión de API keys
+│   │   ├── consultas.py         # Realizar consultas meteorológicas
+│   │   └── datos.py             # Obtener datos históricos y estadísticas
+│   │
+│   ├── services/                # Lógica de negocio
+│   │   ├── __init__.py
+│   │   ├── auth_service.py      # Autenticación y autorización
+│   │   ├── weather_service.py   # Integración con APIs de clima
+│   │   ├── data_processor.py    # Procesamiento de datos (CSV, JSON, etc.)
+│   │   └── stats_service.py     # Cálculo de estadísticas y promedios
+│   │
+│   ├── utils/                   # Utilidades y helpers
+│   │   ├── __init__.py
+│   │   ├── decorators.py        # Decoradores personalizados (@login_required)
+│   │   ├── validators.py        # Validaciones de datos
+│   │   ├── responses.py         # Formateadores de respuestas JSON
+│   │   └── encryption.py        # Encriptación de API keys
+│   │
+│   └── database.py              # Configuración de la base de datos
+│
+├── migrations/                  # Migraciones de base de datos (Flask-Migrate)
+│   └── versions/
+│
+├── tests/                       # Tests unitarios e integración
+│   ├── __init__.py
+│   ├── test_auth.py
+│   ├── test_consultas.py
+│   └── test_weather_service.py
+│
+├── docs/                        # Documentación
+│   ├── API.md                   # Documentación de endpoints
+│   └── SETUP.md                 # Guía de instalación
+│
+├── .env.example                 # Ejemplo de variables de entorno
+├── .gitignore                   # Archivos a ignorar en Git
+├── requirements.txt             # Dependencias de Python
+├── app.py                       # Punto de entrada de la aplicación
+├── README.md                    # Documentación principal
+└── wsgi.py                      # Para despliegue en producción
