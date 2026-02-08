@@ -73,6 +73,7 @@ class TestingConfig(Config):
     DEBUG = True
     # Usar base de datos de prueba
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=5)
 
 
 # Diccionario de configuraciones
@@ -83,8 +84,8 @@ config = {
     'default': DevelopmentConfig
 }
 
-
 def get_config():
     """Obtener configuración según entorno"""
     env = os.getenv('FLASK_ENV', 'development')
     return config.get(env, config['default'])
+
