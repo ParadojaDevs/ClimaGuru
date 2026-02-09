@@ -9,16 +9,16 @@ import os
 
 # Cargar configuracion segun entorno
 env = os.getenv('FLASK_ENV', 'development')
-app_config = config.get(env, config['default'])
+app_config = config[env]
 
 # Crear aplicacion
-app = create_app(app_config)
+app = create_app(env)
 
 if __name__ == '__main__':
     print(f"\n{'='*60}")
     print(f"CLIMAGURU BACKEND")
     print(f"{'='*60}")
-    print(f"Entorno: {env}")
+    print(f"Entorno: {os.getenv('FLASK_ENV', 'development')}")
     print(f"Debug: {app_config.DEBUG}")
     print(f"Base de datos: {app_config.DB_NAME}")
     print(f"{'='*60}\n")
