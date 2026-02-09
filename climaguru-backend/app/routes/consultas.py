@@ -9,8 +9,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
 from app.extensions import db
 from app.models.consulta import Consulta
-from app.models.datos_clima import DatosClima
-from app.models.log_actividad import LogActividad
+from app.models.dato_meteorologico import DatosClima
+from app.models.logs_actividad import LogsActividad
 
 consultas_bp = Blueprint('consultas', __name__)
 

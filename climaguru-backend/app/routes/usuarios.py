@@ -8,7 +8,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.extensions import db
 from app.models.usuario import Usuario
-from app.models.log_actividad import LogActividad
+from app.models.logs_actividad import LogsActividad
 from functools import wraps
 
 usuarios_bp = Blueprint('usuarios', __name__)
