@@ -3,8 +3,8 @@ Modelo: CiudadesFavoritas
 =========================
 Ciudades guardadas por cada usuario
 """
+from app import db
 from datetime import datetime
-from app.extensions import db
 
 
 class CiudadesFavoritas(db.Model):

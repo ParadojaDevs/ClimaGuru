@@ -3,8 +3,8 @@ Modelo: DatosClima
 ==================
 Almacena los datos meteorológicos procesados y promedios
 """
+from app import db
 from datetime import datetime
-from app.extensions import db
 
 
 class DatosClima(db.Model):

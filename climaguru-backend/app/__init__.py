@@ -42,6 +42,15 @@ def create_app(config_name=None):
     jwt.init_app(app)
     CORS(app, resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}})
     
+    # Importar modelos para que SQLAlchemy los registre
+    from app.models import Usuario, APIKey, Consulta, DatosClima, Sesion, LogsActividad, CiudadesFavoritas
+    
+    # Crear tablas si no existen (solo para SQLite en desarrollo)
+    if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
+        with app.app_context():
+            db.create_all()
+            print("Tablas SQLite creadas automaticamente")
+    
     # Registrar blueprints (rutas)
     register_blueprints(app)
     

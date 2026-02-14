@@ -3,8 +3,8 @@ Modelo: Consulta
 ================
 Registra cada consulta meteorológica realizada
 """
+from app import db
 from datetime import datetime
-from app.extensions import db
 
 
 class Consulta(db.Model):
@@ -36,7 +36,7 @@ class Consulta(db.Model):
     
     # Relación con datos procesados
     datos_clima = db.relationship('DatosClima', backref='consulta', uselist=False,
-                                  cascade='all, delete-orphan')
+                                  cascade='all, delete-orphan', lazy='joined')
     
     def to_dict(self):
         """Convertir a diccionario"""

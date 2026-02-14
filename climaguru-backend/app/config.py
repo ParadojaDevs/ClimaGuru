@@ -22,10 +22,12 @@ class Config:
     DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')
 
     # Construir URL de base de datos
-    SQLALCHEMY_DATABASE_URI = os.getenv(
-        'DATABASE_URL',
-        f'mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
-    )
+    # Si DATABASE_URL está explícitamente definida, usarla
+    db_url = os.getenv('DATABASE_URL')
+    if db_url:
+        SQLALCHEMY_DATABASE_URI = db_url
+    else:
+        SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
     
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False  # Cambiar a True para ver queries SQL en desarrollo

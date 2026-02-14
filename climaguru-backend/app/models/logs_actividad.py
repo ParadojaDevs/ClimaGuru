@@ -3,8 +3,8 @@ Modelo: LogsActividad
 =====================
 Registro de actividad de usuarios para auditoría
 """
+from app import db
 from datetime import datetime
-from app.extensions import db
 
 
 class LogsActividad(db.Model):

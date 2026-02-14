@@ -24,12 +24,9 @@ class Usuario(db.Model):
     creado_en = db.Column(db.DateTime, default=datetime.utcnow)
     actualizado_en = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    # Relaciones
-    api_keys = db.relationship('APIKey', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
-    consultas = db.relationship('Consulta', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
-    datos_meteorologicos = db.relationship('DatoMeteorologico', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
-    sesiones = db.relationship('Sesion', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
-    logs_actividad = db.relationship('LogsActividad', backref='usuario', lazy='dynamic', cascade='all, delete-orphan')
+    # Relaciones - definidas en los modelos dependientes
+    # Las relaciones inversas están definidas en cada modelo
+    pass
     
     def __init__(self, username, email, password, nombre_completo=None):
         """
@@ -99,10 +96,12 @@ class Usuario(db.Model):
         }
         
         if include_stats:
+            # Consultar estadísticas desde la base de datos
+            from app.models import Consulta, APIKey, DatosClima
             data['estadisticas'] = {
-                'total_consultas': self.consultas.count(),
-                'total_datos': self.datos_meteorologicos.count(),
-                'api_keys_registradas': self.api_keys.filter_by(activa=True).count()
+                'total_consultas': Consulta.query.filter_by(usuario_id=self.id).count(),
+                'total_datos': DatosClima.query.filter_by(consulta_id=self.id).count(),
+                'api_keys_registradas': APIKey.query.filter_by(usuario_id=self.id, activa=True).count()
             }
         
         return data
