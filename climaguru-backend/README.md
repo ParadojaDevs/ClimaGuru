@@ -1,5 +1,5 @@
 
-# ClimaGuru Backend - Getting Started with Flask
+# ClimaGuru Backend - Getting Started
 
 ## Prerequisites
 - Python 3.8+
@@ -29,18 +29,16 @@
 
 ## Running the Backend
 
-1. **Set environment variables** (optional)
-    ```bash
-    export FLASK_APP=app.py
-    export FLASK_ENV=development
-    ```
+1. **Create your environment file**
+    - Copy `.env.example` to `.env` and set your database credentials.
 
 2. **Start the Flask server**
     ```bash
-    flask run
+    python run.py
     ```
     The backend will be available at `http://localhost:5000`
 
 ## Notes
-- Flask runs in development mode by default
-- For production, use a WSGI server like Gunicorn
+- Use `run.py` for local development.
+- `app.py` is the WSGI entrypoint for production servers (Gunicorn, uWSGI).
+- Tests can be executed with Postman against the local server.

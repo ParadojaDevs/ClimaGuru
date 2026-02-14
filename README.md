@@ -70,6 +70,48 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## 🔌 Backend (Flask + MySQL)
+
+El backend vive en [climaguru-backend](climaguru-backend) y usa Flask + SQLAlchemy.
+
+### 1) Configurar variables de entorno
+
+- Copia `.env.example` a `.env` dentro de `climaguru-backend/`.
+- Ajusta los datos de la base de datos (VM MySQL):
+
+```env
+DB_HOST=100.78.215.44
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=root
+DB_NAME=climaguru
+```
+
+### 2) Instalar dependencias del backend
+
+```bash
+cd climaguru-backend
+pip install -r requirements.txt
+```
+
+### 3) Ejecutar el backend
+
+```bash
+python run.py
+```
+
+El backend quedará disponible en `http://localhost:5000`.
+
+### 4) Probar con Postman
+
+Endpoints base:
+- `GET /health`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+
+Documentación ampliada en [climaguru-backend/docs/API.md](climaguru-backend/docs/API.md).
+
 ## ⚙️ Configuración
 
 ### 1. Crear archivo de variables de entorno

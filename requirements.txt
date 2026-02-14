@@ -49,3 +49,9 @@ tqdm
 streamlit
 streamlit-option-menu
 
+# Backend
+Flask
+flask-restful
+flask-cors
+flask-jwt-extended
+
