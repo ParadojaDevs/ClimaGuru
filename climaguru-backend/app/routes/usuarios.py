@@ -9,7 +9,6 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.extensions import db
 from app.models.usuario import Usuario
 from app.models.logs_actividad import LogsActividad
-from functools import wraps
 
 usuarios_bp = Blueprint('usuarios', __name__)
 
@@ -120,7 +119,7 @@ def update_usuario(usuario_id):
     db.session.commit()
     
     # Registrar log
-    log = LogActividad(
+    log = LogsActividad(
         usuario_id=current_user_id,
         accion='update_usuario',
         detalle={'usuario_id': usuario_id, 'campos': list(data.keys())},
@@ -157,7 +156,7 @@ def delete_usuario(usuario_id):
     db.session.commit()
     
     # Registrar log
-    log = LogActividad(
+    log = LogsActividad(
         usuario_id=get_jwt_identity(),
         accion='delete_usuario',
         detalle={'usuario_id': usuario_id, 'username': usuario.username},
@@ -199,7 +198,7 @@ def cambiar_password(usuario_id):
     db.session.commit()
     
     # Registrar log
-    log = LogActividad(
+    log = LogsActividad(
         usuario_id=current_user_id,
         accion='cambiar_password',
         detalle={'usuario_id': usuario_id},
