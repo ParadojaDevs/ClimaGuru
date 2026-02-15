@@ -130,7 +130,7 @@ def verify_database_schema():
         'usuarios',
         'api_keys',
         'consultas',
-        'datos_meteorologicos',
+        'datos_clima',
         'sesiones',
         'ciudades_favoritas',
         'logs_actividad',

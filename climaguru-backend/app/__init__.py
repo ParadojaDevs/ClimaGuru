@@ -9,12 +9,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from app.extensions import db, migrate, jwt
 import os
 
+# Re-exportar para compatibilidad con modelos que usan "from app import db"
+__all__ = ['db', 'migrate', 'jwt']
+
 # Inicializar extensiones
-db = SQLAlchemy()
-migrate = Migrate()
-jwt = JWTManager()
+# db = SQLAlchemy()  # Ahora se importa de extensions.py
+# migrate = Migrate()
+# jwt = JWTManager()
 
 def create_app(config_name=None):
     """
@@ -40,16 +44,22 @@ def create_app(config_name=None):
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-    CORS(app, resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}})
+    CORS(app, 
+     resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}},
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization"]
+)
     
     # Importar modelos para que SQLAlchemy los registre
     from app.models import Usuario, APIKey, Consulta, DatosClima, Sesion, LogsActividad, CiudadesFavoritas
     
-    # Crear tablas si no existen (solo para SQLite en desarrollo)
-    if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
-        with app.app_context():
-            db.create_all()
-            print("Tablas SQLite creadas automaticamente")
+    # Inicializar base de datos (MySQL y SQLite)
+    with app.app_context():
+        from app.database import init_database
+        if init_database(app):
+            print("[OK] Base de datos inicializada correctamente")
+        else:
+            print("[WARN] La base de datos no esta disponible")
     
     # Registrar blueprints (rutas)
     register_blueprints(app)

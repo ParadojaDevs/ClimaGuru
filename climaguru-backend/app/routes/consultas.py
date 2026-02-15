@@ -97,7 +97,7 @@ def consulta_tiempo_real():
         db.session.commit()
         
         # Registrar log
-        log = LogActividad(
+        log = LogsActividad(
             usuario_id=usuario_id,
             accion='consulta_tiempo_real',
             detalle={

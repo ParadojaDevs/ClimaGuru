@@ -1,0 +1,24 @@
+{'OPTIONS', 'GET', 'HEAD'} -> /static/<path:filename>
+{'OPTIONS', 'POST'} -> /api/auth/registro
+{'OPTIONS', 'POST'} -> /api/auth/login
+{'OPTIONS', 'POST'} -> /api/auth/refresh
+{'OPTIONS', 'POST'} -> /api/auth/logout
+{'OPTIONS', 'GET', 'HEAD'} -> /api/auth/me
+{'OPTIONS', 'GET', 'HEAD'} -> /api/usuarios/
+{'OPTIONS', 'GET', 'HEAD'} -> /api/usuarios/<int:usuario_id>
+{'OPTIONS', 'PUT'} -> /api/usuarios/<int:usuario_id>
+{'OPTIONS', 'DELETE'} -> /api/usuarios/<int:usuario_id>
+{'OPTIONS', 'POST'} -> /api/usuarios/<int:usuario_id>/cambiar-password
+{'OPTIONS', 'GET', 'HEAD'} -> /api/api-keys/
+{'OPTIONS', 'POST'} -> /api/api-keys/
+{'OPTIONS', 'GET', 'HEAD'} -> /api/api-keys/<int:key_id>
+{'OPTIONS', 'PUT'} -> /api/api-keys/<int:key_id>
+{'OPTIONS', 'DELETE'} -> /api/api-keys/<int:key_id>
+{'OPTIONS', 'GET', 'HEAD'} -> /api/api-keys/proveedores
+{'OPTIONS', 'POST'} -> /api/consultas/tiempo-real
+{'OPTIONS', 'POST'} -> /api/consultas/historico
+{'OPTIONS', 'GET', 'HEAD'} -> /api/consultas/mis-consultas
+{'OPTIONS', 'GET', 'HEAD'} -> /api/consultas/<int:consulta_id>
+{'OPTIONS', 'GET', 'HEAD'} -> /api/consultas/<int:consulta_id>/descargar
+{'OPTIONS', 'GET', 'HEAD'} -> /api/datos/historicos
+{'OPTIONS', 'GET', 'HEAD'} -> /health
