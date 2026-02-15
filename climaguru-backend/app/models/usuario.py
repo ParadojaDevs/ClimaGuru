@@ -98,9 +98,16 @@ class Usuario(db.Model):
         if include_stats:
             # Consultar estadísticas desde la base de datos
             from app.models import Consulta, APIKey, DatosClima
+            # Contar consultas del usuario
+            total_consultas = Consulta.query.filter_by(usuario_id=self.id).count()
+            # Contar datos del usuario a través de consultas
+            from sqlalchemy import func
+            total_datos = db.session.query(func.count(DatosClima.id)).join(
+                Consulta, DatosClima.consulta_id == Consulta.id
+            ).filter(Consulta.usuario_id == self.id).scalar() or 0
             data['estadisticas'] = {
-                'total_consultas': Consulta.query.filter_by(usuario_id=self.id).count(),
-                'total_datos': DatosClima.query.filter_by(consulta_id=self.id).count(),
+                'total_consultas': total_consultas,
+                'total_datos': total_datos,
                 'api_keys_registradas': APIKey.query.filter_by(usuario_id=self.id, activa=True).count()
             }
         
