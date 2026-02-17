@@ -72,35 +72,33 @@ def create_api_key():
         }), 409
     
     try:
-        # Encriptar la API key
-        cipher = get_cipher()
-        api_key_encrypted = cipher.encrypt(data['api_key'].encode('utf-8')).decode('utf-8')
-        api_secret_encrypted = None
-        if data.get('api_secret'):
-            api_secret_encrypted = cipher.encrypt(data['api_secret'].encode('utf-8')).decode('utf-8')
+        # Usar el constructor del modelo que encripta automáticamente
+        api_key = APIKey(
+            usuario_id=usuario_id,
+            proveedor=data['proveedor'],
+            api_key_texto=data['api_key'],
+            api_secret_texto=data.get('api_secret'),
+            descripcion=data.get('descripcion')
+        )
     except Exception as e:
-        return jsonify({'error': 'Error al encriptar la API key', 'message': str(e)}), 500
-    
-    api_key = APIKey(
-        usuario_id=usuario_id,
-        proveedor=data['proveedor'],
-        api_key_encrypted=api_key_encrypted,
-        api_secret_encrypted=api_secret_encrypted,
-        descripcion=data.get('descripcion')
-    )
+        return jsonify({'error': 'Error al guardar la API key', 'message': str(e)}), 500
     
     db.session.add(api_key)
     db.session.commit()
     
     # Registrar log
-    log = LogActividad(
-        usuario_id=usuario_id,
-        accion='create_api_key',
-        detalle={'proveedor': data['proveedor']},
-        ip_address=request.remote_addr
-    )
-    db.session.add(log)
-    db.session.commit()
+    try:
+        log = LogsActividad(
+            usuario_id=usuario_id,
+            accion='create_api_key',
+            detalle={'proveedor': data['proveedor']},
+            ip_address=request.remote_addr
+        )
+        db.session.add(log)
+        db.session.commit()
+    except Exception as e:
+        # El log es opcional, no fallamos si no se puede registrar
+        pass
     
     return jsonify({
         'message': 'API key guardada exitosamente',
