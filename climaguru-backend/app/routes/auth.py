@@ -103,9 +103,9 @@ def registro():
         db.session.add(nuevo_usuario)
         db.session.commit()
         
-        # Generar tokens
-        access_token = create_access_token(identity=nuevo_usuario.id)
-        refresh_token = create_refresh_token(identity=nuevo_usuario.id)
+        # Generar tokens (identity debe ser string)
+        access_token = create_access_token(identity=str(nuevo_usuario.id))
+        refresh_token = create_refresh_token(identity=str(nuevo_usuario.id))
         
         # Crear sesión
         crear_sesion(nuevo_usuario.id, access_token)
@@ -161,9 +161,9 @@ def login():
         # Actualizar último acceso
         usuario.actualizar_ultimo_acceso()
         
-        # Generar tokens
-        access_token = create_access_token(identity=usuario.id)
-        refresh_token = create_refresh_token(identity=usuario.id)
+        # Generar tokens (identity debe ser string)
+        access_token = create_access_token(identity=str(usuario.id))
+        refresh_token = create_refresh_token(identity=str(usuario.id))
         
         # Crear sesión
         crear_sesion(usuario.id, access_token)
@@ -193,10 +193,10 @@ def refresh():
     """
     try:
         usuario_id = get_jwt_identity()
-        nuevo_access_token = create_access_token(identity=usuario_id)
+        nuevo_access_token = create_access_token(identity=str(usuario_id))
         
         # Actualizar sesión
-        crear_sesion(usuario_id, nuevo_access_token)
+        crear_sesion(int(usuario_id), nuevo_access_token)
         
         return jsonify({
             'access_token': nuevo_access_token
