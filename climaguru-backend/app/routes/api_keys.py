@@ -35,7 +35,7 @@ def get_api_keys():
     """
     usuario_id = get_jwt_identity()
     
-    api_keys = ApiKey.query.filter_by(usuario_id=usuario_id).all()
+    api_keys = APIKey.query.filter_by(usuario_id=usuario_id).all()
     
     return jsonify({
         'api_keys': [key.to_dict() for key in api_keys]
@@ -61,7 +61,7 @@ def create_api_key():
         return jsonify({'error': 'Proveedor y API key son requeridos'}), 400
     
     # Verificar si ya existe una key para este proveedor
-    existing = ApiKey.query.filter_by(
+    existing = APIKey.query.filter_by(
         usuario_id=usuario_id, 
         proveedor=data['proveedor']
     ).first()
@@ -81,7 +81,7 @@ def create_api_key():
     except Exception as e:
         return jsonify({'error': 'Error al encriptar la API key', 'message': str(e)}), 500
     
-    api_key = ApiKey(
+    api_key = APIKey(
         usuario_id=usuario_id,
         proveedor=data['proveedor'],
         api_key_encrypted=api_key_encrypted,
@@ -116,7 +116,7 @@ def get_api_key(key_id):
     """
     usuario_id = get_jwt_identity()
     
-    api_key = ApiKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
+    api_key = APIKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
     if not api_key:
         return jsonify({'error': 'API key no encontrada'}), 404
     
@@ -131,7 +131,7 @@ def update_api_key(key_id):
     """
     usuario_id = get_jwt_identity()
     
-    api_key = ApiKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
+    api_key = APIKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
     if not api_key:
         return jsonify({'error': 'API key no encontrada'}), 404
     
@@ -191,7 +191,7 @@ def delete_api_key(key_id):
     """
     usuario_id = get_jwt_identity()
     
-    api_key = ApiKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
+    api_key = APIKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
     if not api_key:
         return jsonify({'error': 'API key no encontrada'}), 404
     
