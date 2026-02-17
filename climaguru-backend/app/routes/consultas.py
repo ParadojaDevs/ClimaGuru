@@ -11,6 +11,8 @@ from app.extensions import db
 from app.models.consulta import Consulta
 from app.models.dato_meteorologico import DatosClima
 from app.models.logs_actividad import LogsActividad
+from app.services.weather_service import WeatherService, ConsultaManager
+from app.services.data_processor import DataProcessor
 
 consultas_bp = Blueprint('consultas', __name__)
 

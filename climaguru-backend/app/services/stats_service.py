@@ -227,7 +227,7 @@ class StatsService:
             Reporte de calidad
         """
         if not datos:
-            return {'calidad': 'sin        total__datos'}
+            return {'calidad': 'sin total__datos'}
         
 registros = len(datos)
         
