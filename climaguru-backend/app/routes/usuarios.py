@@ -19,7 +19,7 @@ def admin_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         usuario_id = get_jwt_identity()
-        usuario = Usuario.query.get(usuario_id)
+        usuario = Usuario.query.get(int(usuario_id))
         if not usuario or usuario.rol != 'admin':
             return jsonify({'error': 'Se requieren permisos de administrador'}), 403
         return fn(*args, **kwargs)
