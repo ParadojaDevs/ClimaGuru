@@ -40,6 +40,9 @@ class Config:
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(
         seconds=int(os.getenv('JWT_REFRESH_TOKEN_EXPIRES', 2592000))
     )
+    # Configuración para convertir identity a integer automáticamente
+    JWT_JSON_KEY = 'sub'
+    JWT_IDENTITY_CLAIM = 'sub'
         # CORS
     CORS_ORIGINS = os.getenv('CORS_ORIGINS', '*').split(',')
     
