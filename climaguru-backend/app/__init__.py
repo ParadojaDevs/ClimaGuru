@@ -44,6 +44,18 @@ def create_app(config_name=None):
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
+    
+    # Configurar callbacks de JWT para convertir identity automáticamente
+    @jwt.user_identity_loader
+    def user_identity_lookup(user):
+        return str(user.id) if hasattr(user, 'id') else str(user)
+    
+    @jwt.user_lookup_loader
+    def user_lookup_callback(_jwt_header, jwt_data):
+        from app.models.usuario import Usuario
+        identity = jwt_data["sub"]
+        return Usuario.query.get(int(identity))
+    
     CORS(app, 
      resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}},
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
