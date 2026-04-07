@@ -329,7 +329,7 @@ GROUP BY u.id, u.username, u.nombre_completo;
 ### 📁 Árbol de Directorios
 
 ```
-climaguru-backend/
+backend/
 │
 ├── 📂 app/                          # Aplicación principal Flask
 │   ├── __init__.py                  # Factory de la aplicación
@@ -404,7 +404,7 @@ climaguru-backend/
 ├── .env                             # Variables de entorno (no subir a git)
 ├── .gitignore                       # Archivos ignorados por git
 ├── requirements.txt                 # Dependencias Python
-├── run.py                           # Punto de entrada
+├── app.py                           # Punto de entrada
 ├── wsgi.py                          # Configuración WSGI
 └── README.md                        # Este archivo
 ```
@@ -417,8 +417,8 @@ climaguru-backend/
 
 ```bash
 # Crear directorio del proyecto
-mkdir climaguru-backend
-cd climaguru-backend
+mkdir backend
+cd backend
 
 # Crear estructura de directorios
 mkdir -p app/{models,schemas,routes,services,utils,integrations}
@@ -428,7 +428,7 @@ mkdir -p migrations tests scripts docs
 touch app/__init__.py
 touch app/config.py
 touch app/extensions.py
-touch run.py wsgi.py requirements.txt .env.example .gitignore
+touch app.py wsgi.py requirements.txt .env.example .gitignore
 ```
 
 ### 📝 Paso 2: Archivo requirements.txt
@@ -485,7 +485,7 @@ gunicorn==21.2.0
 # ============================================
 # CONFIGURACIÓN DE LA APLICACIÓN
 # ============================================
-FLASK_APP=run.py
+FLASK_APP=app.py
 FLASK_ENV=development
 FLASK_DEBUG=1
 SECRET_KEY=tu-clave-secreta-super-segura-cambia-en-produccion
@@ -1726,13 +1726,13 @@ Fuentes: {', '.join(datos['fuentes_utilizadas'] or [])}
     return jsonify({'error': 'Formato no soportado'}), 400
 ```
 
-### 📝 Paso 11: Punto de Entrada (run.py)
+### 📝 Paso 11: Punto de Entrada (app.py)
 
 ```python
 """
 Punto de entrada de la aplicación
 ==================================
-Ejecutar: python run.py
+Ejecutar: python app.py
 """
 import os
 from dotenv import load_dotenv
@@ -1848,8 +1848,8 @@ sudo usermod -aG sudo climaguru
 sudo su - climaguru
 
 # 5. Crear directorio de la aplicación
-mkdir -p ~/climaguru-backend
-cd ~/climaguru-backend
+mkdir -p ~/backend
+cd ~/backend
 
 # 6. Crear entorno virtual
 python3 -m venv venv
@@ -1864,7 +1864,7 @@ nano .env
 
 # Contenido del .env:
 # ============================================
-FLASK_APP=run.py
+FLASK_APP=app.py
 FLASK_ENV=production
 FLASK_DEBUG=0
 SECRET_KEY=tu-clave-secreta-muy-larga-y-aleatoria
@@ -1892,7 +1892,7 @@ flask db upgrade
 python scripts/create_admin.py
 
 # 12. Probar aplicación
-python run.py
+python app.py
 ```
 
 ### 🔧 Configuración Gunicorn + Systemd
@@ -1914,10 +1914,10 @@ After=network.target
 [Service]
 User=climaguru
 Group=climaguru
-WorkingDirectory=/home/climaguru/climaguru-backend
-Environment="PATH=/home/climaguru/climaguru-backend/venv/bin"
-EnvironmentFile=/home/climaguru/climaguru-backend/.env
-ExecStart=/home/climaguru/climaguru-backend/venv/bin/gunicorn -w 4 -b 127.0.0.1:8000 wsgi:app
+WorkingDirectory=/home/climaguru/backend
+Environment="PATH=/home/climaguru/backend/venv/bin"
+EnvironmentFile=/home/climaguru/backend/.env
+ExecStart=/home/climaguru/backend/venv/bin/gunicorn -w 4 -b 127.0.0.1:8000 wsgi:app
 Restart=always
 RestartSec=3
 
@@ -1960,7 +1960,7 @@ server {
     }
 
     location /static {
-        alias /home/climaguru/climaguru-backend/app/static;
+        alias /home/climaguru/backend/app/static;
         expires 30d;
     }
 }

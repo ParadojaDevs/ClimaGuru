@@ -1,28 +1,56 @@
-# Guía de instalación
+# Guia de instalacion
 
-Configura y ejecuta
+## Configura y ejecuta
 
-Edita el archivo .env con tus datos
-Activa el entorno virtual: source venv/bin/activate
-Instala dependencias: pip install -r requirements.txt
-Inicializa BD: flask db init && flask db migrate && flask db upgrade
-Ejecuta: python3 run.py
+1. Entra al backend:
 
-Prueba
+```bash
+cd ~/ClimaGuru/backend
+```
 
-Verifica: curl http://localhost:5000/health
-Registra usuario (ejemplo en README.md)
-Prueba login
+2. Crea y activa el entorno virtual (compartido en la raiz):
 
+```bash
+python3 -m venv ../.venv
+source ../.venv/bin/activate
+```
 
-# Activar entorno virtual
-source ~/ClimaGuru/backend/venv/bin/activate
+3. Instala dependencias:
 
-# Ver logs en tiempo real
-sudo journalctl -u climaguru -f
+```bash
+pip install -r requirements.txt
+```
 
-# Reiniciar backend
-sudo systemctl restart climaguru
+4. Configura variables de entorno:
 
-# Probar endpoint
+```bash
+cp .env.example .env
+```
+
+5. Edita `.env` con tu conexion de base de datos y secretos JWT.
+
+6. Ejecuta backend:
+
+```bash
+python3 app.py
+```
+
+## Pruebas rapidas
+
+```bash
 curl http://localhost:5000/health
+```
+
+## Operacion en servidor
+
+Ver logs en tiempo real:
+
+```bash
+sudo journalctl -u climaguru -f
+```
+
+Reiniciar backend:
+
+```bash
+sudo systemctl restart climaguru
+```
