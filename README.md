@@ -36,8 +36,10 @@ Sistema integrado de consulta y análisis de datos climáticos desde múltiples 
 
 ## 🔧 Requisitos Previos
 
-- Python 3.8 o superior
+- Python 3.10 o superior
+- Node.js 20 o superior
 - pip (gestor de paquetes de Python)
+- Corepack habilitado (para usar pnpm)
 - Conexión a Internet
 - Claves API (para servicios que las requieren)
 
@@ -64,7 +66,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Instalar dependencias
+### 3. Instalar dependencias de Python (raíz)
 
 ```bash
 pip install -r requirements.txt
@@ -72,11 +74,11 @@ pip install -r requirements.txt
 
 ## 🔌 Backend (Flask + MySQL)
 
-El backend vive en [climaguru-backend](climaguru-backend) y usa Flask + SQLAlchemy.
+El backend vive en `backend/` y usa Flask + SQLAlchemy.
 
 ### 1) Configurar variables de entorno
 
-- Copia `.env.example` a `.env` dentro de `climaguru-backend/`.
+- Copia `.env.example` a `.env` dentro de `backend/`.
 - Ajusta los datos de la base de datos (VM MySQL):
 
 ```env
@@ -90,14 +92,14 @@ DB_NAME=climaguru
 ### 2) Instalar dependencias del backend
 
 ```bash
-cd climaguru-backend
+cd backend
 pip install -r requirements.txt
 ```
 
 ### 3) Ejecutar el backend
 
 ```bash
-python run.py
+python app.py
 ```
 
 El backend quedará disponible en `http://localhost:5000`.
@@ -106,11 +108,54 @@ El backend quedará disponible en `http://localhost:5000`.
 
 Endpoints base:
 - `GET /health`
-- `POST /api/auth/register`
+- `POST /api/auth/registro`
 - `POST /api/auth/login`
 - `GET /api/auth/me`
 
-Documentación ampliada en [climaguru-backend/docs/API.md](climaguru-backend/docs/API.md).
+Documentación ampliada en `backend/docs/API.md`.
+
+## 💻 Frontend (Next.js)
+
+El frontend vive en `frontend/` y usa Next.js con `pnpm`.
+
+### 1) Instalar dependencias del frontend
+
+Si `pnpm` no está en PATH, usa Corepack:
+
+```bash
+corepack pnpm install
+```
+
+o, si ya tienes `pnpm` global:
+
+```bash
+pnpm install
+```
+
+### 2) Configurar URL del backend
+
+Crear `frontend/.env.local` con:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
+
+Para despliegue en servidor, cambia `localhost` por el dominio o IP pública del backend.
+
+### 3) Ejecutar frontend
+
+```bash
+cd frontend
+corepack pnpm dev
+```
+
+### 4) Build de producción
+
+```bash
+cd frontend
+corepack pnpm build
+corepack pnpm start
+```
 
 ## ⚙️ Configuración
 

@@ -2,43 +2,58 @@
 # ClimaGuru Backend - Getting Started
 
 ## Prerequisites
-- Python 3.8+
-- pip (Python package manager)
+- Python 3.10+
+- pip
 
 ## Installation
 
-1. **Clone the repository**
-    ```bash
-    git clone https://github.com/xtatikmel/ClimaGuru.git
-    cd ClimaGuru/climaguru-backend
-    ```
+1. Clone the repository and enter backend folder:
 
-2. **Create a virtual environment**
-    ```bash
-    python -m venv venv
-    ```
+```bash
+git clone https://github.com/xtatikmel/ClimaGuru.git
+cd ClimaGuru/backend
+```
 
-3. **Activate the virtual environment**
-    - Windows: `venv\Scripts\activate`
-    - macOS/Linux: `source venv/bin/activate`
+2. Create and activate virtual environment:
 
-4. **Install dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+python3 -m venv ../.venv
+source ../.venv/bin/activate
+```
+
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Configure environment variables:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your database and JWT values.
 
 ## Running the Backend
 
-1. **Create your environment file**
-    - Copy `.env.example` to `.env` and set your database credentials.
+```bash
+python app.py
+```
 
-2. **Start the Flask server**
-    ```bash
-    python run.py
-    ```
-    The backend will be available at `http://localhost:5000`
+Backend URL: `http://localhost:5000`
 
-## Notes
-- Use `run.py` for local development.
-- `app.py` is the WSGI entrypoint for production servers (Gunicorn, uWSGI).
-- Tests can be executed with Postman against the local server.
+Health check:
+
+```bash
+curl http://localhost:5000/health
+```
+
+## Production Notes
+- Use Gunicorn for production, for example:
+
+```bash
+gunicorn -w 4 -b 0.0.0.0:5000 app:app
+```
+
+- Keep `CORS_ORIGINS` and secrets updated in `.env`.
