@@ -60,3 +60,6 @@ coverage.xml
 # Backups
 *.bak
 backup_*.sql
+
+# Legacy duplicado bloqueado por permisos locales
+climaguru-backend/
