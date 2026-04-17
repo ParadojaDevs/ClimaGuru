@@ -1,0 +1,249 @@
+{
+  "info": {
+    "name": "ClimaGuru API",
+    "description": "Colección de endpoints para probar el backend de ClimaGuru",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Auth - Registro",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/auth/registro",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"nuevouser\",\n  \"email\": \"nuevo@email.com\",\n  \"password\": \"Password123\",\n  \"nombre\": \"Nuevo Usuario\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/auth/login",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username_or_email\": \"testuser\",\n  \"password\": \"Test1234\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Auth - Mi Perfil",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/auth/me"
+      }
+    },
+    {
+      "name": "API Keys - Crear OpenWeather",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/api-keys/",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"proveedor\": \"openweather\",\n  \"api_key\": \"90b742cedd679c807b83dc5de4b56d84\",\n  \"descripcion\": \"API de OpenWeatherMap\"\n}"
+        }
+      }
+    },
+    {
+      "name": "API Keys - Crear Meteosource",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/api-keys/",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"proveedor\": \"meteosource\",\n  \"api_key\": \"dnulnqrqaqe1sg2nkr33azllnhhkqpqqir573tmd\",\n  \"descripcion\": \"API de Meteosource\"\n}"
+        }
+      }
+    },
+    {
+      "name": "API Keys - Listar",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/api-keys/"
+      }
+    },
+    {
+      "name": "API Keys - Obtener por ID",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/api-keys/1"
+      }
+    },
+    {
+      "name": "API Keys - Actualizar",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/api-keys/1",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"api_key\": \"nueva_api_key\",\n  \"descripcion\": \"Descripción actualizada\"\n}"
+        }
+      }
+    },
+    {
+      "name": "API Keys - Eliminar",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/api-keys/1"
+      }
+    },
+    {
+      "name": "Consultas - Tiempo Real",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/consultas/tiempo-real",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ciudad\": \"Medellin\",\n  \"proveedor\": \"openweather\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Consultas - Tiempo Real con coordenadas",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/consultas/tiempo-real",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"latitud\": 6.2476,\n  \"longitud\": -75.5658,\n  \"ciudad\": \"Medellín\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Consultas - Histórico",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/consultas/historico",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ciudad\": \"Bogota\",\n  \"fecha_inicio\": \"2026-01-01\",\n  \"fecha_fin\": \"2026-01-31\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Consultas - Mis Consultas",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/consultas/mis-consultas"
+      }
+    },
+    {
+      "name": "Consultas - Obtener por ID",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/consultas/1"
+      }
+    },
+    {
+      "name": "Usuarios - Actualizar Perfil",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/usuarios/perfil",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Nombre Actualizado\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Usuarios - Cambiar Contraseña",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/usuarios/password",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"password_actual\": \"Test1234\",\n  \"password_nuevo\": \"NuevaPassword123\"\n}"
+        }
+      }
+    }
+  ]
+}

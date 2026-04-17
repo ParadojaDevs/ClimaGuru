@@ -1,0 +1,1 @@
+# Decoradores personalizados (@login_required)
