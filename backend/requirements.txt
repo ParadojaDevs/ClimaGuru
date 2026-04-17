@@ -1,0 +1,43 @@
+# ===================================
+# CLIMAGURU - Dependencias Backend
+# ===================================
+
+# Framework Flask
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-CORS
+Flask-JWT-Extended
+
+# Base de datos
+PyMySQL==1.1.0
+cryptography==41.0.7
+
+# Seguridad y autenticación
+bcrypt==4.1.2
+python-dotenv==1.0.0
+
+# Validación de datos
+marshmallow==3.20.1
+email-validator==2.1.0
+
+# Procesamiento de datos
+pandas
+numpy
+
+# Requests para APIs externas
+requests==2.31.0
+
+# Utilidades
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Testing (opcional, para desarrollo)
+pytest==7.4.3
+pytest-flask==1.3.0
+
+# Servidor WSGI para producción
+gunicorn==21.2.0
+
+# Monitoreo y logs
+flask-log==0.1.0
