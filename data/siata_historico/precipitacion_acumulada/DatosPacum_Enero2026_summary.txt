@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Enero2026.txt
+Generado: 2026-10-01 04:53:08.201932
+==================================================
+
+Primeras 10 filas:
+   Estacion                                                 Nombre  Municipio                               Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0        56   I.E Inem Jose Felix de Restrepo Sede Santa Catalina    Medellin                            El Tesoro             73.50             409.702         557.418
+1        49                        Colegio Latino (Av. Las Palmas)   Medellin                                   NA             73.48             379.222         516.089
+2       323                        Acueducto Hatillo - Pluviometro    Barbosa                                   NA             38.48             195.072         506.944
+3       339                      Ecoparque El Salado - Pluviometro   Envigado                                   NA             64.60             322.072         498.563
+4       395                  La Harenala Santa Maria - Pluviometro     Itagui                    Santa Maria No. 1             69.47             338.582         487.379
+5        19                                  Tecnologico Antioquia     Itagui   Las Americas-Zona Industrial No. 1             72.73             325.882         448.071
+6       334                     Manuel Mejia Vallejo - Pluviometro   Envigado                   Loma El Atravesado             50.72             223.266         440.193
+7       378                         Edificio Camacol - Pluviometro   Medellin                             Naranjal             51.73             224.028         433.072
+8       393             Deprimido Terminal del Norte - Pluviometro   Medellin                               Caribe             48.09             207.518         431.520
+9        41                                   Comisaria El Poblado   Medellin                           La Florida             86.13             359.918         417.878
+
+Información del DataFrame:
+None
