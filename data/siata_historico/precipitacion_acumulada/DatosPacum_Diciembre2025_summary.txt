@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Diciembre2025.txt
+Generado: 2026-10-01 04:53:14.218452
+==================================================
+
+Primeras 10 filas:
+   Estacion                                              Nombre   Municipio                Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0        64                                 Ecoparque La Romera    Sabaneta                    NA            111.91             271.780         242.856
+1       328            Universidad EIA - Envigado - Pluviometro    Envigado                    NA             45.97             111.506         242.563
+2       378                      Edificio Camacol - Pluviometro    Medellin              Naranjal             31.62              73.406         232.151
+3       295                       Laguna Quitasol - Pluviometro       Bello                    NA             30.48              54.610         179.167
+4        52               Centro Veterinario y de Zootecnia CES    Envigado                    NA             93.84             161.036         171.607
+5       274                   Carpinelo Amapolita - Pluviometro    Medellin             Carpinelo             54.00              90.932         168.393
+6       127           I.E. Manuel Jose Sierra - Sede la Holanda   Girardota                    NA             62.67             104.902         167.388
+7       323                     Acueducto Hatillo - Pluviometro     Barbosa                    NA             56.18              90.170         160.502
+8       129                             Colegio Divino Salvador    Medellin            Miraflores             61.46              96.012         156.219
+9       352   Institucion Educativa La Candelaria - Pluviometro    Medellin   Santo Domingo Savio             53.97              81.648         151.284
+
+Información del DataFrame:
+None

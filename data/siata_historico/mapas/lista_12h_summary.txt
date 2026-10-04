@@ -1,0 +1,19 @@
+Resumen de lista_12h.txt
+Generado: 2026-10-01 04:51:24.904002
+==================================================
+
+Primeras 10 filas:
+   file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_151035.png'
+0  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_151527.png'
+1  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_152038.png'
+2  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_152525.png'
+3  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_153037.png'
+4  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_153525.png'
+5  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_154040.png'
+6  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_154526.png'
+7  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_155035.png'
+8  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_155525.png'
+9  file '/var/www/operacional/mapas/Historico_acu/Pluvio5minutos_20251117_160114.png'
+
+Información del DataFrame:
+None

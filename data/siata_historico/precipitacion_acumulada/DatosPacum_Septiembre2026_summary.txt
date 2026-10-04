@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Septiembre2026.txt
+Generado: 2026-10-01 04:52:52.501515
+==================================================
+
+Primeras 10 filas:
+   Estacion                                     Nombre  Municipio         Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0       376              Feria de Ganado - Pluviometro   Medellin     Belalcazar            190.25             750.316        394.3840
+1       121                           I.E Barrio Paris      Bello          Paris            187.65             188.468        100.4360
+2         7                  Escuela Republica de Cuba   Medellin   La Esperanza            157.78             156.210         99.0050
+3        14                        Escuela El Triunfo    Medellin     El Triunfo            173.12             169.672         98.0083
+4       242                       IE Jesus Maria Valle   Medellin        Picacho            174.65             165.608         94.8228
+5        89                              I.E Pedro Nel   Medellin      Florencia            166.45             157.226         94.4584
+6        42               Escuela Rural Piedras Gordas   Medellin             NA            164.78             151.196         91.7563
+7        48                 Escuela Rural Santa Angela   Medellin             NA            179.94             157.988         87.8004
+8       437   Paradero Jalisco San Felix - Pluviometro      Bello             NA            191.69             168.148         87.7187
+9       281                  Megacolegio - Pluviometro      Bello          Paris            225.60             184.150         81.6268
+
+Información del DataFrame:
+None
