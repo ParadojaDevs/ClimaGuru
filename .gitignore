@@ -37,6 +37,7 @@ logs/
 *.swp
 *.swo
 *~
+.kilo
 
 # Sistema operativo
 .DS_Store
