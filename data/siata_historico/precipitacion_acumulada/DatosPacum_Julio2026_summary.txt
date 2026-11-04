@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Julio2026.txt
+Generado: 2026-10-01 04:53:04.521084
+==================================================
+
+Primeras 10 filas:
+   Estacion                                 Nombre  Municipio           Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0       376          Feria de Ganado - Pluviometro   Medellin       Belalcazar            135.38            1252.470        925.1540
+1        51                     Represa La Garcia       Bello               NA            103.50             113.792        109.9440
+2        22        Escuela La Capilla del Rosario    Medellin     Belen Rincon            115.85             119.380        103.0470
+3         9           Instituto Pedro Justo Berrio   Medellin     Las Mercedes            113.28             112.268         99.1066
+4        39                I.E Pedro Octavio Amado   Medellin        Altavista            116.50             113.284         97.2395
+5        53                 Colegio Eduardo Santos   Medellin   Eduardo Santos            116.19             112.014         96.4059
+6         1             Casa de Gobierno Altavista   Medellin               NA            153.76             139.192         90.5255
+7        17                    Escuela El Corazon    Medellin       El Corazon            133.26             115.824         86.9158
+8        21   Escuela Rural San Jose de la Montana   Medellin               NA            131.23             113.538         86.5183
+9         4             I.E Hector Rogelio Montoya   Medellin               NA            120.88             104.140         86.1516
+
+Información del DataFrame:
+None

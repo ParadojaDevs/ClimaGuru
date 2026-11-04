@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Junio2026.txt
+Generado: 2026-10-01 04:52:57.194262
+==================================================
+
+Primeras 10 filas:
+   Estacion                                Nombre  Municipio                Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0       376         Feria de Ganado - Pluviometro   Medellin            Belalcazar            199.07            3880.870        1949.500
+1       160                  Samana - Pluviometro     Samana                    NA            191.44             386.334         201.804
+2        34                        I.E La Doctora   Sabaneta   Vegas de la Doctora            147.99             242.062         163.566
+3        74      Edificio Gaspar de Rodas - Bello      Bello                Centro            106.12             173.228         163.238
+4       121                      I.E Barrio Paris      Bello                 Paris            118.68             189.230         159.446
+5        64                   Ecoparque La Romera   Sabaneta                    NA            174.72             264.160         151.190
+6       129               Colegio Divino Salvador   Medellin            Miraflores            118.68             177.546         149.601
+7        33                   Santa Maria Goretti     Caldas             La Docena            158.12             228.854         144.734
+8       275   Q. La Loca El Cafetal - Pluviometro      Bello                 Paris            109.22             155.702         142.558
+9        26                 Escuela Rural El Plan   Medellin                    NA            139.88             196.342         140.365
+
+Información del DataFrame:
+None
