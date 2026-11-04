@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Mayo2026.txt
+Generado: 2026-10-01 04:53:11.852996
+==================================================
+
+Primeras 10 filas:
+   Estacion                                  Nombre     Municipio                Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0       376           Feria de Ganado - Pluviometro      Medellin            Belalcazar            151.89            1041.910        685.9620
+1       420              Pueblo Viejo - Pluviometro   La Estrella                  NULL            156.08             176.276        112.9400
+2       339       Ecoparque El Salado - Pluviometro      Envigado                    NA            205.23             171.958         83.7879
+3        52   Centro Veterinario y de Zootecnia CES      Envigado                    NA            234.97             180.848         76.9664
+4        50              Universidad CES (Sabaneta)      Sabaneta     Virgen del Carmen            214.81             150.114         69.8822
+5        34                          I.E La Doctora      Sabaneta   Vegas de la Doctora            248.97             171.450         68.8637
+6       421          CC Viva Envigado - Pluviometro      Envigado             Las Vegas            169.67             116.586         68.7134
+7       433         Salada Parte Alta - Pluviometro        Caldas                    NA            223.86             152.654         68.1917
+8       383            Salinas Caldas - Pluviometro        Caldas                    NA            201.17             136.600         67.9028
+9       451                 Heliodora - Pluviometro      Envigado             El Dorado            221.23             150.114         67.8543
+
+Información del DataFrame:
+None
