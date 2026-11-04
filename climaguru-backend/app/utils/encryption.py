@@ -1,1 +1,0 @@
-# Encriptación de API keys

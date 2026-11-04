@@ -1,10 +1,14 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
 
 from config import Config
 from database import db
 from routes import auth_bp, users_bp
 from models import User
+
+
+load_dotenv()
 
 
 def create_app() -> Flask:

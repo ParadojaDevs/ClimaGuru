@@ -19,15 +19,28 @@ instance/
 .env
 .env.local
 .env.*.local
+**/.env
+**/.env.local
+**/.env.*.local
+**/.env.production
+**/.env.development
+**/.env.test
+!.env.example
+!**/.env.example
+!**/.env.production.example
+!**/.env.local.example
 
 # Logs
 logs/
 *.log
+*.out
+*.err
 
 # Base de datos
 *.db
 *.sqlite
 *.sqlite3
+*.sqlitedb
 
 # IDEs
 .vscode/
@@ -57,9 +70,33 @@ coverage.xml
 .pytest_cache/
 .tox/
 
+# Node / Frontend
+node_modules/
+**/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Python cache / venv local
+**/__pycache__/
+**/.venv/
+**/venv/
+backend/instance/
+
+# Secretos y llaves
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+id_rsa
+id_rsa.pub
+known_hosts
+
 # Backups
 *.bak
 backup_*.sql
 
 # Legacy duplicado bloqueado por permisos locales
 climaguru-backend/
+_legacy_blocked_climaguru-backend/
