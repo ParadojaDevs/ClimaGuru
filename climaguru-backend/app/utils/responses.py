@@ -1,1 +1,0 @@
-# Formateadores de respuestas JSON
