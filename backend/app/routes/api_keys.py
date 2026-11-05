@@ -20,11 +20,12 @@ def get_cipher():
     key = os.environ.get('ENCRYPTION_KEY')
     if not key:
         raise ValueError('ENCRYPTION_KEY no configurada')
-    # Asegurar que la key tenga el formato correcto para Fernet
-    import base64
-    key_bytes = key.encode('utf-8')
-    key_b64 = base64.urlsafe_b64encode(key_bytes.ljust(32)[:32])
-    return Fernet(key_b64)
+    # Fernet requiere una clave de 32 bytes codificada en base64 url-safe.
+    # No se trunca ni se rellena: la clave debe venir completa desde el entorno.
+    try:
+        return Fernet(key.encode('utf-8'))
+    except Exception:
+        raise ValueError('ENCRYPTION_KEY debe ser una clave Fernet válida (32 bytes, base64 url-safe)')
 
 
 @api_keys_bp.route('/', methods=['GET'])
@@ -35,7 +36,7 @@ def get_api_keys():
     """
     usuario_id = get_jwt_identity()
     
-    api_keys = ApiKey.query.filter_by(usuario_id=usuario_id).all()
+    api_keys = APIKey.query.filter_by(usuario_id=usuario_id).all()
     
     return jsonify({
         'api_keys': [key.to_dict() for key in api_keys]
@@ -61,7 +62,7 @@ def create_api_key():
         return jsonify({'error': 'Proveedor y API key son requeridos'}), 400
     
     # Verificar si ya existe una key para este proveedor
-    existing = ApiKey.query.filter_by(
+    existing = APIKey.query.filter_by(
         usuario_id=usuario_id, 
         proveedor=data['proveedor']
     ).first()
@@ -79,9 +80,9 @@ def create_api_key():
         if data.get('api_secret'):
             api_secret_encrypted = cipher.encrypt(data['api_secret'].encode('utf-8')).decode('utf-8')
     except Exception as e:
-        return jsonify({'error': 'Error al encriptar la API key', 'message': str(e)}), 500
+        return jsonify({'error': 'Error al encriptar la API key'}), 500
     
-    api_key = ApiKey(
+    api_key = APIKey(
         usuario_id=usuario_id,
         proveedor=data['proveedor'],
         api_key_encrypted=api_key_encrypted,
@@ -116,7 +117,7 @@ def get_api_key(key_id):
     """
     usuario_id = get_jwt_identity()
     
-    api_key = ApiKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
+    api_key = APIKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
     if not api_key:
         return jsonify({'error': 'API key no encontrada'}), 404
     
@@ -131,7 +132,7 @@ def update_api_key(key_id):
     """
     usuario_id = get_jwt_identity()
     
-    api_key = ApiKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
+    api_key = APIKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
     if not api_key:
         return jsonify({'error': 'API key no encontrada'}), 404
     
@@ -191,7 +192,7 @@ def delete_api_key(key_id):
     """
     usuario_id = get_jwt_identity()
     
-    api_key = ApiKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
+    api_key = APIKey.query.filter_by(id=key_id, usuario_id=usuario_id).first()
     if not api_key:
         return jsonify({'error': 'API key no encontrada'}), 404
     

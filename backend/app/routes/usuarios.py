@@ -192,8 +192,8 @@ def cambiar_password(usuario_id):
         if not data.get('password_actual') or not usuario.check_password(data['password_actual']):
             return jsonify({'error': 'Contraseña actual incorrecta'}), 401
     
-    if not data.get('password_nueva') or len(data['password_nueva']) < 6:
-        return jsonify({'error': 'La nueva contraseña debe tener al menos 6 caracteres'}), 400
+    if not data.get('password_nueva') or len(data['password_nueva']) < 8:
+        return jsonify({'error': 'La nueva contraseña debe tener al menos 8 caracteres'}), 400
     
     usuario.set_password(data['password_nueva'])
     db.session.commit()
