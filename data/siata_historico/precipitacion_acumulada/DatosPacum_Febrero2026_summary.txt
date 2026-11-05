@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Febrero2026.txt
+Generado: 2026-10-01 04:53:13.078380
+==================================================
+
+Primeras 10 filas:
+   Estacion                                                 Nombre     Municipio       Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0       127              I.E. Manuel Jose Sierra - Sede la Holanda     Girardota           NA             55.05             198.882         361.275
+1        28                                Liceo Salazar y Herrera      Medellin   La America             52.40             161.036         307.321
+2        56   I.E Inem Jose Felix de Restrepo Sede Santa Catalina       Medellin    El Tesoro             67.56             200.406         296.634
+3        49                        Colegio Latino (Av. Las Palmas)      Medellin           NA             78.99             225.298         285.223
+4       320                         Palmitas Potrera - Pluviometro      Medellin           NA             84.07             239.776         285.210
+5       171                       Escombrera Mocatan - Pluviometro        Caldas           NA             75.84             208.788         275.301
+6        75                   Institucion Educativa Rural El Tambo     San Pedro           NA             57.69             156.718         271.655
+7         4                             I.E Hector Rogelio Montoya      Medellin           NA             86.20             231.648         268.733
+8       129                                Colegio Divino Salvador      Medellin   Miraflores             64.44             163.068         253.054
+9       420                             Pueblo Viejo - Pluviometro   La Estrella         NULL            138.51             348.234         251.414
+
+Información del DataFrame:
+None

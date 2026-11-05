@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Agosto2026.txt
+Generado: 2026-10-01 04:53:15.472276
+==================================================
+
+Primeras 10 filas:
+   Estacion                                      Nombre            Municipio           Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0       376               Feria de Ganado - Pluviometro             Medellin       Belalcazar            128.78             895.604        695.4530
+1       165            Santa Rosa de Osos - Pluviometro   Santa Rosa de Osos   Avenida crespo            188.59             202.946        107.6120
+2        42                Escuela Rural Piedras Gordas             Medellin               NA            131.77             138.400        105.0310
+3       248    Vivero EPM Piedras Blancas - Pluviometro               Guarne               NA            140.46             122.682         87.3430
+4       324                   E.R Jamundi - Pluviometro            Girardota               NA            131.42             113.284         86.2000
+5        47                     Villa Nueva Sede La Luz           Copacabana               NA            143.95             123.444         85.7548
+6       127   I.E. Manuel Jose Sierra - Sede la Holanda            Girardota               NA            159.18             136.144         85.5283
+7       121                            I.E Barrio Paris                Bello            Paris            127.86             108.204         84.6269
+8       275         Q. La Loca El Cafetal - Pluviometro                Bello            Paris            111.32              90.170         81.0007
+9       242                        IE Jesus Maria Valle             Medellin          Picacho            122.33              97.536         79.7319
+
+Información del DataFrame:
+None

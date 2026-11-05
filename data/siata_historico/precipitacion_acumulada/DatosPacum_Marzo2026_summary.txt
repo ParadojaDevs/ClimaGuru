@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Marzo2026.txt
+Generado: 2026-10-01 04:52:54.828862
+==================================================
+
+Primeras 10 filas:
+   Estacion                                                 Nombre  Municipio                     Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0        56   I.E Inem Jose Felix de Restrepo Sede Santa Catalina    Medellin                  El Tesoro            137.95             242.062         175.471
+1        54                                I.E Juan Maria Cespedes   Medellin   El Nogal - Los Almendros            114.68             197.358         172.095
+2        22                        Escuela La Capilla del Rosario    Medellin               Belen Rincon            163.42             276.606         169.261
+3        81                                      Bomberos Guayabal   Medellin                 Campo Amor            158.61             259.080         163.344
+4        52                  Centro Veterinario y de Zootecnia CES   Envigado                         NA            114.84             173.736         151.285
+5       418                    Montanita San Antonio - Pluviometro   Medellin                         NA            149.52             223.012         149.152
+6        41                                   Comisaria El Poblado   Medellin                 La Florida            159.55             224.536         140.731
+7         8                                        Escuela CEDEPRO   Medellin                         NA            193.40             266.700         137.901
+8        15                                     Colegio San Lucas    Medellin                  San Lucas            129.74             178.816         137.826
+9       160                                   Samana - Pluviometro     Samana                         NA            494.52             660.146         133.492
+
+Información del DataFrame:
+None
