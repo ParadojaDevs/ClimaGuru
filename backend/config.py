@@ -2,12 +2,12 @@ import os
 
 
 class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY", "change-this-in-production")
+    SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-do-not-use-in-production")
 
     MYSQL_HOST = os.getenv("MYSQL_HOST", "100.78.215.44")
     MYSQL_PORT = int(os.getenv("MYSQL_PORT", "3306"))
     MYSQL_USER = os.getenv("MYSQL_USER", "climaguru_app")
-    MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "change-this-password")
+    MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "dev-password-do-not-use-in-production")
     MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "climaguru")
     MYSQL_SSL_DISABLED = os.getenv("MYSQL_SSL_DISABLED", "true").lower() == "true"
 

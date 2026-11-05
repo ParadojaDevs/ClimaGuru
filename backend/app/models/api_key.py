@@ -67,15 +67,21 @@ class APIKey(db.Model):
         Returns:
             Fernet: Objeto para encriptar/desencriptar
         """
-        # Obtener clave de encriptación desde variables de entorno
-        encryption_key = os.getenv('ENCRYPTION_KEY', '').encode()
-        
-        # Si no hay clave o es muy corta, usar una por defecto (NO SEGURO EN PRODUCCIÓN)
-        if len(encryption_key) < 32:
-            # Generar una clave base64 válida
-            encryption_key = Fernet.generate_key()
-        
-        return Fernet(encryption_key)
+        # Obtener clave de encriptación desde variables de entorno (requerida)
+        encryption_key = os.getenv('ENCRYPTION_KEY')
+        if not encryption_key:
+            raise ValueError(
+                'ENCRYPTION_KEY no configurada. '
+                'Defina esta variable de entorno antes de usar la aplicación.'
+            )
+        # Fernet valida que la clave sea de 32 bytes en base64 url-safe
+        try:
+            return Fernet(encryption_key.encode('utf-8'))
+        except Exception:
+            raise ValueError(
+                'ENCRYPTION_KEY debe ser una clave Fernet válida '
+                '(32 bytes, base64 url-safe)'
+            )
     
     def to_dict(self, include_key=False):
         """
