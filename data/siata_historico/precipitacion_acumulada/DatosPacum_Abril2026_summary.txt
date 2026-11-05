@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Abril2026.txt
+Generado: 2026-10-01 04:52:51.142951
+==================================================
+
+Primeras 10 filas:
+   Estacion                                                 Nombre   Municipio                  Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0       421                         CC Viva Envigado - Pluviometro    Envigado               Las Vegas            136.91             263.906         192.759
+1        56   I.E Inem Jose Felix de Restrepo Sede Santa Catalina     Medellin               El Tesoro            160.40             295.656         184.324
+2       433                        Salada Parte Alta - Pluviometro      Caldas                      NA            179.45             314.960         175.514
+3       189                              Q. La Sanin - Pluviometro    Medellin                      NA            153.11             255.524         166.889
+4       278                         Vereda Potrerito - Pluviometro     Barbosa                      NA            201.25             330.200         164.075
+5        55                                   I.E Reino de Belgica    Medellin   Maria Cano Carambolas            130.40             207.264         158.945
+6        88                                        CUIDA Juan Cojo   Girardota                      NA            184.09             282.702         153.567
+7       289                    Seminario Redemptoris - Pluviometro    Medellin                      NA            201.47             306.578         152.171
+8        52                  Centro Veterinario y de Zootecnia CES    Envigado                      NA            178.18             266.700         149.680
+9       451                                Heliodora - Pluviometro    Envigado               El Dorado            182.24             268.732         147.460
+
+Información del DataFrame:
+None

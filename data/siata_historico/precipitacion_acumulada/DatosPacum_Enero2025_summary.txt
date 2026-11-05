@@ -1,0 +1,19 @@
+Resumen de DatosPacum_Enero2025.txt
+Generado: 2026-10-01 04:52:58.399598
+==================================================
+
+Primeras 10 filas:
+   Estacion                                                Nombre    Municipio               Barrio  Climatologia mes  Acumulado Mes (mm)  Porcentaje Mes
+0        47                               Villa Nueva Sede La Luz   Copacabana                   NA             37.43             2698.24         7208.77
+1       323                       Acueducto Hatillo - Pluviometro      Barbosa                   NA             38.48             2734.31         7105.80
+2       324                             E.R Jamundi - Pluviometro    Girardota                   NA             34.54             2245.37         6500.77
+3       373                                 Ancon 2 - Pluviometro   Copacabana                   NA             30.73             1881.38         6122.28
+4        72                               Jose Miguel de Restrepo   Copacabana                   NA             43.54             2466.09         5663.95
+5       127             I.E. Manuel Jose Sierra - Sede la Holanda    Girardota                   NA             44.63             2497.07         5595.06
+6        66                      I.E San Andres (Sede El Socorro)    Girardota                   NA             42.67             2360.71         5532.49
+7       334                    Manuel Mejia Vallejo - Pluviometro     Envigado   Loma El Atravesado             50.72             2706.12         5335.40
+8       154   Centro de Desarrollo Infantil Pequenos Exploradores        Bello           Santa Rita             33.78             1779.78         5268.73
+9        31                            Colegio Jose Manuel Sierra    Girardota        Calle Bolivar             43.08             2200.40         5107.71
+
+Información del DataFrame:
+None

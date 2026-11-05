@@ -1,0 +1,19 @@
+Resumen de DatosPacum_2025.txt
+Generado: 2026-10-01 04:53:10.606758
+==================================================
+
+Primeras 10 filas:
+   Estacion                                                Nombre    Municipio               Barrio  Acumulado 2025 (mm)
+0        47                               Villa Nueva Sede La Luz   Copacabana                   NA              2698.24
+1       323                       Acueducto Hatillo - Pluviometro      Barbosa                   NA              2734.31
+2       324                             E.R Jamundi - Pluviometro    Girardota                   NA              2245.37
+3       373                                 Ancon 2 - Pluviometro   Copacabana                   NA              1881.38
+4        72                               Jose Miguel de Restrepo   Copacabana                   NA              2466.09
+5       127             I.E. Manuel Jose Sierra - Sede la Holanda    Girardota                   NA              2497.07
+6        66                      I.E San Andres (Sede El Socorro)    Girardota                   NA              2360.71
+7       334                    Manuel Mejia Vallejo - Pluviometro     Envigado   Loma El Atravesado              2706.12
+8       154   Centro de Desarrollo Infantil Pequenos Exploradores        Bello           Santa Rita              1779.78
+9        31                            Colegio Jose Manuel Sierra    Girardota        Calle Bolivar              2200.40
+
+Información del DataFrame:
+None
