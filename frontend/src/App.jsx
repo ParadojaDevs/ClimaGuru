@@ -21,7 +21,7 @@ export default function App() {
       return;
     }
     fetchUsers();
-  }, [token]);
+  }, []);
 
   async function fetchUsers() {
     try {
@@ -39,7 +39,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }
 
   async function handleLogin(credentials) {
     try {
