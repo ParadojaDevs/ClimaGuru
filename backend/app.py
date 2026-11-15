@@ -24,6 +24,7 @@ def create_app() -> Flask:
     # JWT Configuration
     app.config["JWT_SECRET_KEY"] = cfg.SECRET_KEY
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = cfg.JWT_ACCESS_TOKEN_EXPIRES
+    app.config["PWD_HASH_METHOD"] = cfg.PWD_HASH_METHOD
     jwt = JWTManager(app)
 
     # Rate Limiter Configuration
@@ -48,10 +49,6 @@ def create_app() -> Flask:
     CORS(app, resources={r"/*": {"origins": cfg.CORS_ORIGINS.split(",")}})
     db.init_app(app)
 
-    # Apply rate limiting to blueprints before registering
-    auth_bp = limiter.limit("10 per minute")(auth_bp)
-    users_bp = limiter.limit("50 per hour")(users_bp)
-
     app.register_blueprint(auth_bp)
     app.register_blueprint(users_bp)
 
@@ -74,6 +71,10 @@ def create_app() -> Flask:
     @app.errorhandler(500)
     def internal_error(_error):
         return jsonify({"error": "error interno del servidor"}), 500
+
+    @app.get("/health")
+    def health():
+        return jsonify({"status": "ok"}), 200
 
     with app.app_context():
         db.create_all()
