@@ -10,6 +10,9 @@ ENV/
 *.egg-info/
 dist/
 build/
+.env
+.venv/
+.cache.sqlite
 
 # Flask
 instance/
