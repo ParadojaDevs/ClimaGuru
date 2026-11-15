@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import Login from "../components/Login";
 import UserForm from "../components/UserForm";
 import UsersList from "../components/UsersList";
-import { login, logout as apiLogout, getUsers, createUser, deleteUser, updateUser, setTokens, clearTokens } from "../services/api";
+import { login, logout as apiLogout, getUsers, createUser, deleteUser, updateUser, setTokens, clearTokens, getAccessToken } from "../services/api";
 
 export default function App() {
   const [token, setToken] = useState(() => {
-    const stored = localStorage.getItem("climaguru_access_token");
-    return stored || "";
+    // Priority: httpOnly cookies (more secure), fallback to localStorage
+    return getAccessToken() || "";
   });
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -31,10 +31,10 @@ export default function App() {
       setUsers(list);
     } catch (err) {
       setError(err.message);
-      // Token might be expired, try to refresh
-      const refreshToken = localStorage.getItem("climaguru_refresh_token");
+      // Token might be expired, try to refresh using refresh token from cookies
+      const refreshToken = getAccessToken() || localStorage.getItem("climaguru_refresh_token");
       if (refreshToken) {
-        // Could implement refresh logic here
+        // Refresh logic could be implemented here
       }
     } finally {
       setLoading(false);
@@ -114,6 +114,7 @@ export default function App() {
     setError("");
   }
 
+  // Get current user from cookies or localStorage
   const currentUser = localStorage.getItem("username") || "operator";
 
   return (

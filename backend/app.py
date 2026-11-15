@@ -1,7 +1,9 @@
 import os
-from flask import Flask, jsonify, request, make_response, g
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 
 from config import Config
@@ -15,39 +17,6 @@ load_dotenv()
 cfg = Config()
 
 
-# Simple rate limiter using in-memory storage (for production use Flask-Limiter or Redis)
-_request_limits = {}
-
-
-def rate_limit(max_requests=100, window_seconds=900):
-    """Decorator to limit requests per IP"""
-    def decorator(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            client_ip = request.remote_addr
-            now = os.times().elapsed if hasattr(os, 'times') else 3600
-            # Simple window-based limiting
-            if client_ip not in _request_limits:
-                _request_limits[client_ip] = []
-
-            # Remove timestamps outside the window
-            _request_limits[client_ip] = [
-                ts for ts in _request_limits[client_ip]
-                if now - ts < window_seconds
-            ]
-
-            if len(_request_limits[client_ip]) >= max_requests:
-                return jsonify({
-                    "error": "demasiadas solicitudes, intenta más tarde",
-                    "retry_after": window_seconds
-                }), 429
-
-            _request_limits[client_ip].append(now)
-            return f(*args, **kwargs)
-        return wrapper
-    return decorator
-
-
 def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_object(cfg)
@@ -57,8 +26,12 @@ def create_app() -> Flask:
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = cfg.JWT_ACCESS_TOKEN_EXPIRES
     jwt = JWTManager(app)
 
-    CORS(app, resources={r"/*": {"origins": cfg.CORS_ORIGINS.split(",")}})
-    db.init_app(app)
+    # Rate Limiter Configuration
+    limiter = Limiter(
+        key_func=get_remote_address,
+        default_limits=["200 per day", "50 per hour"]
+    )
+    limiter.init_app(app)
 
     # Security headers middleware
     @app.after_request
@@ -72,19 +45,23 @@ def create_app() -> Flask:
         response.headers.pop("Server", None)
         return response
 
-    # Apply rate limiting to all routes except health
-    @app.before_request
-    def apply_rate_limit():
-        if request.endpoint not in ['health'] and request.blueprint != 'static':
-            rate_limit(max_requests=200, window_seconds=900)(lambda: None)()
-        # Note: True rate limiting would be applied per-route in production
+    CORS(app, resources={r"/*": {"origins": cfg.CORS_ORIGINS.split(",")}})
+    db.init_app(app)
 
-    @app.get("/health")
-    def health():
-        return jsonify({"status": "ok"}), 200
+    # Apply rate limiting to blueprints before registering
+    auth_bp = limiter.limit("10 per minute")(auth_bp)
+    users_bp = limiter.limit("50 per hour")(users_bp)
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(users_bp)
+
+    @app.errorhandler(429)
+    def ratelimit_exceeded(error):
+        return jsonify({
+            "error": "Límite de tasa excedido",
+            "message": "Demasiadas solicitudes desde esta IP",
+            "retry_after": error.description if hasattr(error, 'description') else 60
+        }), 429
 
     @app.errorhandler(404)
     def not_found(_error):

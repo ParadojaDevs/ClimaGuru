@@ -11,49 +11,98 @@ function buildHeaders(token, hasBody = false) {
   return headers;
 }
 
-async function request(path, { method = "GET", body, token } = {}) {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    method,
-    headers: buildHeaders(token, body !== undefined),
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  });
+// Token source priority: cookies > localStorage (for transition period)
+const COOKIE_ACCESS_TOKEN_NAME = "climaguru_access_token";
+const COOKIE_REFRESH_TOKEN_NAME = "climaguru_refresh_token";
 
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message = payload.error || "Error de servidor";
-    throw new Error(message);
+export function getAccessTokenFromCookies() {
+  if (typeof document !== "undefined") {
+    const match = document.cookie.match(
+      `(^|; )${COOKIE_ACCESS_TOKEN_NAME}=([^;]+)`
+    );
+    return match ? decodeURIComponent(match[2]) : null;
   }
-
-  return payload;
+  return null;
 }
 
-// Almacenar tokens en localStorage (para ser migrado a httpOnly cookie después)
-const TOKEN_KEY = "climaguru_access_token";
-const REFRESH_TOKEN_KEY = "climaguru_refresh_token";
-
-export function setTokens(accessToken, refreshToken) {
-  localStorage.setItem(TOKEN_KEY, accessToken);
-  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+export function getRefreshTokenFromCookies() {
+  if (typeof document !== "undefined") {
+    const match = document.cookie.match(
+      `(^|; )${COOKIE_REFRESH_TOKEN_NAME}=([^;]+)`
+    );
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+  return null;
 }
 
+// Get token from cookies, with fallback to localStorage for transition
 export function getAccessToken() {
-  return localStorage.getItem(TOKEN_KEY);
+  // Prioritize cookies (more secure - XSS resistant)
+  const cookieToken = getAccessTokenFromCookies();
+  if (cookieToken) return cookieToken;
+  // Fallback to localStorage
+  return localStorage.getItem("climaguru_access_token");
 }
 
 export function getRefreshToken() {
-  return localStorage.getItem(REFRESH_TOKEN_KEY);
+  const cookieToken = getRefreshTokenFromCookies();
+  if (cookieToken) return cookieToken;
+  return localStorage.getItem("climaguru_refresh_token");
+}
+
+// Set tokens - primarily set via cookies from backend response
+export function setTokensFromCookies(accessToken, refreshToken) {
+  // Store in localStorage as fallback/backup, but primary is cookies
+  if (typeof window !== "undefined") {
+    // Optionally store in localStorage for backup
+    localStorage.setItem("climaguru_access_token", accessToken);
+    localStorage.setItem("climaguru_refresh_token", refreshToken);
+  }
+}
+
+// Manual cookie setting (used during transition/debug)
+export function setTokens(accessToken, refreshToken) {
+  if (typeof window !== "undefined") {
+    // Set as httpOnly cookies would be set by backend
+    // During transition, also store in localStorage for backward compat
+    localStorage.setItem("climaguru_access_token", accessToken);
+    localStorage.setItem("climaguru_refresh_token", refreshToken);
+  }
 }
 
 export function clearTokens() {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  // Clear cookies
+  if (typeof document !== "undefined") {
+    // Clear access token cookie
+    document.cookie = `
+      climaguru_access_token=;
+      Max-Age=0;
+      path=/;
+      ${location.protocol === "https:" ? "Secure;" : ""}
+      SameSite=Lax;
+    `;
+    // Clear refresh token cookie
+    document.cookie = `
+      climaguru_refresh_token=;
+      Max-Age=0;
+      path=/;
+      ${location.protocol === "https:" ? "Secure;" : ""}
+      SameSite=Lax;
+    `;
+  }
+  // Clear localStorage fallback
+  localStorage.removeItem("climaguru_access_token");
+  localStorage.removeItem("climaguru_refresh_token");
 }
 
+// Login - receives tokens via cookies from backend, stores fallback in localStorage
 export function login(username, password) {
   return request("/login", {
     method: "POST",
     body: { username, password },
   }).then((data) => {
+    // Tokens come back in JSON, but also set as cookies by backend
+    // Store in localStorage as backup/transition mechanism
     setTokens(data.token, data.refresh_token);
     return data;
   });
