@@ -1,5 +1,5 @@
 from datetime import datetime
-from werkzeug.security import generate_password_hash, check_password_hash
+import bcrypt
 from flask import current_app
 
 from database import db
@@ -18,11 +18,16 @@ class User(db.Model):
     activo = db.Column(db.Boolean, default=True)
 
     def set_password(self, password: str) -> None:
-        method = current_app.config.get("PWD_HASH_METHOD", "bcrypt")
-        self.password_hash = generate_password_hash(password, method=method)
+        # Use bcrypt with default rounds (12)
+        self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     def check_password(self, password: str) -> bool:
-        return check_password_hash(self.password_hash, password)
+        if not self.password_hash:
+            return False
+        try:
+            return bcrypt.checkpw(password.encode('utf-8'), self.password_hash.encode('utf-8'))
+        except Exception:
+            return False
 
     def to_dict(self) -> dict:
         return {

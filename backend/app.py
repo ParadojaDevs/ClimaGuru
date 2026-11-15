@@ -20,6 +20,7 @@ cfg = Config()
 def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_object(cfg)
+    app.config["ENV"] = os.getenv("FLASK_ENV", "development")
 
     # JWT Configuration
     app.config["JWT_SECRET_KEY"] = cfg.SECRET_KEY
