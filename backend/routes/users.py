@@ -1,41 +1,23 @@
-from functools import wraps
-
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from database import db
 from models import User
-from routes.auth import verify_auth_token
 
 
 users_bp = Blueprint("users", __name__)
 
 
-def require_auth(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        auth_header = request.headers.get("Authorization", "")
-        if not auth_header.startswith("Bearer "):
-            return jsonify({"error": "token requerido"}), 401
-
-        token = auth_header.split(" ", 1)[1].strip()
-        user_id = verify_auth_token(token)
-        if not user_id:
-            return jsonify({"error": "token invalido o expirado"}), 401
-
-        return fn(*args, **kwargs)
-
-    return wrapper
-
-
 @users_bp.get("/users")
-@require_auth
+@jwt_required()
 def list_users():
+    user_id = get_jwt_identity()
     users = User.query.order_by(User.id.asc()).all()
     return jsonify([user.to_dict() for user in users]), 200
 
 
 @users_bp.post("/users")
-@require_auth
+@jwt_required()
 def create_user():
     data = request.get_json(silent=True) or {}
     username = data.get("username", "").strip()
@@ -56,7 +38,7 @@ def create_user():
 
 
 @users_bp.put("/users/<int:user_id>")
-@require_auth
+@jwt_required()
 def update_user(user_id: int):
     user = User.query.get(user_id)
     if not user:
@@ -86,7 +68,7 @@ def update_user(user_id: int):
 
 
 @users_bp.delete("/users/<int:user_id>")
-@require_auth
+@jwt_required()
 def delete_user(user_id: int):
     user = User.query.get(user_id)
     if not user:

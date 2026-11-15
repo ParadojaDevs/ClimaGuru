@@ -27,10 +27,35 @@ async function request(path, { method = "GET", body, token } = {}) {
   return payload;
 }
 
+// Almacenar tokens en localStorage (para ser migrado a httpOnly cookie después)
+const TOKEN_KEY = "climaguru_access_token";
+const REFRESH_TOKEN_KEY = "climaguru_refresh_token";
+
+export function setTokens(accessToken, refreshToken) {
+  localStorage.setItem(TOKEN_KEY, accessToken);
+  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+}
+
+export function getAccessToken() {
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function getRefreshToken() {
+  return localStorage.getItem(REFRESH_TOKEN_KEY);
+}
+
+export function clearTokens() {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+}
+
 export function login(username, password) {
   return request("/login", {
     method: "POST",
     body: { username, password },
+  }).then((data) => {
+    setTokens(data.token, data.refresh_token);
+    return data;
   });
 }
 
