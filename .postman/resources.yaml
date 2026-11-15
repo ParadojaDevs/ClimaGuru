@@ -1,0 +1,11 @@
+# Use this workspace to collaborate
+workspace:
+  id: 8d311246-2df9-431d-864a-50cfd876c401
+
+localResources:
+  collections:
+    - ../_legacy_blocked_climaguru-backend/postman_collection.json
+    - ../backend/ClimaGuru Backend - Auth y CRUD Usuarios
+    - ../_legacy_blocked_climaguru-backend/ClimaGuru API
+  environments:
+    - ../backend/postman_environment.json
