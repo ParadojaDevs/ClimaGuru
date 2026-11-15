@@ -1,20 +1,55 @@
 import os
+from functools import cached_property
 
 
 class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-do-not-use-in-production")
+    @cached_property
+    def SECRET_KEY(self):
+        val = os.getenv("SECRET_KEY")
+        if not val:
+            raise RuntimeError("SECRET_KEY must be set in environment")
+        return val
 
-    MYSQL_HOST = os.getenv("MYSQL_HOST", "100.78.215.44")
-    MYSQL_PORT = int(os.getenv("MYSQL_PORT", "3306"))
-    MYSQL_USER = os.getenv("MYSQL_USER", "climaguru_app")
-    MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "dev-password-do-not-use-in-production")
-    MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "climaguru")
-    MYSQL_SSL_DISABLED = os.getenv("MYSQL_SSL_DISABLED", "true").lower() == "true"
+    @cached_property
+    def MYSQL_HOST(self):
+        return os.getenv("MYSQL_HOST")
 
-    _DEFAULT_MYSQL_URI = (
-        f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}"
-        + ("?ssl_disabled=true" if MYSQL_SSL_DISABLED else "")
-    )
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", _DEFAULT_MYSQL_URI)
+    @cached_property
+    def MYSQL_PORT(self):
+        return int(os.getenv("MYSQL_PORT", "3306"))
+
+    @cached_property
+    def MYSQL_USER(self):
+        return os.getenv("MYSQL_USER")
+
+    @cached_property
+    def MYSQL_PASSWORD(self):
+        return os.getenv("MYSQL_PASSWORD")
+
+    @cached_property
+    def MYSQL_DATABASE(self):
+        return os.getenv("MYSQL_DATABASE")
+
+    @cached_property
+    def MYSQL_SSL_DISABLED(self):
+        return os.getenv("MYSQL_SSL_DISABLED", "true").lower() == "true"
+
+    @cached_property
+    def SQLALCHEMY_DATABASE_URI(self):
+        if not all([self.MYSQL_HOST, self.MYSQL_USER, self.MYSQL_PASSWORD, self.MYSQL_DATABASE]):
+            raise RuntimeError("MySQL configuration incomplete: set MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE")
+
+        uri = os.getenv("DATABASE_URL")
+        if uri:
+            return uri
+
+        return (
+            f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DATABASE}"
+            + ("?ssl_disabled=true" if self.MYSQL_SSL_DISABLED else "")
+        )
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173")
+
+    @cached_property
+    def CORS_ORIGINS(self):
+        return os.getenv("CORS_ORIGINS", "http://localhost:5173")

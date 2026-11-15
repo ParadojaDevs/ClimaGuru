@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -10,12 +11,14 @@ from models import User
 
 load_dotenv()
 
+cfg = Config()
+
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(cfg)
 
-    CORS(app, resources={r"/*": {"origins": Config.CORS_ORIGINS.split(",")}})
+    CORS(app, resources={r"/*": {"origins": cfg.CORS_ORIGINS.split(",")}})
     db.init_app(app)
 
     @app.get("/health")
