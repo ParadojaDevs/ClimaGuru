@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import Login from "../components/Login";
 import UserForm from "../components/UserForm";
 import UsersList from "../components/UsersList";
-import { createUser, deleteUser, getUsers, login, updateUser } from "../services/api";
+import { login, logout as apiLogout, getUsers, createUser, deleteUser, updateUser, setTokens, clearTokens } from "../services/api";
 
 export default function App() {
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [token, setToken] = useState(() => {
+    const stored = localStorage.getItem("climaguru_access_token");
+    return stored || "";
+  });
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -28,17 +31,22 @@ export default function App() {
       setUsers(list);
     } catch (err) {
       setError(err.message);
+      // Token might be expired, try to refresh
+      const refreshToken = localStorage.getItem("climaguru_refresh_token");
+      if (refreshToken) {
+        // Could implement refresh logic here
+      }
     } finally {
       setLoading(false);
     }
-  }
+  }, [token]);
 
   async function handleLogin(credentials) {
     try {
       setLoading(true);
       setError("");
       const data = await login(credentials.username, credentials.password);
-      localStorage.setItem("token", data.token);
+      setTokens(data.token, data.refresh_token);
       setToken(data.token);
       setMessage(`Station access granted: ${data.user.username}`);
     } catch (err) {
@@ -98,7 +106,8 @@ export default function App() {
   }
 
   function logout() {
-    localStorage.removeItem("token");
+    apiLogout();
+    clearTokens();
     setToken("");
     setSelectedUser(null);
     setMessage("Station access revoked");

@@ -1,27 +1,10 @@
 from flask import Blueprint, jsonify, request
-from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
-
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from config import Config
 from models import User
 
 
 auth_bp = Blueprint("auth", __name__)
-
-
-def _serializer() -> URLSafeTimedSerializer:
-    return URLSafeTimedSerializer(Config.SECRET_KEY)
-
-
-def create_auth_token(user_id: int) -> str:
-    return _serializer().dumps({"user_id": user_id}, salt="auth")
-
-
-def verify_auth_token(token: str, max_age: int = 86400) -> int | None:
-    try:
-        payload = _serializer().loads(token, salt="auth", max_age=max_age)
-        return payload.get("user_id")
-    except (BadSignature, SignatureExpired):
-        return None
 
 
 @auth_bp.post("/login")
@@ -37,5 +20,10 @@ def login():
     if not user or not user.check_password(password):
         return jsonify({"error": "credenciales invalidas"}), 401
 
-    token = create_auth_token(user.id)
-    return jsonify({"token": token, "user": user.to_dict()}), 200
+    access_token = create_access_token(identity=user.id)
+    refresh_token = create_refresh_token(identity=user.id)
+    return jsonify({
+        "token": access_token,
+        "refresh_token": refresh_token,
+        "user": user.to_dict()
+    }), 200

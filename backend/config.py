@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from functools import cached_property
 
 
@@ -9,6 +10,11 @@ class Config:
         if not val:
             raise RuntimeError("SECRET_KEY must be set in environment")
         return val
+
+    @cached_property
+    def JWT_ACCESS_TOKEN_EXPIRES(self):
+        val = os.getenv("JWT_ACCESS_TOKEN_EXPIRES", "86400")
+        return int(val)
 
     @cached_property
     def MYSQL_HOST(self):
