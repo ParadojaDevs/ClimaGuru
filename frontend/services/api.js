@@ -11,6 +11,27 @@ function buildHeaders(token, hasBody = false) {
   return headers;
 }
 
+async function request(path, { method = "GET", token, body } = {}) {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method,
+    headers: buildHeaders(token, Boolean(body)),
+    body: body ? JSON.stringify(body) : undefined,
+    credentials: "include",
+  });
+
+  let data = {};
+  try {
+    data = await response.json();
+  } catch {
+    // Respuesta sin JSON: se conserva {} para el manejo de error.
+  }
+
+  if (!response.ok) {
+    throw new Error(data.error || data.message || `Error ${response.status}`);
+  }
+  return data;
+}
+
 // Token source priority: cookies > localStorage (for transition period)
 const COOKIE_ACCESS_TOKEN_NAME = "climaguru_access_token";
 const COOKIE_REFRESH_TOKEN_NAME = "climaguru_refresh_token";
@@ -138,4 +159,36 @@ export function deleteUser(token, id) {
 // Logout - clear authentication tokens (cookies and localStorage fallback)
 export function logout() {
   clearTokens();
+}
+
+// ---------- Zona publica (sin autenticacion) ----------
+
+// Catalogo de ciudades sembradas por el backend.
+export function fetchCities() {
+  return request("/api/public/cities");
+}
+
+// Pronostico puntual Open-Meteo (lat/lon validados contra el bbox de Colombia).
+export function fetchWeather(lat, lon) {
+  return request(`/api/public/weather?lat=${lat}&lon=${lon}`);
+}
+
+// Catalogo de radares IDEAM (id, nombre, coords, alcance).
+export function fetchRadarStations() {
+  return request("/api/public/radar/stations");
+}
+
+// Imagen compuesta nacional mas reciente (PNG con basemap, para el visor).
+export function fetchRadarLatest() {
+  return request("/api/public/radar/latest");
+}
+
+// PNG transparente de reflectividad de un radar (puede responder 502 si no hay scan reciente).
+export function fetchRadarOverlay(radar) {
+  return request(`/api/public/radar/overlay?radar=${radar}`);
+}
+
+// Frames recientes de un radar segun el manifiesto IDEAM (navegacion temporal).
+export function fetchRadarFrames(radar) {
+  return request(`/api/public/radar/frames?radar=${radar}`);
 }

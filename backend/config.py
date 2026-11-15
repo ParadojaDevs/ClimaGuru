@@ -62,3 +62,17 @@ class Config:
 
     # Password hashing - use bcrypt to match existing database hashes
     PWD_HASH_METHOD = "bcrypt"
+
+    # ---- Zona publica (sin auth) ----
+    @cached_property
+    def PUBLIC_DB_PATH(self):
+        default = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "climaguru_public.sqlite")
+        return os.getenv("PUBLIC_DB_PATH", default)
+
+    @cached_property
+    def PUBLIC_WEATHER_TTL(self):
+        return int(os.getenv("PUBLIC_WEATHER_TTL", "600"))  # 10 min
+
+    @cached_property
+    def RADAR_DISCOVERY_TTL(self):
+        return int(os.getenv("RADAR_DISCOVERY_TTL", "300"))  # 5 min

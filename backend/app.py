@@ -8,7 +8,9 @@ from dotenv import load_dotenv
 
 from config import Config
 from database import db
+from database import public_db
 from routes import auth_bp, users_bp
+from routes.public import public_bp
 from models import User
 
 
@@ -52,6 +54,13 @@ def create_app() -> Flask:
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(users_bp)
+    app.register_blueprint(public_bp)
+
+    # Zona publica: su propio SQLite (crea directorio y esquema si faltan).
+    try:
+        public_db.init_db(cfg.PUBLIC_DB_PATH)
+    except Exception as exc:  # pragma: no cover - fallo de disco no debe tumbar auth
+        app.logger.error("No se pudo inicializar la base publica: %s", exc)
 
     @app.errorhandler(429)
     def ratelimit_exceeded(error):

@@ -8,4 +8,4 @@ localResources:
     - ../backend/ClimaGuru Backend - Auth y CRUD Usuarios
     - ../_legacy_blocked_climaguru-backend/ClimaGuru API
   environments:
-    - ../backend/postman_environment.json
+    - ../postman/environments/ClimaGuru Local.environment.yaml
