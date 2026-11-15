@@ -134,3 +134,8 @@ export function deleteUser(token, id) {
     token,
   });
 }
+
+// Logout - clear authentication tokens (cookies and localStorage fallback)
+export function logout() {
+  clearTokens();
+}
