@@ -59,3 +59,6 @@ class Config:
     @cached_property
     def CORS_ORIGINS(self):
         return os.getenv("CORS_ORIGINS", "http://localhost:5173")
+
+    # Password hashing - use bcrypt to match existing database hashes
+    PWD_HASH_METHOD = "bcrypt"
