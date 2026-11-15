@@ -40,7 +40,7 @@ export default function App() {
       const data = await login(credentials.username, credentials.password);
       localStorage.setItem("token", data.token);
       setToken(data.token);
-      setMessage(`Sesion iniciada como ${data.user.username}`);
+      setMessage(`Station access granted: ${data.user.username}`);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -60,10 +60,10 @@ export default function App() {
           payload.password = formData.password;
         }
         await updateUser(token, selectedUser.id, payload);
-        setMessage("Usuario actualizado");
+        setMessage("Log entry updated");
       } else {
         await createUser(token, formData);
-        setMessage("Usuario creado");
+        setMessage("Log entry created");
       }
 
       setSelectedUser(null);
@@ -76,7 +76,7 @@ export default function App() {
   }
 
   async function handleDeleteUser(id) {
-    const confirmed = window.confirm("Deseas eliminar este usuario?");
+    const confirmed = window.confirm("Delete this log entry?");
     if (!confirmed) {
       return;
     }
@@ -85,7 +85,7 @@ export default function App() {
       setLoading(true);
       setError("");
       await deleteUser(token, id);
-      setMessage("Usuario eliminado");
+      setMessage("Log entry deleted");
       if (selectedUser?.id === id) {
         setSelectedUser(null);
       }
@@ -101,42 +101,63 @@ export default function App() {
     localStorage.removeItem("token");
     setToken("");
     setSelectedUser(null);
-    setMessage("Sesion cerrada");
+    setMessage("Station access revoked");
     setError("");
   }
 
-  return (
-    <main className="container">
-      <header className="topbar">
-        <h1>ClimaGuru - Admin de Usuarios</h1>
-        {token && (
-          <button className="secondary" onClick={logout}>
-            Cerrar sesion
-          </button>
-        )}
-      </header>
+  const currentUser = localStorage.getItem("username") || "operator";
 
-      {error && <p className="feedback error">{error}</p>}
-      {message && <p className="feedback success">{message}</p>}
+  return (
+    <div className="page-enter">
+      {loading && <div className="loading-overlay"><div className="loading-spinner" /></div>}
 
       {!token ? (
-        <Login onLogin={handleLogin} loading={loading} />
+        <div className="login-screen">
+          <Login onLogin={handleLogin} loading={loading} />
+        </div>
       ) : (
-        <section className="grid">
-          <UserForm
-            selectedUser={selectedUser}
-            onSubmit={handleSaveUser}
-            onCancel={() => setSelectedUser(null)}
-            loading={loading}
-          />
-          <UsersList
-            users={users}
-            onEdit={setSelectedUser}
-            onDelete={handleDeleteUser}
-            loading={loading}
-          />
-        </section>
+        <main className="container">
+          <header className="topbar">
+            <h1 className="station-id">CLIMAGURU <span className="accent">STATION</span></h1>
+            <div className="topbar-actions">
+              <span className="user-badge">{currentUser}</span>
+              <button className="btn btn-secondary" onClick={logout}>
+                Disconnect
+              </button>
+            </div>
+          </header>
+
+          {error && <p className="feedback feedback-error">{error}</p>}
+          {message && <p className="feedback feedback-success">{message}</p>}
+
+          <section className="grid">
+            <div className="panel panel-enter-left">
+              <div className="panel-header">
+                <h2 className="panel-title">Control Panel</h2>
+                <span className="panel-label">Station Access</span>
+              </div>
+              <UserForm
+                selectedUser={selectedUser}
+                onSubmit={handleSaveUser}
+                onCancel={() => setSelectedUser(null)}
+                loading={loading}
+              />
+            </div>
+            <div className="panel panel-enter-right">
+              <div className="panel-header">
+                <h2 className="panel-title">Active Readings</h2>
+                <span className="panel-label">{users.length} Entries</span>
+              </div>
+              <UsersList
+                users={users}
+                onEdit={setSelectedUser}
+                onDelete={handleDeleteUser}
+                loading={loading}
+              />
+            </div>
+          </section>
+        </main>
       )}
-    </main>
+    </div>
   );
 }
