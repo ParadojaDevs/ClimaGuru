@@ -1,0 +1,11 @@
+$kind: collection
+description: Coleccion para login + CRUD de usuarios con pruebas automaticas.
+variables:
+  base_url: http://localhost:5000
+  admin_username: admin
+  admin_password: admin123
+  test_username: postman_user_001
+  test_password: postman_pass_001
+  updated_username: postman_user_001_updated
+  auth_token: ""
+  test_user_id: ""

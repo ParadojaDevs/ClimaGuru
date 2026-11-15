@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{base_url}}/users"
+method: GET
+headers:
+  Authorization: Bearer {{auth_token}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 200', function () {
+        pm.response.to.have.status(200);
+      });
+      const data = pm.response.json();
+      pm.test('Respuesta es arreglo', function () {
+        pm.expect(data).to.be.an('array');
+      });
+      const createdId = Number(pm.environment.get('test_user_id'));
+      const found = data.some(u => u.id === createdId);
+      pm.test('Usuario creado aparece en listado', function () {
+        pm.expect(found).to.eql(true);
+      });
+    language: text/javascript
+order: 4000

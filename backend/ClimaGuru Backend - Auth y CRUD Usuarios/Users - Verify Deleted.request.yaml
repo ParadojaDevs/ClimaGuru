@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{base_url}}/users"
+method: GET
+headers:
+  Authorization: Bearer {{auth_token}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 200', function () {
+        pm.response.to.have.status(200);
+      });
+      const data = pm.response.json();
+      const deletedId = Number(pm.environment.get('test_user_id'));
+      const stillExists = data.some(u => u.id === deletedId);
+      pm.test('Usuario eliminado ya no aparece', function () {
+        pm.expect(stillExists).to.eql(false);
+      });
+    language: text/javascript
+order: 7000

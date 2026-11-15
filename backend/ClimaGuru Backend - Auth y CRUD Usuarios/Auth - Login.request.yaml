@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{base_url}}/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "username": "{{admin_username}}",
+      "password": "{{admin_password}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 200', function () {
+        pm.response.to.have.status(200);
+      });
+      const data = pm.response.json();
+      pm.test('Login retorna token', function () {
+        pm.expect(data).to.have.property('token');
+        pm.expect(data.token).to.be.a('string').and.not.empty;
+      });
+      pm.environment.set('auth_token', data.token);
+      pm.test('Usuario en respuesta', function () {
+        pm.expect(data).to.have.property('user');
+        pm.expect(data.user).to.have.property('id');
+      });
+    language: text/javascript
+order: 2000

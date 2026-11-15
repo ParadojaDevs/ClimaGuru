@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{base_url}}/users/{{test_user_id}}"
+method: DELETE
+headers:
+  Authorization: Bearer {{auth_token}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 200', function () {
+        pm.response.to.have.status(200);
+      });
+      const data = pm.response.json();
+      pm.test('Mensaje de eliminacion', function () {
+        pm.expect(data.message).to.eql('usuario eliminado');
+      });
+    language: text/javascript
+order: 6000

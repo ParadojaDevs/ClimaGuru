@@ -11,14 +11,16 @@ from app.models.consulta import Consulta
 from app.models.dato_meteorologico import DatosClima
 from app.models.logs_actividad import LogsActividad
 from app.models.ciudades_favoritas import CiudadesFavoritas
+from app.models.weather_observation import WeatherObservation
 
 # Exportar todos los modelos
 __all__ = [
     'Usuario',
     'Sesion',
-    'APIKey', 
+    'APIKey',
     'Consulta',
     'DatosClima',
     'LogsActividad',
-    'CiudadesFavoritas'
+    'CiudadesFavoritas',
+    'WeatherObservation'
 ]

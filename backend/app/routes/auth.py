@@ -119,7 +119,7 @@ def registro():
         
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': f'Error al registrar usuario: {str(e)}'}), 500
+        return jsonify({'error': 'Error al registrar usuario'}), 500
 
 
 @auth_bp.route('/login', methods=['POST'])
@@ -176,7 +176,7 @@ def login():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': f'Error al iniciar sesión: {str(e)}'}), 500
+        return jsonify({'error': 'Error al iniciar sesión'}), 500
 
 
 @auth_bp.route('/refresh', methods=['POST'])
@@ -203,7 +203,7 @@ def refresh():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': f'Error al refrescar token: {str(e)}'}), 500
+        return jsonify({'error': 'Error al refrescar token'}), 500
 
 
 @auth_bp.route('/logout', methods=['POST'])
@@ -230,7 +230,7 @@ def logout():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': f'Error al cerrar sesión: {str(e)}'}), 500
+        return jsonify({'error': 'Error al cerrar sesión'}), 500
 
 
 @auth_bp.route('/me', methods=['GET'])
@@ -257,7 +257,7 @@ def perfil():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': f'Error al obtener perfil: {str(e)}'}), 500
+        return jsonify({'error': 'Error al obtener perfil'}), 500
 
 
 def crear_sesion(usuario_id, token):

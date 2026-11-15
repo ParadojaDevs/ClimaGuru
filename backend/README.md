@@ -1,59 +1,113 @@
+# Backend Flask - ClimaGuru
 
-# ClimaGuru Backend - Getting Started
+API REST limpia para autenticacion y CRUD de usuarios.
 
-## Prerequisites
-- Python 3.10+
-- pip
+## Estructura
 
-## Installation
+- app.py
+- config.py
+- routes/
+- models/
+- database/
 
-1. Clone the repository and enter backend folder:
+## Endpoints
 
-```bash
-git clone https://github.com/xtatikmel/ClimaGuru.git
-cd ClimaGuru/backend
-```
+- POST /login
+- GET /users
+- POST /users
+- PUT /users/<id>
+- DELETE /users/<id>
+- GET /health
 
-2. Create and activate virtual environment:
-
-```bash
-python3 -m venv ../.venv
-source ../.venv/bin/activate
-```
-
-3. Install dependencies:
+## Ejecutar
 
 ```bash
+cd backend
 pip install -r requirements.txt
-```
-
-4. Configure environment variables:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your database and JWT values.
-
-## Running the Backend
-
-```bash
 python app.py
 ```
 
-Backend URL: `http://localhost:5000`
+## Configuracion de base de datos (MySQL)
 
-Health check:
+La aplicacion usa MySQL por defecto.
+
+Opciones de configuracion:
+
+1. `DATABASE_URL` completa (recomendado).
+2. Variables separadas `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`.
+
+Ejemplos disponibles:
+
+- `.env.example`
+- `.env.production.example`
+- `.env.local.example`
+
+## Conexion por Tailscale a VM MySQL
+
+### Produccion (en la VM)
+
+1. Instala y conecta Tailscale en la VM.
+2. Verifica que MySQL escuche en la interfaz esperada (`127.0.0.1` o IP Tailscale).
+3. Configura reglas de firewall para permitir solo la red Tailscale.
+4. Usa `.env.production.example` como base.
+
+### Pruebas locales (desde tu equipo)
+
+1. Inicia sesion en Tailscale local y confirma conectividad con la VM.
+2. Usa la IP Tailscale de la VM como `MYSQL_HOST` (ejemplo `100.x.y.z`).
+3. Carga `.env.local.example` y ajusta credenciales.
+
+Prueba conectividad rapida:
 
 ```bash
-curl http://localhost:5000/health
+# Desde tu equipo local
+ping 100.x.y.z
 ```
 
-## Production Notes
-- Use Gunicorn for production, for example:
+Validar conexion desde Python:
 
 ```bash
-gunicorn -w 4 -b 0.0.0.0:5000 app:app
+cd backend
+python database/check_mysql_connection.py
 ```
 
-- Keep `CORS_ORIGINS` and secrets updated in `.env`.
+Guia detallada:
+
+- `database/TAILSCALE_MYSQL.md`
+
+## Postman (coleccion automatica)
+
+Archivos incluidos:
+
+- `postman_collection.json`
+- `postman_environment.json`
+
+Flujo automatizado en orden:
+
+1. `Health`
+2. `Auth - Login`
+3. `Users - Create`
+4. `Users - List`
+5. `Users - Update`
+6. `Users - Delete`
+7. `Users - Verify Deleted`
+
+Las pruebas guardan y reutilizan:
+
+- `auth_token`
+- `test_user_id`
+
+Incluye validaciones de status codes, campos JSON y tiempos de respuesta.
+
+## Credenciales iniciales
+
+Se crea automaticamente:
+
+- username: admin
+- password: admin123
+
+## Notas de autenticacion
+
+- Realiza POST /login para obtener token.
+- En las rutas /users usa header:
+  - Authorization: Bearer <token>

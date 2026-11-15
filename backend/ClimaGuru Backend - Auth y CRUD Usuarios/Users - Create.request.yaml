@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{base_url}}/users"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{auth_token}}
+body:
+  type: text
+  content: |-
+    {
+      "username": "{{test_username}}",
+      "password": "{{test_password}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 201', function () {
+        pm.response.to.have.status(201);
+      });
+      const data = pm.response.json();
+      pm.test('Usuario creado con id', function () {
+        pm.expect(data).to.have.property('id');
+        pm.expect(data.username).to.eql(pm.environment.get('test_username'));
+      });
+      pm.environment.set('test_user_id', String(data.id));
+    language: text/javascript
+order: 3000
