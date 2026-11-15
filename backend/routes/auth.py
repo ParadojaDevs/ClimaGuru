@@ -54,14 +54,14 @@ def login():
         if not user or not user.check_password(password):
             return jsonify({"error": "credenciales invalidas"}), 401
 
-        access_token = create_access_token(identity=user.id)
-        refresh_token = create_refresh_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
+        refresh_token = create_refresh_token(identity=str(user.id))
 
         response = jsonify({
             "token": access_token,
             "refresh_token": refresh_token,
             "user": user.to_dict()
-        }), 200
+        })
 
         return set_auth_cookies(response, access_token, refresh_token)
     except Exception as e:
