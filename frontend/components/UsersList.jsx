@@ -1,35 +1,46 @@
 export default function UsersList({ users, onEdit, onDelete, loading }) {
   return (
-    <section className="panel">
-      <h3>Usuarios</h3>
+    <div className="table-wrapper">
       {users.length === 0 ? (
-        <p>No hay usuarios registrados.</p>
+        <div className="empty-state">
+          <div className="icon">□</div>
+          <p>No active readings</p>
+          <p style={{ fontSize: "var(--scale-small)", marginTop: "var(--spacing-xs)", color: "var(--pressure-line)" }}>
+            Create first log entry via Control Panel
+          </p>
+        </div>
       ) : (
-        <table>
+        <table className="readings-table">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Username</th>
-              <th>Creado</th>
-              <th>Acciones</th>
+              <th>Callsign</th>
+              <th>Logged</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user.id}>
-                <td>{user.id}</td>
+                <td className="data-value">{user.id}</td>
                 <td>{user.username}</td>
-                <td>{new Date(user.created_at).toLocaleString()}</td>
-                <td className="actions">
-                  <button onClick={() => onEdit(user)} disabled={loading}>
-                    Editar
+                <td className="data-value">{new Date(user.created_at).toLocaleString()}</td>
+                <td className="actions-cell">
+                  <button
+                    className="btn btn-ghost"
+                    onClick={() => onEdit(user)}
+                    disabled={loading}
+                    style={{ padding: "var(--spacing-xs) var(--spacing-sm)", fontSize: "var(--scale-small)" }}
+                  >
+                    Edit
                   </button>
                   <button
-                    className="danger"
+                    className="btn btn-danger"
                     onClick={() => onDelete(user.id)}
                     disabled={loading}
+                    style={{ padding: "var(--spacing-xs) var(--spacing-sm)", fontSize: "var(--scale-small)" }}
                   >
-                    Eliminar
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -37,6 +48,6 @@ export default function UsersList({ users, onEdit, onDelete, loading }) {
           </tbody>
         </table>
       )}
-    </section>
+    </div>
   );
 }

@@ -24,34 +24,51 @@ export default function UserForm({ selectedUser, onSubmit, onCancel, loading }) 
   }
 
   return (
-    <form className="panel" onSubmit={handleSubmit}>
-      <h3>{selectedUser ? "Editar usuario" : "Crear usuario"}</h3>
-      <label>
-        Usuario
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label className="form-label" htmlFor="username">
+          Callsign
+          {selectedUser && <span className="optional">[EDIT]</span>}
+        </label>
         <input
+          id="username"
           name="username"
+          type="text"
+          className="form-input"
           value={form.username}
           onChange={handleChange}
           required
+          disabled={loading}
+          autoComplete="username"
         />
-      </label>
-      <label>
-        Password {selectedUser ? "(opcional)" : ""}
+      </div>
+
+      <div className="form-group">
+        <label className="form-label" htmlFor="password">
+          Access Code
+          {selectedUser ? <span className="optional">(optional)</span> : null}
+        </label>
         <input
-          type="password"
+          id="password"
           name="password"
+          type="password"
+          className="form-input"
           value={form.password}
           onChange={handleChange}
           required={!selectedUser}
+          disabled={loading}
+          autoComplete={selectedUser ? "new-password" : "current-password"}
+          placeholder={selectedUser ? "Leave blank to keep current" : "Set access code"}
         />
-      </label>
-      <div className="actions">
-        <button type="submit" disabled={loading}>
-          {loading ? "Guardando..." : selectedUser ? "Actualizar" : "Crear"}
+      </div>
+
+      <div className="form-actions">
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? "Transmitting..." : selectedUser ? "Update Entry" : "Create Entry"}
         </button>
         {selectedUser && (
-          <button type="button" className="secondary" onClick={onCancel}>
-            Cancelar
+          <button type="button" className="btn btn-secondary" onClick={onCancel} disabled={loading}>
+            Abort
           </button>
         )}
       </div>

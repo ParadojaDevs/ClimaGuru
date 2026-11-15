@@ -10,29 +10,44 @@ export default function Login({ onLogin, loading }) {
   }
 
   return (
-    <form className="panel" onSubmit={handleSubmit}>
-      <h2>Iniciar sesion</h2>
-      <label>
-        Usuario
+    <form className="panel login-panel login-form" onSubmit={handleSubmit}>
+      <div className="login-header">
+        <h1 className="login-station-id">CLIMAGURU <span className="accent">STATION</span></h1>
+        <p className="login-subtitle">Station Access Protocol</p>
+      </div>
+
+      <div className="form-group">
+        <label className="form-label" htmlFor="username">Callsign</label>
         <input
+          id="username"
+          type="text"
+          className="form-input"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="usuario"
+          placeholder="Enter callsign"
           required
+          autoComplete="username"
+          disabled={loading}
         />
-      </label>
-      <label>
-        Password
+      </div>
+
+      <div className="form-group">
+        <label className="form-label" htmlFor="password">Access Code</label>
         <input
+          id="password"
           type="password"
+          className="form-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="password"
+          placeholder="Enter access code"
           required
+          autoComplete="current-password"
+          disabled={loading}
         />
-      </label>
-      <button type="submit" disabled={loading}>
-        {loading ? "Ingresando..." : "Entrar"}
+      </div>
+
+      <button type="submit" className="btn btn-primary" style={{ width: "100%" }} disabled={loading}>
+        {loading ? "Authenticating..." : "Establish Link"}
       </button>
     </form>
   );
