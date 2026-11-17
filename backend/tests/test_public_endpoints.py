@@ -138,8 +138,8 @@ class TestRadar:
 
 class TestThrottle:
     def test_429_al_exceder_ventana(self, client, db_path):
-        responses = [client.get("/api/public/cities") for _ in range(11)]
-        # limite catalog = 10 / 60 s: la 11va debe ser rechazada
+        responses = [client.get("/api/public/cities") for _ in range(31)]
+        # limite catalog = 30 / 60 s (solo los 200 cuentan): la 31va debe ser rechazada
         assert responses[0].status_code == 200
         assert responses[-1].status_code == 429
         # Endpoint distinto mantiene su propio presupuesto

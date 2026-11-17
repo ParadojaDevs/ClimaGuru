@@ -104,7 +104,8 @@ export default function WeatherPanel({ city, weather, loading, error, onRetry })
   const precip = current.precipitation;
   const clouds = current.cloud_cover;
   const pressure = current.pressure_msl;
-  const isDay = current.is_day !== 0;
+  const isDay = current.is_day === 1;
+  const hasDayFlag = current.is_day === 0 || current.is_day === 1;
 
   return (
     <div className="weather-panel" data-loading={loading ? "true" : "false"}>
@@ -113,9 +114,11 @@ export default function WeatherPanel({ city, weather, loading, error, onRetry })
           <h2 className="weather-city">{city.name}</h2>
           <p className="weather-dept">{city.department}</p>
         </div>
-        <span className={`weather-dayflag ${isDay ? "" : "weather-dayflag--night"}`}>
-          {isDay ? "DÍA" : "NOCHE"}
-        </span>
+        {hasDayFlag && (
+          <span className={`weather-dayflag ${isDay ? "" : "weather-dayflag--night"}`}>
+            {isDay ? "DÍA" : "NOCHE"}
+          </span>
+        )}
       </header>
 
       <div className="weather-now">

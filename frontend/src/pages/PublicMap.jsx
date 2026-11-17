@@ -285,7 +285,7 @@ export default function PublicMap() {
         Datos: <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>
         {" · "}
         <a href="https://www.ideam.gov.co/" target="_blank" rel="noreferrer">IDEAM</a> radar (CC BY 4.0)
-        {" · Mapa © OpenStreetMap © CARTO"}
+        {" · Mapa © OpenStreetMap"}
       </footer>
     </div>
   );

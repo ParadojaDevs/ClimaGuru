@@ -21,6 +21,30 @@ ClimaGuru/
         services/
 ```
 
+## Pagina publica (MVP meteorologico)
+
+Nueva entrada sin autenticacion: `http://localhost:5173/` (ruta `/` del frontend).
+
+- Mapa interactivo (Leaflet + tiles abiertos de OpenStreetMap, sin API key).
+- Clima actual por ciudad via Open-Meteo (temperatura, sensacion, humedad,
+  viento, precipitacion, nubosidad, presion).
+- Radares IDEAM: marcadores con cobertura (240 km), visor del compuesto
+  nacional, PNG transparente por radar y navegacion temporal por frames.
+- Almacenamiento experimental en SQLite (aislado de MySQL): cache de clima
+  con TTL, metadatos de scans radar y log de peticiones con throttle.
+
+### Endpoints publicos (sin JWT)
+
+- GET /api/public/cities
+- GET /api/public/weather?lat=&lon=
+- GET /api/public/radar/stations
+- GET /api/public/radar/latest
+- GET /api/public/radar/overlay?radar=<id>
+- GET /api/public/radar/frames?radar=<id>
+
+Atribucion requerida: Open-Meteo (CC BY 4.0), IDEAM radar (CC BY 4.0),
+OpenStreetMap. La zona autenticada (`/login`, `/dashboard`) queda intacta.
+
 ## Backend Flask
 
 Ubicacion: `backend/`

@@ -122,11 +122,13 @@ def recent_scans(db_path: str, kind: str, limit: int = 40):
 
 
 def requests_in_window(db_path: str, endpoint: str, ip_hash: str, window_seconds: int) -> int:
+    """Cuenta solo peticiones exitosas (200): los 429 no deben alimentar el
+    castigo propio, o un solo arranque en rajabana extiende la ventana sola."""
     since = (datetime.now(timezone.utc) - timedelta(seconds=window_seconds)).isoformat()
     with _connect(db_path) as conn:
         row = conn.execute(
             "SELECT COUNT(*) AS n FROM public_requests_log "
-            "WHERE endpoint = ? AND ip_hash = ? AND ts > ?",
+            "WHERE endpoint = ? AND ip_hash = ? AND status_code = 200 AND ts > ?",
             (endpoint, ip_hash, since),
         ).fetchone()
     return int(row["n"])

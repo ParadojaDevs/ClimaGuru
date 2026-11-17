@@ -38,8 +38,8 @@ CITIES = [
 # Ventana de throttle por endpoint: (limite, segundos)
 THROTTLES = {
     "weather": (30, 60),
-    "radar": (12, 60),
-    "catalog": (10, 60),
+    "radar": (30, 60),
+    "catalog": (30, 60),
 }
 
 

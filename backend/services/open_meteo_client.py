@@ -26,6 +26,9 @@ CURRENT_VARS = ",".join([
     "weather_code",
     "wind_speed_10m",
     "wind_direction_10m",
+    "cloud_cover",
+    "pressure_msl",
+    "is_day",
 ])
 
 HOURLY_VARS = ",".join([
