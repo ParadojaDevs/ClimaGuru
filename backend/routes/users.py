@@ -30,7 +30,13 @@ def create_user():
     if existing:
         return jsonify({"error": "el usuario ya existe"}), 409
 
-    user = User(username=username)
+    # email es NOT NULL/unique en el modelo: si no llega, se genera uno
+    # sintactico para no romper el CRUD del dashboard.
+    email = (data.get("email") or "").strip() or f"{username}@climaguru.local"
+    if User.query.filter_by(email=email).first():
+        return jsonify({"error": "el email ya existe"}), 409
+
+    user = User(username=username, email=email)
     user.set_password(password)
     db.session.add(user)
     db.session.commit()

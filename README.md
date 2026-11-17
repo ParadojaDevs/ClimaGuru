@@ -97,6 +97,15 @@ Archivo: `frontend/.env.example`
 
 - VITE_API_BASE_URL=http://localhost:5000
 
+## Pruebas
+
+Backend (sin MySQL ni red real: SQLite en temporales y upstreams mockeados):
+
+```bash
+E:\GIT\ClimaGuru\.venv\Scripts\python.exe -m pytest backend\tests -q
+# en CI: .github/workflows/backend-tests.yml corre pytest en cada push/PR a main
+```
+
 ## Pruebas con Postman
 
 Flujo recomendado:
