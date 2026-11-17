@@ -1,9 +1,9 @@
 import os
+import sys
 from flask import Flask, jsonify, request, make_response
-from flask_cors import CORS
-from flask_jwt_extended import JWTManager
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+# from flask_jwt_extended import JWTManager
+# from flask_limiter import Limiter
+# from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 
 from config import Config
@@ -28,18 +28,21 @@ def create_app() -> Flask:
     app.config["JWT_SECRET_KEY"] = cfg.SECRET_KEY
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = cfg.JWT_ACCESS_TOKEN_EXPIRES
     app.config["PWD_HASH_METHOD"] = cfg.PWD_HASH_METHOD
-    jwt = JWTManager(app)
+    # jwt = JWTManager(app)
 
     # Rate Limiter Configuration
-    limiter = Limiter(
-        key_func=get_remote_address,
-        default_limits=["200 per day", "50 per hour"]
-    )
-    limiter.init_app(app)
+    # limiter = Limiter(
+    #     key_func=get_remote_address,
+    #     default_limits=["200 per day", "50 per hour"]
+    # )
+    # limiter.init_app(app)
 
     # Security headers middleware
-    @app.after_request
     def add_security_headers(response):
+        sys.stderr.write("DEBUG SECURITY: ENTERED\n")
+        sys.stderr.flush()
+        with open(r"E:\GIT\ClimaGuru\backend\security_debug.txt", "a") as f:
+            f.write("Security function ran\n")
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["X-XSS-Protection"] = "1; mode=block"
@@ -47,9 +50,71 @@ def create_app() -> Flask:
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         # Remove server header for obscurity
         response.headers.pop("Server", None)
+        sys.stderr.write(f"DEBUG SECURITY: headers={dict(response.headers)}\n")
+        sys.stderr.flush()
         return response
+    app.after_request(add_security_headers)
 
-    CORS(app, resources={r"/*": {"origins": cfg.CORS_ORIGINS.split(",")}})
+    # CORS with manual credentials support - handle everything ourselves
+    def add_cors_headers(response):
+        sys.stderr.write("DEBUG CORS: ENTERED\n")
+        sys.stderr.flush()
+        origin = request.headers.get("Origin")
+        allowed_origins = cfg.CORS_ORIGINS.split(",")
+        sys.stderr.write(f"DEBUG CORS: origin={origin}, allowed={allowed_origins}\n")
+        sys.stderr.flush()
+        if origin in allowed_origins:
+            sys.stderr.write("DEBUG CORS: setting Origin header\n")
+            sys.stderr.flush()
+            response.headers.add("Access-Control-Allow-Origin", origin)
+            sys.stderr.write("DEBUG CORS: Origin header set\n")
+            sys.stderr.flush()
+            # Write to file to confirm execution
+            with open(r"E:\GIT\ClimaGuru\backend\cors_debug.txt", "a") as f:
+                f.write(f"CORS function ran, origin={origin}\n")
+            sys.stderr.write("DEBUG CORS: setting Credentials header\n")
+            sys.stderr.flush()
+            try:
+                response.headers["Access-Control-Allow-Credentials"] = "true"
+                sys.stderr.write("DEBUG CORS: Credentials header set successfully\n")
+                sys.stderr.flush()
+            except Exception as e:
+                sys.stderr.write(f"DEBUG CORS: ERROR setting Credentials header: {e}\n")
+                sys.stderr.flush()
+            response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
+            response.headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+            # Test custom header
+            response.headers.add("X-Test-Custom-Header", "test-value")
+            sys.stderr.write("DEBUG CORS: all headers added\n")
+            sys.stderr.flush()
+            sys.stderr.write(f"DEBUG CORS: response.headers={dict(response.headers)}\n")
+            sys.stderr.flush()
+        else:
+            sys.stderr.write("DEBUG CORS: origin not in allowed\n")
+            sys.stderr.flush()
+        sys.stderr.write("DEBUG CORS: RETURNING\n")
+        sys.stderr.flush()
+        return response
+    app.after_request(add_cors_headers)
+    sys.stderr.write("REGISTERED add_cors_headers\n")
+    sys.stderr.flush()
+    sys.stderr.write(f"AFTER REQUEST FUNCS: {app.after_request_funcs}\n")
+    sys.stderr.flush()
+
+    # CORS preflight handling
+    @app.before_request
+    def handle_preflight():
+        if request.method == "OPTIONS":
+            origin = request.headers.get("Origin")
+            allowed_origins = cfg.CORS_ORIGINS.split(",")
+            if origin in allowed_origins:
+                response = make_response()
+                response.headers["Access-Control-Allow-Origin"] = origin
+                response.headers["Access-Control-Allow-Credentials"] = "true"
+                response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+                response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+                response.headers["Access-Control-Max-Age"] = "86400"
+                return response
     db.init_app(app)
 
     app.register_blueprint(auth_bp)

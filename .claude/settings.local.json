@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(pkill -f \"python app.py\")",
+      "Bash(rtk curl *)",
+      "Bash(rtk read *)",
+      "Bash(curl -s -H \"Origin: http://localhost:5173\" http://localhost:5000/api/public/cities -v)",
+      "Bash(rtk grep *)",
+      "Bash(rtk find *)",
+      "Bash(taskkill /F /IM python.exe)",
+      "Bash(sqlite3 *)",
+      "Bash(rtk ls *)",
+      "Bash(fuser data/climaguru_public.sqlite)",
+      "Bash(curl -v -X GET http://localhost:5000/health -H \"Origin: http://localhost:5173\")",
+      "Bash(curl -s -i -X GET http://localhost:5001/health -H \"Origin: http://localhost:5173\")",
+      "Bash(pkill -f \"port=5001\")",
+      "Bash(pip list *)",
+      "Bash(curl -s -i -X GET http://localhost:5002/health -H \"Origin: http://localhost:5173\")",
+      "Bash(env)",
+      "Bash(pkill -f \"python app_minimal.py\")",
+      "Bash(curl -s -i -X GET http://localhost:5003/health -H \"Origin: http://localhost:5173\")",
+      "Bash(pkill -f \"python app_minimal2.py\")",
+      "Bash(mkdir -p /tmp/test_flask)",
+      "Bash(cp app_minimal2.py /tmp/test_flask/)",
+      "Read(//tmp/**)",
+      "Bash(pkill -f \"python app_minimal3.py\")",
+      "Bash(findstr :5000)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist *)",
+      "Bash(findstr 2856)",
+      "Bash(taskkill /F /PID 2856)",
+      "Bash(taskkill /F /PID 15892)",
+      "Bash(taskkill /F /PID 15436)",
+      "Bash(taskkill /F /PID 33736)",
+      "Bash(taskkill /F /PID 30972)",
+      "Bash(findstr python *)",
+      "Bash(taskkill /F /IM pythonw.exe)",
+      "Bash(taskkill *)",
+      "PowerShell(Stop-Process *)"
+    ]
+  }
+}

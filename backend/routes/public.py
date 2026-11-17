@@ -81,7 +81,9 @@ def cities():
     if _throttle("catalog"):
         return jsonify({"error": "limite de tasa excedido"}), 429
     _log("catalog", 200)
-    return jsonify({"cities": CITIES}), 200
+    resp = jsonify({"cities": CITIES})
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    return resp, 200
 
 
 @public_bp.get("/api/public/weather")
@@ -93,13 +95,17 @@ def weather():
     lon = request.args.get("lon")
     if lat is None or lon is None:
         _log("weather", 400)
-        return jsonify({"error": "lat y lon son obligatorios"}), 400
+        resp = jsonify({"error": "lat y lon son obligatorios"})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 400
 
     try:
         lat_f, lon_f = om.validate_coords(lat, lon)
     except ValueError as exc:
         _log("weather", 400)
-        return jsonify({"error": str(exc)}), 400
+        resp = jsonify({"error": str(exc)})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 400
 
     cache_key = f"om:v1:{lat_f}:{lon_f}"
     db_path = _db_path()
@@ -107,14 +113,18 @@ def weather():
     cached = public_db.cache_get(db_path, cache_key)
     if cached is not None:
         _log("weather", 200)
-        return jsonify(cached), 200
+        resp = jsonify(cached)
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 200
 
     try:
         forecast = om.fetch_point_forecast(lat_f, lon_f)
     except om.UpstreamError as exc:
         _log("weather", 502)
         logger.warning("open-meteo fallo: %s", exc)
-        return jsonify({"error": "fuente meteorologica no disponible", "detail": str(exc)}), 502
+        resp = jsonify({"error": "fuente meteorologica no disponible", "detail": str(exc)})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 502
 
     payload = {
         "location": {"lat": lat_f, "lon": lon_f},
@@ -129,25 +139,33 @@ def weather():
     ttl = current_app.config.get("PUBLIC_WEATHER_TTL", 600)
     public_db.cache_put(db_path, cache_key, payload, ttl)
     _log("weather", 200)
-    return jsonify(payload), 200
+    resp = jsonify(payload)
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    return resp, 200
 
 
 @public_bp.get("/api/public/radar/stations")
 def radar_stations():
     if _throttle("catalog"):
-        return jsonify({"error": "limite de tasa excedido"}), 429
+        resp = jsonify({"error": "limite de tasa excedido"})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 429
     _log("catalog", 200)
-    return jsonify({
+    resp = jsonify({
         "stations": [ideam.station_payload(s) for s in ideam.RADAR_STATIONS],
         "source": ideam.SOURCE_INFO,
-    }), 200
+    })
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    return resp, 200
 
 
 @public_bp.get("/api/public/radar/latest")
 def radar_latest():
     """Imagen compuesta nacional mas reciente (PNG con basemap, para el visor)."""
     if _throttle("radar"):
-        return jsonify({"error": "limite de tasa excedido"}), 429
+        resp = jsonify({"error": "limite de tasa excedido"})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 429
 
     db_path = _db_path()
     now_utc = datetime.now(timezone.utc)
@@ -156,31 +174,39 @@ def radar_latest():
         stamp, url = ideam.probe_composite(now_utc)
     except ideam.RadarUnavailable as exc:
         _log("radar", 502)
-        return jsonify({"error": "radar no disponible", "detail": str(exc)}), 502
+        resp = jsonify({"error": "radar no disponible", "detail": str(exc)})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 502
 
     public_db.scan_upsert(db_path, "composite", stamp, url, "available")
     _log("radar", 200)
-    return jsonify({
+    resp = jsonify({
         "kind": "composite",
         "stamp": stamp,
         "url": url,
         "source": ideam.SOURCE_INFO,
-    }), 200
+    })
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    return resp, 200
 
 
 @public_bp.get("/api/public/radar/overlay")
 def radar_overlay():
     """PNG transparente de reflectividad de un radar (para el visor)."""
     if _throttle("radar"):
-        return jsonify({"error": "limite de tasa excedido"}), 429
+        resp = jsonify({"error": "limite de tasa excedido"})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 429
 
     radar_id = request.args.get("radar", "guaviare")
     if radar_id not in ideam.STATION_BY_ID:
         _log("radar", 400)
-        return jsonify({
+        resp = jsonify({
             "error": "radar desconocido",
             "valid": list(ideam.STATION_BY_ID.keys()),
-        }), 400
+        })
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 400
 
     db_path = _db_path()
     kind = f"overlay:{radar_id}"
@@ -190,42 +216,54 @@ def radar_overlay():
         stamp, url = ideam.probe_transparent_z(radar_id, now_utc)
     except ideam.RadarUnavailable as exc:
         _log("radar", 502)
-        return jsonify({"error": "radar no disponible", "detail": str(exc)}), 502
+        resp = jsonify({"error": "radar no disponible", "detail": str(exc)})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 502
 
     public_db.scan_upsert(db_path, kind, stamp, url, "available")
     _log("radar", 200)
-    return jsonify({
+    resp = jsonify({
         "kind": kind,
         "stamp": stamp,
         "url": url,
         "station": ideam.station_payload(ideam.STATION_BY_ID[radar_id]),
         "source": ideam.SOURCE_INFO,
-    }), 200
+    })
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    return resp, 200
 
 
 @public_bp.get("/api/public/radar/frames")
 def radar_frames():
     """Frames recientes de un radar segun el manifiesto IDEAM (navegacion temporal)."""
     if _throttle("radar"):
-        return jsonify({"error": "limite de tasa excedido"}), 429
+        resp = jsonify({"error": "limite de tasa excedido"})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 429
 
     radar_id = request.args.get("radar", "guaviare")
     if radar_id not in ideam.STATION_BY_ID:
         _log("radar", 400)
-        return jsonify({
+        resp = jsonify({
             "error": "radar desconocido",
             "valid": list(ideam.STATION_BY_ID.keys()),
-        }), 400
+        })
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 400
 
     try:
         frames = ideam.latest_transparent_manifest(radar_id)
     except ideam.RadarUnavailable as exc:
         _log("radar", 502)
-        return jsonify({"error": "manifiesto no disponible", "detail": str(exc)}), 502
+        resp = jsonify({"error": "manifiesto no disponible", "detail": str(exc)})
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 502
 
     _log("radar", 200)
-    return jsonify({
+    resp = jsonify({
         "radar": radar_id,
         "frames": frames,
         "source": ideam.SOURCE_INFO,
-    }), 200
+    })
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    return resp, 200
