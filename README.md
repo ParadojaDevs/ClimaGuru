@@ -105,22 +105,22 @@ Flujo recomendado:
 2. Usar Authorization: Bearer <token> en rutas /users.
 3. Ejecutar CRUD completo de usuarios.
 
-## Notas de limpieza
+## Notas de arquitectura
 
-- Se removio la logica de Streamlit del flujo principal.
-- Se eliminó el frontend Next.js y se reemplazo por React limpio.
-- Se eliminó codigo de scripts legacy en la raiz.
+- La zona autenticada usa Flask + JWT (cookies httpOnly) + MySQL via Tailscale.
+- La zona publica usa SQLite propio (`backend/data/climaguru_public.sqlite`), aislado de MySQL.
+- Existe un Backend B (`backend/app_pkg/`) reservado para la fase privada posterior.
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologias Utilizadas
 
-- **Python 3.8+**
-- **requests** - Consultas HTTP
-- **pandas** - Análisis de datos
-- **boto3** - AWS S3 (IDEAM)
-- **Pillow** - Procesamiento de imágenes
-- **matplotlib/seaborn** - Visualizaciones
-- **beautifulsoup4** - Web scraping (SIATA)
-- **streamlit** - Dashboard (opcional)
+- **Python 3.10+** / Flask 3
+- **Flask-JWT-Extended** - Autenticacion JWT (cookies httpOnly)
+- **Flask-SQLAlchemy + PyMySQL** - MySQL (zona privada)
+- **SQLite** (sqlite3 directo) - zona publica
+- **Flask-Limiter / throttle propio** - limites de tasa
+- **Open-Meteo** - clima actual (sin API key, CC BY 4.0)
+- **IDEAM (bart.ideam.gov.co)** - radares (CC BY 4.0)
+- **React 18 + Vite + Leaflet** - frontend
 
 ## 🤝 Contribución
 
@@ -176,17 +176,17 @@ Las contribuciones son bienvenidas. Para contribuir:
 
 | Componente | Función | Tecnología |
 |------------|---------|------------|
-| **API REST** | Exponer endpoints para el frontend | Flask + Flask-RESTful |
-| **Autenticación** | Login seguro de operarios | JWT (PyJWT) |
-| **Base de Datos** | Almacenar usuarios, consultas, API keys | MySQL 8.0 |
+| **API REST** | Endpoints públicos y privados | Flask 3 |
+| **Autenticación** | Login seguro | JWT (Flask-JWT-Extended, cookies httpOnly) |
+| **Base de Datos** | Usuarios, consultas, API keys (fase privada) | MySQL 8.0 |
 | **ORM** | Mapeo objeto-relacional | SQLAlchemy |
 | **Migraciones** | Control de cambios en BD | Flask-Migrate |
-| **Validación** | Validar datos de entrada | Marshmallow |
-| **CORS** | Permitir acceso desde frontend | Flask-CORS |
+| **Persistencia pública** | Cache, scans radar, log de peticiones | SQLite (WAL) |
+| **CORS** | Acceso desde frontend con credenciales | Flask-CORS |
 
 ---
 
-## . MODELO DE BASE DE DATOS
+## MODELO DE BASE DE DATOS (zona privada - `backend/app_pkg`, fase posterior)
 
 ### 📊 Diagrama Entidad-Relación
 
@@ -222,57 +222,6 @@ Las contribuciones son bienvenidas. Para contribuir:
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-PRÓXIMOS PASOS (FRONTEND)
-
-### 🎨 Preparación para el Frontend
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    ARQUITECTURA FUTURA CON FRONTEND                          │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│   ┌─────────────────┐         ┌─────────────────┐         ┌───────────────┐ │
-│   │   FRONTEND      │         │   BACKEND       │         │   DATABASE    │ │
-│   │   (React/Vue)   │◄───────►│   Flask API     │◄───────►│   MySQL       │ │
-│   │                 │  HTTP   │                 │  TCP    │               │ │
-│   │  - Login Form   │         │  - Auth JWT     │         │               │ │
-│   │  - Dashboard    │         │  - Consultas    │         │               │ │
-│   │  - Mapas        │         │  - API Externas │         │               │ │
-│   │  - Gráficos     │         │                 │         │               │ │
-│   └─────────────────┘         └─────────────────┘         └───────────────┘ │
-│                                                                              │
-│   Comunicación: REST API JSON                                                │
-│   Autenticación: Bearer Token JWT                                            │
-│   CORS: Habilitado en Flask                                                  │
-│                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 🔧 Configuración CORS para Frontend
-
-```python
-# En app/__init__.py, ya está configurado:
-from flask_cors import CORS
-
-cors.init_app(app, origins=[
-    'http://localhost:3000',      # React dev
-    'http://localhost:8080',      # Vue dev
-    'https://tu-dominio.com'      # Producción
-])
-```
-
-### 📦 Endpoints Listos para Frontend
-
-| Funcionalidad Frontend | Endpoint Backend | Método |
-|------------------------|------------------|--------|
-| Login | `/api/auth/login` | POST |
-| Registro | `/api/auth/register` | POST |
-| Dashboard datos | `/api/consultas/mis-consultas` | GET |
-| Nueva consulta | `/api/consultas/tiempo-real` | POST |
-| Ver detalle | `/api/consultas/<id>` | GET |
-| Descargar CSV | `/api/consultas/<id>/descargar` | GET |
-| Estadísticas | `/api/reportes/estadisticas` | GET |
-
 ---
 
 ## 📝 Licencia
@@ -289,6 +238,6 @@ Para preguntas o sugerencias, por favor abre un issue en el repositorio.
 
 ---
 
-**Última actualización:** Febrero 2026
+**Última actualización:** Noviembre 2026
 
 

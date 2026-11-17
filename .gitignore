@@ -105,3 +105,12 @@ backup_*.sql
 # Legacy duplicado bloqueado por permisos locales
 climaguru-backend/
 _legacy_blocked_climaguru-backend/
+
+# Datos y artefactos legacy (salidas de descargas/consultas historicas)
+data/
+
+# Configuracion local de herramientas
+.claude/settings.local.json
+
+# Entorno de Postman con credenciales locales
+postman/environments/*.environment.yaml
