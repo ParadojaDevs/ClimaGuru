@@ -17,6 +17,7 @@ import {
 } from "../../services/api";
 import WeatherPanel from "../components/WeatherPanel";
 import RadarViewer from "../components/RadarViewer";
+import RadarOverlayLayer from "../components/RadarOverlayLayer";
 
 const MAP_TILES_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
@@ -71,6 +72,8 @@ export default function PublicMap() {
   const [panelTab, setPanelTab] = useState("clima");
   const [radarFocus, setRadarFocus] = useState(null); // id de radar al hacer click en el mapa
   const [panelHidden, setPanelHidden] = useState(false);
+  // Overlay activo publicado por el visor; null si no debe dibujarse.
+  const [radarOverlay, setRadarOverlay] = useState(null);
 
   useEffect(() => {
     let alive = true;

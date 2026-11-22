@@ -28,6 +28,7 @@ Verificado empiricamente (nov 2026):
 
 import re
 from datetime import datetime, timedelta, timezone
+from urllib.parse import urlsplit
 
 import requests
 
@@ -94,6 +95,11 @@ RADAR_STATIONS = [
 STATION_BY_ID = {s["id"]: s for s in RADAR_STATIONS}
 
 STAMP_PATTERN = re.compile(r"^\d{10}$")
+
+# El manifiesto puede venir en una sola linea con tokens separados por espacios.
+MANIFEST_MAX_FRAMES = 24
+MANIFEST_HOST = "bart.ideam.gov.co"
+MANIFEST_FRAME_PATTERN = re.compile(r"/([A-Z]{3})(\d{10})_z_Transp\.png$")
 
 
 class RadarUnavailable(Exception):
@@ -169,13 +175,59 @@ def probe_transparent_z(radar_id: str, now_utc: datetime, max_back_slots: int = 
     raise RadarUnavailable(f"no hay frame transparente disponible para {radar_id}")
 
 
-def latest_transparent_manifest(radar_id: str, limit: int = 36):
+def _stamp_datetime(stamp: str) -> datetime:
+    """Convierte un sello YYMMDDHHMM (hora local Colombia) a datetime aware."""
+    return datetime.strptime(stamp, "%y%m%d%H%M").replace(tzinfo=COT_TZ)
+
+
+def _manifest_public_path(token: str):
+    """Normaliza un token del manifiesto a una ruta publica bajo /ospa/.
+
+    Devuelve None si el token no es una ruta PNG de IDEAM. Se rechazan
+    esquemas distintos de https, hosts ajenos, credenciales, query/fragment y
+    traversal para no abrir un vector SSRF.
+    """
+    token = (token or "").strip()
+    if not token or "\\" in token or ".." in token:
+        return None
+    if token.startswith("http://") or token.startswith("https://"):
+        parsed = urlsplit(token)
+        if parsed.scheme != "https" or parsed.netloc != MANIFEST_HOST:
+            return None
+        if parsed.query or parsed.fragment or parsed.username or parsed.password:
+            return None
+        path = parsed.path
+    else:
+        if not token.startswith("/") or "?" in token or "#" in token:
+            return None
+        path = token
+    if not path.lower().endswith(".png"):
+        return None
+    path = path.replace("/radares/interno/", "/ospa/", 1)
+    if not path.startswith("/ospa/"):
+        return None
+    return path
+
+
+def latest_transparent_manifest(
+    radar_id: str,
+    limit: int = MANIFEST_MAX_FRAMES,
+    now_utc: datetime = None,
+):
     """Lista los ultimos frames disponibles segun el manifiesto IDEAM.
 
     El manifiesto (.txt) lista rutas internas con prefijo /radares/interno/;
-    se reescriben a la ruta publica verificada bajo /ospa/.
+    se reescriben a la ruta publica verificada bajo /ospa/. Puede llegar en
+    una sola linea con tokens separados por espacios, por eso se usa split()
+    y no splitlines().
+
+    Devuelve como maximo ``MANIFEST_MAX_FRAMES`` frames en orden cronologico
+    ascendente, sin duplicados. Cada frame incluye ``stamp``, ``url``,
+    ``timestamp`` (ISO 8601 COT) y ``age_minutes``. No se inventan horas: si
+    el nombre no contiene un sello valido, el token se descarta.
     """
     station = STATION_BY_ID[radar_id]
+    limit = max(1, min(int(limit), MANIFEST_MAX_FRAMES))
     manifest_url = f"{TRANSP_GIF_BASE}/{station['folder']}/{station['folder']}_z.txt"
     try:
         response = requests.get(manifest_url, timeout=10)
@@ -184,20 +236,42 @@ def latest_transparent_manifest(radar_id: str, limit: int = 36):
     if response.status_code != 200:
         raise RadarUnavailable(f"manifiesto respondio {response.status_code} para {radar_id}")
 
-    frames = []
-    for line in response.text.splitlines():
-        line = line.strip()
-        if not line or not line.lower().endswith(".png"):
+    now = now_utc or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+
+    by_stamp = {}
+    for token in response.text.split():
+        public_path = _manifest_public_path(token)
+        if public_path is None:
             continue
-        public_path = line.replace("/radares/interno/", "/ospa/", 1)
-        match = re.search(r"(\d{10})_z_Transp\.png$", public_path)
+        match = MANIFEST_FRAME_PATTERN.search(public_path)
         if not match:
             continue
-        stamp = match.group(1)
-        if STAMP_PATTERN.match(stamp):
-            frames.append({"stamp": stamp, "url": f"https://bart.ideam.gov.co{public_path}"})
-    frames.sort(key=lambda f: f["stamp"], reverse=True)
-    return frames[:limit]
+        code, stamp = match.groups()
+        if code != station["code"] or not STAMP_PATTERN.match(stamp):
+            continue
+        if stamp in by_stamp:
+            continue
+        try:
+            timestamp = _stamp_datetime(stamp)
+        except ValueError:
+            continue
+        age_minutes = int(
+            (now - timestamp.astimezone(timezone.utc)).total_seconds() // 60
+        )
+        by_stamp[stamp] = {
+            "stamp": stamp,
+            "url": f"https://{MANIFEST_HOST}{public_path}",
+            "timestamp": timestamp.isoformat(),
+            "age_minutes": max(0, age_minutes),
+        }
+
+    if not by_stamp:
+        raise RadarUnavailable(f"manifiesto vacio o sin frames validos para {radar_id}")
+
+    frames = sorted(by_stamp.values(), key=lambda frame: (frame["timestamp"], frame["stamp"]))
+    return frames[-limit:]
 
 
 def animated_gif_url(radar_id: str) -> str:

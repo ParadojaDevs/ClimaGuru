@@ -17,6 +17,7 @@ from flask import Blueprint, current_app, jsonify, request
 from database import public_db
 from services import ideam_radar_client as ideam
 from services import open_meteo_client as om
+from services import radar_georef
 
 public_bp = Blueprint("public", __name__)
 logger = logging.getLogger(__name__)
@@ -41,6 +42,16 @@ THROTTLES = {
     "radar": (30, 60),
     "catalog": (30, 60),
 }
+
+
+def _radar_cache_key(kind: str, radar_id: str = None) -> str:
+    """Clave de cache para descubrimientos radar (tabla weather_cache)."""
+    return f"radar:v1:{kind}:{radar_id}" if radar_id else f"radar:v1:{kind}"
+
+
+def _radar_ttl() -> int:
+    """TTL de descubrimientos exitosos; nunca se cachean errores."""
+    return int(current_app.config.get("RADAR_DISCOVERY_TTL", 300))
 
 
 _DB_READY = False
@@ -152,7 +163,13 @@ def radar_stations():
         return resp, 429
     _log("catalog", 200)
     resp = jsonify({
-        "stations": [ideam.station_payload(s) for s in ideam.RADAR_STATIONS],
+        "stations": [
+            {
+                **ideam.station_payload(station),
+                "georef": radar_georef.public_metadata(station["id"]),
+            }
+            for station in ideam.RADAR_STATIONS
+        ],
         "source": ideam.SOURCE_INFO,
     })
     resp.headers["Access-Control-Allow-Credentials"] = "true"
@@ -168,6 +185,14 @@ def radar_latest():
         return resp, 429
 
     db_path = _db_path()
+    cache_key = _radar_cache_key("composite")
+    cached = public_db.cache_get(db_path, cache_key)
+    if cached is not None:
+        _log("radar", 200)
+        resp = jsonify(cached)
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 200
+
     now_utc = datetime.now(timezone.utc)
 
     try:
@@ -179,13 +204,15 @@ def radar_latest():
         return resp, 502
 
     public_db.scan_upsert(db_path, "composite", stamp, url, "available")
-    _log("radar", 200)
-    resp = jsonify({
+    payload = {
         "kind": "composite",
         "stamp": stamp,
         "url": url,
         "source": ideam.SOURCE_INFO,
-    })
+    }
+    public_db.cache_put(db_path, cache_key, payload, _radar_ttl())
+    _log("radar", 200)
+    resp = jsonify(payload)
     resp.headers["Access-Control-Allow-Credentials"] = "true"
     return resp, 200
 
@@ -210,6 +237,14 @@ def radar_overlay():
 
     db_path = _db_path()
     kind = f"overlay:{radar_id}"
+    cache_key = _radar_cache_key("overlay", radar_id)
+    cached = public_db.cache_get(db_path, cache_key)
+    if cached is not None:
+        _log("radar", 200)
+        resp = jsonify(cached)
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 200
+
     now_utc = datetime.now(timezone.utc)
 
     try:
@@ -221,14 +256,17 @@ def radar_overlay():
         return resp, 502
 
     public_db.scan_upsert(db_path, kind, stamp, url, "available")
-    _log("radar", 200)
-    resp = jsonify({
+    payload = {
         "kind": kind,
         "stamp": stamp,
         "url": url,
         "station": ideam.station_payload(ideam.STATION_BY_ID[radar_id]),
+        "georef": radar_georef.public_metadata(radar_id),
         "source": ideam.SOURCE_INFO,
-    })
+    }
+    public_db.cache_put(db_path, cache_key, payload, _radar_ttl())
+    _log("radar", 200)
+    resp = jsonify(payload)
     resp.headers["Access-Control-Allow-Credentials"] = "true"
     return resp, 200
 
@@ -251,6 +289,15 @@ def radar_frames():
         resp.headers["Access-Control-Allow-Credentials"] = "true"
         return resp, 400
 
+    db_path = _db_path()
+    cache_key = _radar_cache_key("frames", radar_id)
+    cached = public_db.cache_get(db_path, cache_key)
+    if cached is not None:
+        _log("radar", 200)
+        resp = jsonify(cached)
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        return resp, 200
+
     try:
         frames = ideam.latest_transparent_manifest(radar_id)
     except ideam.RadarUnavailable as exc:
@@ -259,11 +306,13 @@ def radar_frames():
         resp.headers["Access-Control-Allow-Credentials"] = "true"
         return resp, 502
 
-    _log("radar", 200)
-    resp = jsonify({
+    payload = {
         "radar": radar_id,
         "frames": frames,
         "source": ideam.SOURCE_INFO,
-    })
+    }
+    public_db.cache_put(db_path, cache_key, payload, _radar_ttl())
+    _log("radar", 200)
+    resp = jsonify(payload)
     resp.headers["Access-Control-Allow-Credentials"] = "true"
     return resp, 200

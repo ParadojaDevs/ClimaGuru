@@ -3,51 +3,39 @@
 // - Por radar: PNG transparente de reflectividad (z). Puede fallar con 502 si
 //   el radar no tiene scans recientes (estado honesto por radar).
 // - Navegacion temporal: frames del manifiesto IDEAM (ultimos ~3 h).
+//
+// El visor tambien publica el overlay activo al mapa (via onOverlayChange)
+// solo cuando la politica geografica del backend lo autoriza.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   fetchRadarLatest,
   fetchRadarOverlay,
   fetchRadarFrames,
 } from "../../services/api";
+import {
+  DEFAULT_OVERLAY_OPACITY,
+  clampOpacity,
+  overlayDecision,
+} from "./radarOverlayPolicy";
+import { ageText, stampInfo } from "./radarTime";
 
 const COMPOSITE = "composite";
-
-// Los sellos IDEAM usan hora local Colombia (UTC-5), formato YYMMDDHHMM.
-function stampInfo(stamp) {
-  if (!stamp || stamp.length !== 10) return null;
-  const yy = stamp.slice(0, 2);
-  const mo = stamp.slice(2, 4);
-  const dd = stamp.slice(4, 6);
-  const hh = stamp.slice(6, 8);
-  const mi = stamp.slice(8, 10);
-  const utcMs = Date.UTC(2000 + Number(yy), Number(mo) - 1, Number(dd), Number(hh) + 5, Number(mi));
-  const ageMin = Math.round((Date.now() - utcMs) / 60000);
-  return {
-    label: `${dd}/${mo} ${hh}:${mi} COT`,
-    ageMin,
-  };
-}
-
-function ageText(ageMin) {
-  if (Number.isNaN(ageMin)) return "";
-  if (ageMin < 1) return "hace segundos";
-  if (ageMin < 90) return `hace ${ageMin} min`;
-  return `hace ${Math.round(ageMin / 60)} h`;
-}
 
 function Spinner() {
   return <div className="loading-spinner loading-spinner--inline" />;
 }
 
-export default function RadarViewer({ stations, focusId }) {
+export default function RadarViewer({ stations, focusId, onOverlayChange, overlayError }) {
   const [source, setSource] = useState(focusId || COMPOSITE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [composite, setComposite] = useState(null);
-  const [overlay, setOverlay] = useState(null); // {stamp,url,station}
+  const [overlay, setOverlay] = useState(null); // {stamp,url,station,georef}
   const [frames, setFrames] = useState([]);
   const [frameIndex, setFrameIndex] = useState(0);
+  const [overlayVisible, setOverlayVisible] = useState(true);
+  const [overlayOpacity, setOverlayOpacity] = useState(DEFAULT_OVERLAY_OPACITY);
 
   // Si el usuario hace click en un radar del mapa, saltar a ese radar.
   useEffect(() => {
@@ -86,15 +74,20 @@ export default function RadarViewer({ stations, focusId }) {
         if (okOverlay) {
           setOverlay({ ...okOverlay, fromFrames: false });
         } else {
-          // Fallback honesto: primer frame del manifiesto.
+          // Fallback honesto: el frame mas reciente del manifiesto
+          // (los frames vienen en orden ascendente).
+          const latest = okFrames[okFrames.length - 1];
           setOverlay({
             kind: `overlay:${src}`,
-            stamp: okFrames[0].stamp,
-            url: okFrames[0].url,
+            stamp: latest.stamp,
+            url: latest.url,
             fromFrames: true,
           });
         }
         setFrames(okFrames);
+        // Los frames llegan en orden ascendente: el indice inicial es el mas
+        // reciente para que la etiqueta coincida con la imagen mostrada.
+        setFrameIndex(Math.max(0, okFrames.length - 1));
       }
     } catch (err) {
       setError(err.message || "Radar no disponible");
@@ -117,8 +110,59 @@ export default function RadarViewer({ stations, focusId }) {
 
   const isStation = source !== COMPOSITE;
   const active = isStation ? overlay : composite;
+  const station = isStation ? stations.find((s) => s.id === source) || null : null;
+  // `georef` viaja en la respuesta del overlay y, como respaldo, en /stations.
+  const georef = active?.georef || station?.georef || null;
   const info = stampInfo(active?.stamp);
   const currentFrame = frames[frameIndex] || null;
+
+  const decision = useMemo(
+    () =>
+      isStation && active?.url
+        ? overlayDecision({ georef, ageMinutes: info?.ageMinutes })
+        : null,
+    [isStation, active?.url, georef, info?.ageMinutes]
+  );
+
+  // Publica el overlay al mapa solo si la politica lo autoriza.
+  useEffect(() => {
+    if (!onOverlayChange) return;
+    if (!isStation || !active?.url || !decision?.renderAllowed) {
+      onOverlayChange(null);
+      return;
+    }
+    onOverlayChange({
+      key: `${source}:${active.stamp}:${active.url}`,
+      radarId: source,
+      code: station?.code || active?.station?.code || "",
+      url: active.url,
+      stamp: active.stamp,
+      bounds: georef?.bounds || null,
+      warning: decision.warning,
+      approximate: decision.approximate,
+      opacity: overlayOpacity,
+      visible: overlayVisible,
+    });
+  }, [
+    onOverlayChange,
+    isStation,
+    source,
+    active?.url,
+    active?.stamp,
+    active?.station?.code,
+    station?.code,
+    georef,
+    decision,
+    overlayOpacity,
+    overlayVisible,
+  ]);
+
+  // Al desmontar (p. ej. cambiar a la pestana Clima) se retira la capa.
+  useEffect(() => {
+    return () => {
+      if (onOverlayChange) onOverlayChange(null);
+    };
+  }, [onOverlayChange]);
 
   function stepFrame(delta) {
     setFrameIndex((i) => Math.min(Math.max(i + delta, 0), frames.length - 1));
@@ -175,7 +219,7 @@ export default function RadarViewer({ stations, focusId }) {
               src={active.url}
               alt={
                 isStation
-                  ? `Reflectividad radar ${active.station?.name || source}`
+                  ? `Reflectividad radar ${active.station?.name || station?.name || source}`
                   : "Compuesto radar nacional IDEAM"
               }
             />
@@ -204,12 +248,66 @@ export default function RadarViewer({ stations, focusId }) {
         </button>
       </div>
 
+      {isStation && decision?.renderAllowed && (
+        <div className="radar-overlay-controls">
+          <label className="radar-overlay-toggle">
+            <input
+              type="checkbox"
+              checked={overlayVisible}
+              onChange={(event) => setOverlayVisible(event.target.checked)}
+            />
+            Mostrar en el mapa
+          </label>
+          <label className="radar-overlay-opacity">
+            <span>Opacidad</span>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              value={overlayOpacity}
+              disabled={!overlayVisible}
+              onChange={(event) =>
+                setOverlayOpacity(clampOpacity(event.target.value))
+              }
+            />
+            <span>{Math.round(overlayOpacity * 100)}%</span>
+          </label>
+        </div>
+      )}
+
+      {isStation && decision?.renderAllowed && decision.warning && (
+        <p className="radar-geo-warning" role="note">
+          {decision.warning}
+        </p>
+      )}
+
+      {isStation && decision?.stale && (
+        <p className="radar-note radar-note--warning">
+          Frame fuera de la ventana de frescura: se muestra como referencia,
+          no como dato actual. No se dibuja sobre el mapa.
+        </p>
+      )}
+
+      {isStation && decision && !decision.renderAllowed && !decision.stale && (
+        <p className="radar-note radar-note--warning">
+          Este radar no tiene georreferenciación suficiente; su imagen no se
+          dibuja sobre el mapa.
+        </p>
+      )}
+
+      {overlayError && (
+        <p className="radar-note radar-note--warning">
+          No se pudo cargar la imagen del overlay en el mapa.
+        </p>
+      )}
+
       {isStation && frames.length > 0 && (
         <div className="radar-frames">
           <button
             className="btn btn-secondary"
-            onClick={() => stepFrame(1)}
-            disabled={frameIndex >= frames.length - 1}
+            onClick={() => stepFrame(-1)}
+            disabled={frameIndex <= 0}
             aria-label="Frame anterior"
           >
             ‹
@@ -220,8 +318,8 @@ export default function RadarViewer({ stations, focusId }) {
           </span>
           <button
             className="btn btn-secondary"
-            onClick={() => stepFrame(-1)}
-            disabled={frameIndex <= 0}
+            onClick={() => stepFrame(1)}
+            disabled={frameIndex >= frames.length - 1}
             aria-label="Frame más reciente"
           >
             ›
