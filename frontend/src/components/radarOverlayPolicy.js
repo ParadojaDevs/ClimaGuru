@@ -15,6 +15,7 @@ export const OVERLAY_MAX_AGE_MINUTES = 60;
 export const DEFAULT_OVERLAY_OPACITY = 0.65;
 
 export function clampOpacity(value, fallback = DEFAULT_OVERLAY_OPACITY) {
+  if (value === null || value === undefined) return fallback;
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return fallback;
   return Math.min(1, Math.max(0, numeric));
