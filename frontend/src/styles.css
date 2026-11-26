@@ -1145,3 +1145,103 @@ body {
 .leaflet-container .leaflet-control-attribution a {
   color: var(--storm-front);
 }
+/* --- Radar: overlay geografico (F3.1b) --- */
+
+.radar-overlay-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
+  border-top: 1px solid var(--pressure-line);
+}
+
+.radar-overlay-toggle,
+.radar-overlay-opacity {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--scale-data);
+  color: var(--cloud-mist);
+}
+
+.radar-overlay-toggle input {
+  accent-color: var(--radar-active);
+}
+
+.radar-overlay-opacity input[type="range"] {
+  flex: 1;
+  accent-color: var(--radar-active);
+}
+
+.radar-overlay-opacity span:last-child {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: right;
+}
+
+.radar-geo-warning {
+  margin: 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-left: 2px solid var(--warning-amber);
+  background: rgba(255, 176, 32, 0.08);
+  color: var(--cloud-mist);
+  font-size: var(--scale-data);
+  line-height: 1.5;
+}
+
+.radar-note--warning {
+  color: var(--warning-amber);
+}
+
+.radar-geo-badges {
+  position: absolute;
+  top: 64px;
+  left: var(--spacing-lg);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  max-width: min(420px, calc(100vw - var(--spacing-lg) * 2));
+  pointer-events: none;
+}
+
+.radar-geo-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(11, 29, 58, 0.92);
+  border: 1px solid var(--pressure-line);
+  border-left: 3px solid var(--warning-amber);
+  border-radius: var(--radius-control);
+  color: var(--cloud-mist);
+  font-size: var(--scale-data);
+  line-height: 1.45;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.radar-geo-badge__code {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--warning-amber);
+}
+
+.radar-geo-badge--error {
+  border-left-color: #e05a5a;
+  color: #f3c7c7;
+}
+
+.radar-overlay-image {
+  image-rendering: auto;
+}
+
+@media (max-width: 720px) {
+  .radar-geo-badges {
+    top: 104px;
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+    max-width: none;
+  }
+}

@@ -74,6 +74,18 @@ export default function PublicMap() {
   const [panelHidden, setPanelHidden] = useState(false);
   // Overlay activo publicado por el visor; null si no debe dibujarse.
   const [radarOverlay, setRadarOverlay] = useState(null);
+  const [overlayError, setOverlayError] = useState("");
+
+  // Identidad estable: el visor publica en un efecto que depende de esta
+  // funcion; recrearla en cada render provocaria un bucle de actualizaciones.
+  const handleOverlayChange = useCallback((next) => {
+    setRadarOverlay(next);
+    setOverlayError("");
+  }, []);
+
+  const handleOverlayError = useCallback(() => {
+    setOverlayError("No se pudo cargar la imagen del overlay del radar.");
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -164,6 +176,18 @@ export default function PublicMap() {
           />
           <MapController target={mapTarget} />
 
+          {/* Overlay de reflectividad: solo si la politica lo autoriza */}
+          {radarOverlay && (
+            <RadarOverlayLayer
+              key={radarOverlay.key}
+              url={radarOverlay.url}
+              bounds={radarOverlay.bounds}
+              opacity={radarOverlay.opacity}
+              visible={radarOverlay.visible}
+              onError={handleOverlayError}
+            />
+          )}
+
           {/* Anillos de cobertura de los 4 radares IDEAM */}
           {stations.map((station) => (
             <Circle
@@ -203,6 +227,23 @@ export default function PublicMap() {
           )}
         </MapContainer>
       </div>
+
+      {/* Avisos del overlay aproximado (visibles mientras esta activo) */}
+      {(radarOverlay?.warning && radarOverlay?.visible) || overlayError ? (
+        <div className="radar-geo-badges">
+          {radarOverlay?.warning && radarOverlay?.visible && (
+            <div className="radar-geo-badge" role="note">
+              <span className="radar-geo-badge__code">{radarOverlay.code}</span>
+              <span>{radarOverlay.warning}</span>
+            </div>
+          )}
+          {overlayError && (
+            <div className="radar-geo-badge radar-geo-badge--error" role="status">
+              {overlayError}
+            </div>
+          )}
+        </div>
+      ) : null}
 
       {/* Barra superior: marca + acceso a la estacion autenticada */}
       <header className="public-topbar">
@@ -278,6 +319,8 @@ export default function PublicMap() {
             <RadarViewer
               stations={stations}
               focusId={radarFocus}
+              onOverlayChange={handleOverlayChange}
+              overlayError={overlayError}
             />
           )}
         </div>

@@ -60,6 +60,10 @@ def _manifest_patch(text, status=200):
     )
 
 
+def _redirect_response(location, status=302):
+    return MagicMock(status_code=status, headers={"Location": location}, text="")
+
+
 def _stamps(count=30, start=datetime(2026, 11, 15, 10, 0, tzinfo=ideam.COT_TZ)):
     return [(start + timedelta(minutes=5 * index)).strftime("%y%m%d%H%M") for index in range(count)]
 
@@ -163,6 +167,71 @@ def test_manifest_network_error_raises():
     ):
         with pytest.raises(ideam.RadarUnavailable):
             ideam.latest_transparent_manifest("guaviare", now_utc=NOW_UTC)
+
+
+def test_manifest_disables_automatic_redirects():
+    with _manifest_patch(_token()) as get:
+        ideam.latest_transparent_manifest("guaviare", now_utc=NOW_UTC)
+
+    assert get.call_args.kwargs["allow_redirects"] is False
+
+
+def test_manifest_follows_safe_same_host_redirect():
+    with patch(
+        "services.ideam_radar_client.requests.get",
+        side_effect=[
+            _redirect_response("/ospa/manifiesto.txt"),
+            _manifest_response(_token()),
+        ],
+    ) as get:
+        frames = ideam.latest_transparent_manifest("guaviare", now_utc=NOW_UTC)
+
+    assert [frame["stamp"] for frame in frames] == ["2611151320"]
+    assert get.call_count == 2
+    assert get.call_args_list[0].kwargs["allow_redirects"] is False
+
+
+def test_manifest_rejects_redirect_to_foreign_host():
+    with patch(
+        "services.ideam_radar_client.requests.get",
+        side_effect=[_redirect_response("https://evil.example/manifiesto.txt")],
+    ) as get:
+        with pytest.raises(ideam.RadarUnavailable, match="redireccion no permitida"):
+            ideam.latest_transparent_manifest("guaviare", now_utc=NOW_UTC)
+
+    assert get.call_count == 1
+
+
+def test_manifest_rejects_redirect_to_http():
+    with patch(
+        "services.ideam_radar_client.requests.get",
+        side_effect=[
+            _redirect_response("http://bart.ideam.gov.co/ospa/manifiesto.txt")
+        ],
+    ):
+        with pytest.raises(ideam.RadarUnavailable, match="redireccion no permitida"):
+            ideam.latest_transparent_manifest("guaviare", now_utc=NOW_UTC)
+
+
+def test_manifest_rejects_redirect_without_location():
+    with patch(
+        "services.ideam_radar_client.requests.get",
+        side_effect=[MagicMock(status_code=302, headers={}, text="")],
+    ):
+        with pytest.raises(ideam.RadarUnavailable, match="sin Location"):
+            ideam.latest_transparent_manifest("guaviare", now_utc=NOW_UTC)
+
+
+def test_manifest_rejects_too_many_redirects():
+    redirects = [_redirect_response("/ospa/manifiesto.txt") for _ in range(4)]
+    with patch(
+        "services.ideam_radar_client.requests.get",
+        side_effect=redirects,
+    ) as get:
+        with pytest.raises(ideam.RadarUnavailable, match="demasiadas redirecciones"):
+            ideam.latest_transparent_manifest("guaviare", now_utc=NOW_UTC)
+
+    assert get.call_count == 4
 
 
 def test_manifest_age_is_never_negative():

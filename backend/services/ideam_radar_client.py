@@ -28,7 +28,7 @@ Verificado empiricamente (nov 2026):
 
 import re
 from datetime import datetime, timedelta, timezone
-from urllib.parse import urlsplit
+from urllib.parse import urljoin, urlsplit
 
 import requests
 
@@ -209,6 +209,29 @@ def _manifest_public_path(token: str):
     return path
 
 
+def _manifest_get(url: str, max_redirects: int = 3):
+    """GET del manifiesto validando cada redireccion antes de seguirla.
+
+    ``requests`` sigue redirecciones por defecto, lo que permitiria que un
+    manifiesto comprometido enviara la peticion a otro host. Aqui se desactiva
+    ese comportamiento y solo se aceptan saltos ``https`` al mismo host IDEAM.
+    """
+    current = url
+    for _ in range(max_redirects + 1):
+        response = requests.get(current, timeout=10, allow_redirects=False)
+        if response.status_code not in (301, 302, 303, 307, 308):
+            return response
+        location = response.headers.get("Location")
+        if not location:
+            raise RadarUnavailable("redireccion sin Location en el manifiesto")
+        target = urljoin(current, location)
+        parsed = urlsplit(target)
+        if parsed.scheme != "https" or parsed.netloc != MANIFEST_HOST:
+            raise RadarUnavailable("redireccion no permitida en el manifiesto")
+        current = target
+    raise RadarUnavailable("demasiadas redirecciones en el manifiesto")
+
+
 def latest_transparent_manifest(
     radar_id: str,
     limit: int = MANIFEST_MAX_FRAMES,
@@ -230,7 +253,7 @@ def latest_transparent_manifest(
     limit = max(1, min(int(limit), MANIFEST_MAX_FRAMES))
     manifest_url = f"{TRANSP_GIF_BASE}/{station['folder']}/{station['folder']}_z.txt"
     try:
-        response = requests.get(manifest_url, timeout=10)
+        response = _manifest_get(manifest_url)
     except requests.RequestException as exc:
         raise RadarUnavailable(f"manifiesto no disponible para {radar_id}: {exc}") from exc
     if response.status_code != 200:

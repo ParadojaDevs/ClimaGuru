@@ -138,4 +138,14 @@ describe('RadarOverlayLayer', () => {
     const img = screen.getByTestId('radar-overlay-image')
     expect(img.style.opacity).toBe('0.65')
   })
+
+  it('se limpia al desmontar el mapa', () => {
+    const { unmount } = render(
+      <RadarOverlayLayer url={validUrl} bounds={validBounds} />
+    )
+    expect(screen.getByTestId('radar-overlay-image')).toBeInTheDocument()
+
+    unmount()
+    expect(screen.queryByTestId('radar-overlay-image')).toBeNull()
+  })
 })

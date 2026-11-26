@@ -31,7 +31,7 @@ export default function RadarViewer({ stations, focusId, onOverlayChange, overla
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [composite, setComposite] = useState(null);
-  const [overlay, setOverlay] = useState(null); // {stamp,url,station,georef}
+  const [overlay, setOverlay] = useState(null); // {source,stamp,url,station,georef}
   const [frames, setFrames] = useState([]);
   const [frameIndex, setFrameIndex] = useState(0);
   const [overlayVisible, setOverlayVisible] = useState(true);
@@ -72,13 +72,14 @@ export default function RadarViewer({ stations, focusId, onOverlayChange, overla
         }
 
         if (okOverlay) {
-          setOverlay({ ...okOverlay, fromFrames: false });
+          setOverlay({ ...okOverlay, source: src, fromFrames: false });
         } else {
           // Fallback honesto: el frame mas reciente del manifiesto
           // (los frames vienen en orden ascendente).
           const latest = okFrames[okFrames.length - 1];
           setOverlay({
             kind: `overlay:${src}`,
+            source: src,
             stamp: latest.stamp,
             url: latest.url,
             fromFrames: true,
@@ -109,7 +110,13 @@ export default function RadarViewer({ stations, focusId, onOverlayChange, overla
   }, [focusId]);
 
   const isStation = source !== COMPOSITE;
-  const active = isStation ? overlay : composite;
+  // El overlay debe pertenecer al radar seleccionado. Al cambiar de fuente, el
+  // estado anterior queda invisible hasta que llegue la respuesta nueva.
+  const active = isStation
+    ? overlay?.source === source
+      ? overlay
+      : null
+    : composite;
   const station = isStation ? stations.find((s) => s.id === source) || null : null;
   // `georef` viaja en la respuesta del overlay y, como respaldo, en /stations.
   const georef = active?.georef || station?.georef || null;
@@ -289,12 +296,23 @@ export default function RadarViewer({ stations, focusId, onOverlayChange, overla
         </p>
       )}
 
-      {isStation && decision && !decision.renderAllowed && !decision.stale && (
+      {isStation && decision?.reason === "unknown_age" && (
         <p className="radar-note radar-note--warning">
-          Este radar no tiene georreferenciación suficiente; su imagen no se
-          dibuja sobre el mapa.
+          No se pudo verificar la antigüedad del frame; no se dibuja sobre el
+          mapa.
         </p>
       )}
+
+      {isStation &&
+        decision &&
+        !decision.renderAllowed &&
+        !decision.stale &&
+        decision.reason !== "unknown_age" && (
+          <p className="radar-note radar-note--warning">
+            Este radar no tiene georreferenciación suficiente; su imagen no se
+            dibuja sobre el mapa.
+          </p>
+        )}
 
       {overlayError && (
         <p className="radar-note radar-note--warning">

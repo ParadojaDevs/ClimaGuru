@@ -41,10 +41,12 @@ export function toLeafletBounds(bounds) {
 // Decide si el overlay puede dibujarse y con que advertencia.
 // Reglas (en orden):
 //   1. sin `georef` -> bloqueado;
-//   2. `render_allowed !== true` -> bloqueado (BAR/CAR);
+//   2. `render_allowed !== true`, `visualization="blocked"` o `state="assumed"`
+//      -> bloqueado (BAR/CAR y cualquier respuesta incoherente);
 //   3. visualizacion aproximada sin aviso -> bloqueado (nunca sin aviso);
-//   4. frame fuera de la ventana de frescura -> no se dibuja;
-//   5. en cualquier otro caso -> permitido (con aviso si es aproximado).
+//   4. edad desconocida o invalida -> bloqueado (no se asume que sea fresca);
+//   5. frame fuera de la ventana de frescura -> no se dibuja;
+//   6. en cualquier otro caso -> permitido (con aviso si es aproximado).
 export function overlayDecision({
   georef,
   ageMinutes,
@@ -69,17 +71,33 @@ export function overlayDecision({
   const approximate =
     georef.visualization === VISUALIZATION_APPROXIMATE || georef.state === "derived";
 
-  if (georef.render_allowed !== true) {
+  if (
+    georef.render_allowed !== true ||
+    georef.visualization === VISUALIZATION_BLOCKED ||
+    georef.state === "assumed"
+  ) {
     return { ...blocked, approximate, reason: "blocked" };
   }
   if (approximate && !warning) {
     return { ...blocked, approximate, reason: "missing_warning" };
   }
 
-  const stale =
+  const ageKnown =
     typeof ageMinutes === "number" &&
     Number.isFinite(ageMinutes) &&
-    ageMinutes > maxAgeMinutes;
+    ageMinutes >= 0;
+
+  if (!ageKnown) {
+    return { ...blocked, approximate, warning, reason: "unknown_age" };
+  }
+
+  const maxAge =
+    typeof maxAgeMinutes === "number" &&
+    Number.isFinite(maxAgeMinutes) &&
+    maxAgeMinutes >= 0
+      ? maxAgeMinutes
+      : OVERLAY_MAX_AGE_MINUTES;
+  const stale = ageMinutes > maxAge;
 
   if (stale) {
     return { ...blocked, approximate, warning, stale: true, reason: "stale" };

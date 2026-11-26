@@ -109,6 +109,21 @@ describe('radarOverlayPolicy', () => {
       expect(decision.reason).toBe('missing_warning')
     })
 
+    it('blocks when visualization is blocked even if render_allowed is true', () => {
+      const decision = overlayDecision({
+        georef: {
+          ...baseGeoref,
+          state: 'assumed',
+          visualization: VISUALIZATION_BLOCKED,
+          render_allowed: true,
+          warning: null,
+        },
+        ageMinutes: 10,
+      })
+      expect(decision.renderAllowed).toBe(false)
+      expect(decision.reason).toBe('blocked')
+    })
+
     it('blocks when frame is stale (exceeds max age)', () => {
       const decision = overlayDecision({
         georef: baseGeoref,
@@ -142,10 +157,12 @@ describe('radarOverlayPolicy', () => {
       expect(decision.warning).toBeNull()
     })
 
-    it('treats non-numeric ageMinutes as not stale', () => {
-      const decision = overlayDecision({ georef: baseGeoref, ageMinutes: 'invalid' })
-      expect(decision.renderAllowed).toBe(true)
-      expect(decision.stale).toBe(false)
+    it('blocks when age is unknown or invalid', () => {
+      for (const ageMinutes of [undefined, null, 'invalid', NaN, Infinity, -1]) {
+        const decision = overlayDecision({ georef: baseGeoref, ageMinutes })
+        expect(decision.renderAllowed).toBe(false)
+        expect(decision.reason).toBe('unknown_age')
+      }
     })
 
     it('uses custom maxAgeMinutes when provided', () => {
